@@ -11,19 +11,21 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 @SpringBootApplication
 public class WebLibraryApplication {
 
-    /**
-     * Private constructor to prevent instantiation of this class. This class is
-     * intended to serve as an entry point only and should not be instantiated.
-     */
+  /**
+   * Private constructor to prevent instantiation of this class. This class is
+   * intended to serve as an entry point only and should not be instantiated.
+   */
+  private WebLibraryApplication() {
+    // Пустое тело для предотвращения создания экземпляров
+  }
 
-
-    /**
-     * Точка входа в приложение.
-     *
-     * @param args
-     *         аргументы командной строки
-     */
-    public static void main(final String[] args) {
-        SpringApplication.run(WebLibraryApplication.class, args);
-    }
+  /**
+   * Точка входа в приложение.
+   *
+   * @param args
+   *     аргументы командной строки
+   */
+  public static void main(final String[] args) {
+    SpringApplication.run(WebLibraryApplication.class, args);
+  }
 }
