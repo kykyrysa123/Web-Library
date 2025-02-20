@@ -13,7 +13,7 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 
 @WebMvcTest(MainController.class)
-public class WebControllerTest {
+class WebControllerTest {
 
   @Autowired
   private MockMvc mockMvc; // Инжектируем MockMvc
