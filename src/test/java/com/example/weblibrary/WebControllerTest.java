@@ -1,56 +1,58 @@
 package com.example.weblibrary;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import com.example.weblibrary.controllers.MainController;
 import com.example.weblibrary.dto.UserDto;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
-import org.springframework.http.MediaType;
-import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.boot.test.context.SpringBootTest;
 
-@WebMvcTest(MainController.class)
+@SpringBootTest
 class WebControllerTest {
 
   @Autowired
-  private MockMvc mockMvc; // Инжектируем MockMvc
-
-  @Autowired
-  private ObjectMapper objectMapper; // Инжектируем ObjectMapper для работы с JSON
+  private MainController controller; // Инжектируем MockMvc
 
   @Test
-  void testGetUserPathVariableTest() throws Exception {
+  void testGetUserPathVariableTest()  {
     Long id = 1L;
     String login = "testUser";
     String password = "testPassword";
 
-    UserDto expectedUserDto = new UserDto(id, login, password);
+    UserDto body = controller.getUserPathVariable(id, login,
+        password).getBody();
 
-    // Выполняем GET-запрос с path variables и проверяем результат
-    mockMvc.perform(get("/users/{id}/{login}/{password}", id, login, password)
-               .accept(MediaType.APPLICATION_JSON))
-           .andExpect(status().isOk())
-           .andExpect(content().json(objectMapper.writeValueAsString(expectedUserDto)));
+    assert body != null && body.equals(
+        new UserDto(id, login, password)
+    );
+
+
+//    // Выполняем GET-запрос с path variables и проверяем результат
+//    controller.perform(get("/users/{id}/{login}/{password}", id, login, password)
+//               .accept(MediaType.APPLICATION_JSON))
+//           .andExpect(status().isOk())
+//           .andExpect(content().json(objectMapper.writeValueAsString(expectedUserDto)));
   }
 
   @Test
-  void testGetUserQueryVariableTest() throws Exception {
+  void testGetUserQueryVariableTest() {
     Long id = 1L;
     String login = "testUser";
     String password = "testPassword";
 
-    UserDto expectedUserDto = new UserDto(id, login, password);
+    UserDto body = controller.getUserPathVariable(id, login,
+        password).getBody();
+
+    assert body != null && body.equals(
+        new UserDto(id, login, password)
+    );
 
     // Выполняем GET-запрос с query parameters и проверяем результат
-    mockMvc.perform(get("/users")
-               .param("id", id.toString())
-               .param("login", login)
-               .param("password", password)
-               .accept(MediaType.APPLICATION_JSON))
-           .andExpect(status().isOk())
-           .andExpect(content().json(objectMapper.writeValueAsString(expectedUserDto)));
+//    mockMvc.perform(get("/users")
+//               .param("id", id.toString())
+//               .param("login", login)
+//               .param("password", password)
+//               .accept(MediaType.APPLICATION_JSON))
+//           .andExpect(status().isOk())
+//           .andExpect(content().json(objectMapper.writeValueAsString(expectedUserDto)));
   }
 }

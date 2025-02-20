@@ -12,10 +12,4 @@ package com.example.weblibrary.dto;
  *     The last name of the user.
  */
 public record UserDto(Long id, String name, String password) {
-
-  @Override
-  public String toString() {
-    return "UserDTO{" + "id=" + id + ", name='" + name + '\'' + ", password='"
-        + password + '\'' + '}';
-  }
 }
