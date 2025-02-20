@@ -47,7 +47,9 @@
 - Установленный Maven.
 - Установленная PostgreSQL.
 - Установленный Docker.
-
+  
+### SonarCloud
+[Sonar](https://sonarcloud.io/project/overview?id=kykyrysa123_Wed-Library)
 
 ### Шаги для запуска
    ```bash
