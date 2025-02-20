@@ -8,6 +8,8 @@ class WebLibraryApplicationTests {
 
     @Test
     void contextLoads() {
+        // Этот метод намеренно оставлен пустым, так как его цель —
+        // проверка успешной загрузки Spring Boot
     }
 
 }
