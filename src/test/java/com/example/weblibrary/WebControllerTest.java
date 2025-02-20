@@ -22,7 +22,7 @@ public class WebControllerTest {
   private ObjectMapper objectMapper; // Инжектируем ObjectMapper для работы с JSON
 
   @Test
-  public void testGetUserPathVariable() throws Exception {
+  void testGetUserPathVariableTest() throws Exception {
     Long id = 1L;
     String login = "testUser";
     String password = "testPassword";
@@ -37,7 +37,7 @@ public class WebControllerTest {
   }
 
   @Test
-  public void testGetUserQueryVariable() throws Exception {
+  void testGetUserQueryVariableTest() throws Exception {
     Long id = 1L;
     String login = "testUser";
     String password = "testPassword";

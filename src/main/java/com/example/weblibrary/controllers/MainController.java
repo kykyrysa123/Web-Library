@@ -51,7 +51,6 @@ public class MainController {
       @RequestParam final Long id, @RequestParam final String login,
       @RequestParam final String password
   ) {
-    UserDto userDto = new UserDto(id, login, password);
-    return ResponseEntity.ok(userDto);
+    return ResponseEntity.ok(new UserDto(id, login, password));
   }
 }
