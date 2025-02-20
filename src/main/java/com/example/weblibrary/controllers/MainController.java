@@ -1,6 +1,6 @@
 package com.example.weblibrary.controllers;
 
-import com.example.weblibrary.dto.UserDTO;
+import com.example.weblibrary.dto.UserDto;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -23,9 +23,9 @@ public class MainController {
      * @return A ResponseEntity with the user's ID and login.
      */
     @GetMapping("/users/{id}/{login}/{password}")
-    public ResponseEntity<UserDTO> getUserPathVariable(
+    public ResponseEntity<UserDto> getUserPathVariable(
             @PathVariable final Long id, @PathVariable final String login,@PathVariable final String password) {
-        UserDTO userDto = new UserDTO(id, login, password);
+        UserDto userDto = new UserDto(id, login, password);
         return ResponseEntity.ok(userDto);
     }
     /**
@@ -41,12 +41,12 @@ public class MainController {
      * @return A ResponseEntity with the user's ID, login, and password.
      */
     @GetMapping("/users")
-    public ResponseEntity<UserDTO> getUserQueryVariable(
+    public ResponseEntity<UserDto> getUserQueryVariable(
             @RequestParam final Long id, @RequestParam final String login,
             @RequestParam final String password
     )
     {
-        UserDTO userDto = new UserDTO(id, login, password);
+        UserDto userDto = new UserDto(id, login, password);
         return ResponseEntity.ok(userDto);
     }
 }
