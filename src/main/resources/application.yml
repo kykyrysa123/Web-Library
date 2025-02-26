@@ -1,0 +1,25 @@
+spring:
+  # Настройки базы данных
+  datasource:
+    url: jdbc:mysql://localhost:3306/weblibrary
+    username: root
+    password: 0098
+    driver-class-name: com.mysql.cj.jdbc.Driver
+
+  # Настройки JPA (Hibernate)
+  jpa:
+    database-platform: org.hibernate.dialect.MySQL8Dialect # Укажите подходящий диалект для вашей версии MySQL
+    hibernate:
+      ddl-auto: create-drop # Опции: create, create-drop, update, validate, none
+    show-sql: true # Показывать SQL-запросы в консоли (для отладки)
+    properties:
+      hibernate:
+        format_sql: true # Форматировать SQL-запросы для читаемости
+
+  # Настройки приложения
+  application:
+    name: WebLibrary # Имя приложения (опционально)
+
+# Настройки сервера (опционально)
+server:
+  port: 228 # Порт, на котором будет запускаться приложение
