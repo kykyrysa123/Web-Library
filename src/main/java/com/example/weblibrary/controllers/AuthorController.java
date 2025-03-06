@@ -2,7 +2,6 @@ package com.example.weblibrary.controllers;
 
 import com.example.weblibrary.model.Author;
 import com.example.weblibrary.service.impl.AuthorServiceImpl;
-import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
