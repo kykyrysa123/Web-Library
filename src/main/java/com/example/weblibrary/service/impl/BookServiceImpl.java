@@ -1,9 +1,12 @@
-package com.example.weblibrary.service;
+package com.example.weblibrary.service.impl;
 
 import com.example.weblibrary.model.Book;
 import com.example.weblibrary.repository.BookRepository;
+
 import java.util.List;
 import java.util.Optional;
+
+import com.example.weblibrary.service.CrudService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -12,13 +15,14 @@ import org.springframework.stereotype.Service;
  * to retrieve, create, update, and delete books using the BookRepository.
  */
 @Service
-public class BookServiceImpl implements BookService {
+public class BookServiceImpl implements CrudService<Book> {
   private final BookRepository bookRepository;
 
   /**
    * Constructs a new BookServiceImpl with the specified BookRepository.
    *
-   * @param bookRepository the repository used for book data operations
+   * @param bookRepository
+   *     the repository used for book data operations
    */
   @Autowired
   public BookServiceImpl(BookRepository bookRepository) {
@@ -26,22 +30,23 @@ public class BookServiceImpl implements BookService {
   }
 
   @Override
-  public List<Book> getAllBooks() {
+  public List<Book> getAll() {
     return bookRepository.findAll();
   }
 
   @Override
-  public Optional<Book> getBookById(int id) {
+  public Optional<Book> getById(int id) {
     return bookRepository.findById(id);
   }
 
   @Override
-  public Book createBook(Book book) {
+  public Book create(Book book) {
+
     return bookRepository.save(book);
   }
 
   @Override
-  public Book updateBook(int id, Book bookDetails) {
+  public Book update(int id, Book bookDetails) {
     Book book = bookRepository.findById(id).orElseThrow(
         () -> new RuntimeException("Book not found with id: " + id));
     book.setTitle(bookDetails.getTitle());
@@ -57,7 +62,7 @@ public class BookServiceImpl implements BookService {
   }
 
   @Override
-  public void deleteBook(int id) {
+  public void delete(int id) {
     Book book = bookRepository.findById(id).orElseThrow(
         () -> new RuntimeException("Book not found with id: " + id));
     bookRepository.delete(book);
@@ -66,7 +71,8 @@ public class BookServiceImpl implements BookService {
   /**
    * Retrieves a list of books filtered by genre.
    *
-   * @param genre the genre to filter books by
+   * @param genre
+   *     the genre to filter books by
    * @return a list of books matching the specified genre
    */
   public List<Book> getBooksByGenre(String genre) {
