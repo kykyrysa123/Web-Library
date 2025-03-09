@@ -1,16 +1,29 @@
 package com.example.weblibrary.model;
 
-import jakarta.persistence.*;
-import lombok.*;
-
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.Table;
 import java.time.LocalDate;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.NonNull;
+import lombok.RequiredArgsConstructor;
+import lombok.Setter;
 
+/**
+ * Represents a Book entity in the web library system.
+ */
 @Entity
 @Table(name = "book")
 @Getter
-@Setter
 @NoArgsConstructor
 @RequiredArgsConstructor
+@Setter  // Автоматическая генерация всех сеттеров
 public class Book {
 
   @Id
@@ -43,5 +56,6 @@ public class Book {
 
   @ManyToOne
   @JoinColumn(name = "author_id", nullable = false)
+  @JsonBackReference
   private Author author;
 }
