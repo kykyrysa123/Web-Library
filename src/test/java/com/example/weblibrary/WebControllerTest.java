@@ -1,8 +1,8 @@
 package com.example.weblibrary;
+
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-
 import com.example.weblibrary.controllers.BookController;
 import com.example.weblibrary.model.dto.BookDtoRequest;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -15,11 +15,13 @@ import org.springframework.test.web.servlet.MockMvc;
 @WebMvcTest(BookController.class)
 class WebControllerTest {
 
-  @Autowired//тут будет maincontroller
+  @Autowired
   private MockMvc mockMvc; // Инжектируем MockMvc
 
   @Autowired
-  private ObjectMapper objectMapper; // Инжектируем ObjectMapper для работы с JSON, преобразует любой объект в формат json(string)
+  private ObjectMapper objectMapper; // Инжектируем ObjectMapper для работы с JSON
+
+ // Мокируем BookService
 
   @Test
   void testGetUserPathVariableTest() throws Exception {
@@ -31,10 +33,9 @@ class WebControllerTest {
 
     // Выполняем GET-запрос с path variables и проверяем результат
     mockMvc.perform(get("/users/{id}/{login}/{password}", id, login, password)
-               .accept(MediaType.APPLICATION_JSON))//принимаем json (в ответе будет ContentType:APPLICATION_JSON
+               .accept(MediaType.APPLICATION_JSON)) // Принимаем JSON
            .andExpect(status().isOk())
-           .andExpect(content().json(objectMapper.writeValueAsString(
-               expectedBookDtoRequest)));
+           .andExpect(content().json(objectMapper.writeValueAsString(expectedBookDtoRequest)));
   }
 
   @Test
@@ -52,7 +53,6 @@ class WebControllerTest {
                .param("password", password)
                .accept(MediaType.APPLICATION_JSON))
            .andExpect(status().isOk())
-           .andExpect(content().json(objectMapper.writeValueAsString(
-               expectedBookDtoRequest)));
+           .andExpect(content().json(objectMapper.writeValueAsString(expectedBookDtoRequest)));
   }
 }
