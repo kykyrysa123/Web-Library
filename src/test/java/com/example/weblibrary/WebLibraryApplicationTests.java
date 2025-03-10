@@ -2,8 +2,10 @@ package com.example.weblibrary;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.ContextConfiguration;
 
 @SpringBootTest
+@ContextConfiguration(classes = WebLibraryApplication.class)
 class WebLibraryApplicationTests {
 
     @Test
@@ -11,5 +13,4 @@ class WebLibraryApplicationTests {
         // Этот метод намеренно оставлен пустым, так как его цель —
         // проверка успешной загрузки Spring Boot
     }
-
 }
