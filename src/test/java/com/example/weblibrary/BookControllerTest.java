@@ -37,7 +37,6 @@ class BookControllerTest {
 
   private MockMvc mockMvc;
 
-  @Autowired
   private ObjectMapper objectMapper;
 
   private BookDtoResponse bookDtoResponse;
