@@ -1,6 +1,5 @@
 package com.example.weblibrary.model.dto;
 
-import java.time.LocalDate;
 
 /**
  * Data transfer object for creating a user.
