@@ -1,5 +1,6 @@
-package com.example.weblibrary.controllers;
+package com.example.weblibrary;
 
+import com.example.weblibrary.controllers.BookController;
 import com.example.weblibrary.model.dto.BookDtoRequest;
 import com.example.weblibrary.model.dto.BookDtoResponse;
 import com.example.weblibrary.service.impl.BookServiceImpl;
