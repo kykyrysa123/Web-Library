@@ -7,7 +7,7 @@ import java.time.LocalDate;
  * This record is used to capture user information during user creation.
  */
 public record UserDtoRequest(
-    Integer id,
+    Long id,
     String name,
     String surname,
     String patronymic,
@@ -17,8 +17,6 @@ public record UserDtoRequest(
     String country,
     String favoriteBooks,
     String email,
-    String passwordHash,
-    LocalDate registrationDate,
-    LocalDate lastLogin
+    String passwordHash
 ) {
 }

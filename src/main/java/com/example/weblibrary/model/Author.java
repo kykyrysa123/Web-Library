@@ -48,4 +48,85 @@ public class Author {
   @OneToMany(mappedBy = "author", cascade = CascadeType.ALL, orphanRemoval =
       true, fetch = FetchType.LAZY)
   private List<Book> books = new ArrayList<>();
+
+
+  public String getName() {
+    return name;
+  }
+
+  public Long getId() {
+    return id;
+  }
+
+  public String getSurname() {
+    return surname;
+  }
+
+  public String getPatronymic() {
+    return patronymic;
+  }
+
+  public LocalDate getBirthDate() {
+    return birthDate;
+  }
+
+  public String getBiography() {
+    return biography;
+  }
+
+  public LocalDate getDeathDate() {
+    return deathDate;
+  }
+
+  public Double getRating() {
+    return rating;
+  }
+
+  public List<Book> getBooks() {
+    return books;
+  }
+
+  public String getGenreSpecialization() {
+    return genreSpecialization;
+  }
+
+  public void setId(Long id) {
+    this.id = id;
+  }
+
+  public void setName(String name) {
+    this.name = name;
+  }
+
+  public void setSurname(String surname) {
+    this.surname = surname;
+  }
+
+  public void setPatronymic(String patronymic) {
+    this.patronymic = patronymic;
+  }
+
+  public void setBirthDate(LocalDate birthDate) {
+    this.birthDate = birthDate;
+  }
+
+  public void setDeathDate(LocalDate deathDate) {
+    this.deathDate = deathDate;
+  }
+
+  public void setBiography(String biography) {
+    this.biography = biography;
+  }
+
+  public void setGenreSpecialization(String genreSpecialization) {
+    this.genreSpecialization = genreSpecialization;
+  }
+
+  public void setRating(Double rating) {
+    this.rating = rating;
+  }
+
+  public void setBooks(List<Book> books) {
+    this.books = books;
+  }
 }

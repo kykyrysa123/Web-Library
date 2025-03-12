@@ -7,7 +7,7 @@ import java.time.LocalDate;
  * This record is used to send user data in responses.
  */
 public record UserDtoResponse(
-    Integer id,
+    Long id,
     String name,
     String surname,
     String patronymic,

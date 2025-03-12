@@ -31,4 +31,5 @@ public record BookDtoRequest(
     String imageUrl,
     Double rating,
     Long authorId
-) {}
+) {
+}

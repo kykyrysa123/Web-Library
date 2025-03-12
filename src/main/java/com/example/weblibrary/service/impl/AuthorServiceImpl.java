@@ -24,7 +24,8 @@ public class AuthorServiceImpl implements CrudService<AuthorDtoRequest, AuthorDt
 
   @Override
   public List<AuthorDtoResponse> getAll() {
-    return authorMapper.toAuthorDtoResponse(authorRepository.findAll());
+    List<Author> list = authorRepository.findAll();
+    return authorMapper.toAuthorDtoResponse(list);
   }
 
   @Override
