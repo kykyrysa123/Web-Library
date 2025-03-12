@@ -1,14 +1,18 @@
 package com.example.weblibrary.model;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
+import jakarta.persistence.CascadeType;
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import java.time.LocalDate;
+import java.util.List;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.NonNull;
@@ -21,9 +25,9 @@ import lombok.Setter;
 @Entity
 @Table(name = "book")
 @Getter
+@Setter
 @NoArgsConstructor
 @RequiredArgsConstructor
-@Setter  // Автоматическая генерация всех сеттеров
 public class Book {
 
   @Id
@@ -31,31 +35,40 @@ public class Book {
   private Long id;
 
   @NonNull
+  @Column(nullable = false)
   private String title;
 
   @NonNull
+  @Column(nullable = false)
   private String publisher;
 
+  @Column(unique = true)
   private String isbn;
 
   private Integer pages;
 
   @NonNull
+  @Column(nullable = false)
   private String genre;
 
   private LocalDate publishDate;
 
   @NonNull
+  @Column(nullable = false)
   private String language;
 
+  @Column(length = 1000)
   private String description;
 
   private String imageUrl;
 
   private Double rating;
 
-  @ManyToOne
+  @ManyToOne(fetch = FetchType.EAGER)
   @JoinColumn(name = "author_id", nullable = false)
-  @JsonBackReference
   private Author author;
+
+  @OneToMany(mappedBy = "book", fetch = FetchType.LAZY,
+      cascade = CascadeType.ALL, orphanRemoval = true)
+  private List<Review> review;
 }

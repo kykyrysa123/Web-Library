@@ -1,9 +1,10 @@
 package com.example.weblibrary.controllers;
 
-import com.example.weblibrary.model.Book;
+import com.example.weblibrary.model.dto.BookDtoRequest;
+import com.example.weblibrary.model.dto.BookDtoResponse;
 import com.example.weblibrary.service.impl.BookServiceImpl;
-import jakarta.annotation.Nullable;
 import java.util.List;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -13,92 +14,87 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
- * Controller for handling book-related API requests.
+ * Controller for managing book-related operations. Provides endpoints to
+ * retrieve, create, update, and delete books.
  */
 @RestController
 @RequestMapping("/api/books")
+@RequiredArgsConstructor
 public class BookController {
 
   private final BookServiceImpl bookService;
 
   /**
-   * Constructs a BookController with the given BookService.
+   * Retrieves a list of all books.
    *
-   * @param bookService The book service to be used by the controller.
-   */
-  public BookController(BookServiceImpl bookService) {
-    this.bookService = bookService;
-  }
-
-  /**
-   * Retrieves all books or filters books by genre if provided.
-   *
-   * @param genre Optional genre to filter books.
-   * @return A list of books with HTTP status OK.
+   * @return ResponseEntity containing a list of BookDtoResponse objects and HTTP status OK.
    */
   @GetMapping
-  public ResponseEntity<List<Book>> getAllBooks(@Nullable String genre) {
-    final List<Book> books;
-
-    if (genre == null) {
-      books = bookService.getAll();
-    } else {
-      books = bookService.getBooksByGenre(genre);
-    }
-
-    return new ResponseEntity<>(books, HttpStatus.OK);
+  public ResponseEntity<List<BookDtoResponse>> getAllBooks() {
+    return new ResponseEntity<>(bookService.getAll(), HttpStatus.OK);
   }
 
   /**
    * Retrieves a book by its ID.
    *
-   * @param id The ID of the book.
-   * @return The book with HTTP status OK, or a 404 status if not found.
+   * @param id the ID of the book to retrieve.
+   * @return ResponseEntity containing the BookDtoResponse object and HTTP status OK.
    */
   @GetMapping("/{id}")
-  public ResponseEntity<Book> getBookById(@PathVariable int id) {
-    return bookService.getById(id)
-                      .map(book -> new ResponseEntity<>(book, HttpStatus.OK))
-                      .orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
+  public ResponseEntity<BookDtoResponse> getBookById(@PathVariable Long id) {
+    return new ResponseEntity<>(bookService.getById(id), HttpStatus.OK);
   }
 
   /**
    * Creates a new book.
    *
-   * @param book The book to be created.
-   * @return The created book with HTTP status CREATED.
+   * @param bookDtoRequest the BookDtoRequest object containing book details.
+   * @return ResponseEntity containing the created BookDtoResponse object and HTTP status CREATED.
    */
   @PostMapping
-  public ResponseEntity<Book> createBook(@RequestBody Book book) {
-    Book createdBook = bookService.create(book);
-    return new ResponseEntity<>(createdBook, HttpStatus.CREATED);
+  public ResponseEntity<BookDtoResponse> createBook(@RequestBody BookDtoRequest bookDtoRequest) {
+    return new ResponseEntity<>(bookService.create(bookDtoRequest), HttpStatus.CREATED);
   }
 
   /**
-   * Updates an existing book.
+   * Updates an existing book by its ID.
    *
-   * @param id The ID of the book to be updated.
-   * @param book The updated book data.
-   * @return The updated book with HTTP status OK.
+   * @param id the ID of the book to update.
+   * @param bookDtoRequest the BookDtoRequest object containing updated book details.
+   * @return ResponseEntity containing the updated BookDtoResponse object and HTTP status OK.
    */
   @PutMapping("/{id}")
-  public ResponseEntity<Book> updateBook(@PathVariable int id, @RequestBody Book book) {
-    Book updatedBook = bookService.update(id, book);
-    return new ResponseEntity<>(updatedBook, HttpStatus.OK);
+  public ResponseEntity<BookDtoResponse> updateBook(
+      @PathVariable Long id,
+      @RequestBody BookDtoRequest bookDtoRequest
+  ) {
+    return new ResponseEntity<>(bookService.update(id, bookDtoRequest), HttpStatus.OK);
   }
 
   /**
    * Deletes a book by its ID.
    *
-   * @param id The ID of the book to be deleted.
-   * @return HTTP status NO_CONTENT if the deletion was successful.
+   * @param id the ID of the book to delete.
+   * @return ResponseEntity with HTTP status NO_CONTENT.
    */
   @DeleteMapping("/{id}")
-  public ResponseEntity<Void> deleteBook(@PathVariable int id) {
+  public ResponseEntity<Void> deleteBook(@PathVariable Long id) {
     bookService.delete(id);
     return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+  }
+
+  /**
+   * Retrieves a list of books by genre.
+   *
+   * @param genre the genre to filter books by.
+   * @return ResponseEntity containing a list of BookDtoResponse objects and HTTP status OK.
+   */
+  @GetMapping("/genre")
+  public ResponseEntity<List<BookDtoResponse>> getBooksByGenre(@RequestParam String genre) {
+    return new ResponseEntity<>(bookService.getByGenre(genre), HttpStatus.OK);
   }
 }

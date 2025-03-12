@@ -1,80 +1,79 @@
 package com.example.weblibrary.service.impl;
 
+import com.example.weblibrary.mapper.BookMapperImpl;
+import com.example.weblibrary.model.Author;
 import com.example.weblibrary.model.Book;
+import com.example.weblibrary.model.dto.BookDtoRequest;
+import com.example.weblibrary.model.dto.BookDtoResponse;
+import com.example.weblibrary.repository.AuthorRepository;
 import com.example.weblibrary.repository.BookRepository;
 import com.example.weblibrary.service.CrudService;
 import java.util.List;
-import java.util.Optional;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-
 
 /**
  * Service implementation for managing book-related operations. Provides methods
  * to retrieve, create, update, and delete books using the BookRepository.
  */
 @Service
-public class BookServiceImpl implements CrudService<Book> {
+@RequiredArgsConstructor
+public class BookServiceImpl implements
+    CrudService<BookDtoRequest, BookDtoResponse> {
+
   private final BookRepository bookRepository;
+  private final BookMapperImpl bookMapper;
+  private final AuthorRepository authorRepository;
 
-  /**
-   * Constructs a new BookServiceImpl with the specified BookRepository.
-   *
-   * @param bookRepository
-   *     the repository used for book data operations
-   */
-  @Autowired
-  public BookServiceImpl(BookRepository bookRepository) {
-    this.bookRepository = bookRepository;
+  @Override
+  public List<BookDtoResponse> getAll() {
+    return bookMapper.toBookDtoResponse(bookRepository.findAll());
   }
 
   @Override
-  public List<Book> getAll() {
-    return bookRepository.findAll();
+  public BookDtoResponse getById(Long id) {
+    return bookMapper.toBookDtoResponse(
+        bookRepository.findById(id)
+                      .orElseThrow(NullPointerException::new));
   }
 
   @Override
-  public Optional<Book> getById(int id) {
-    return bookRepository.findById(id);
+  public BookDtoResponse create(BookDtoRequest bookDtoRequest) {
+    Author author = authorRepository.findById(bookDtoRequest.authorId())
+                                    .orElseThrow(NullPointerException::new);
+
+    Book book = bookMapper.toBookEntity(bookDtoRequest);
+    book.setAuthor(author);
+
+    return bookMapper.toBookDtoResponse(bookRepository.save(book));
   }
 
   @Override
-  public Book create(Book book) {
-
-    return bookRepository.save(book);
-  }
-
-  @Override
-  public Book update(int id, Book bookDetails) {
-    Book book = bookRepository.findById(id).orElseThrow(
+  public BookDtoResponse update(Long id, BookDtoRequest bookDtoRequest) {
+    Book savedBook = bookRepository.findById(id).orElseThrow(
         () -> new RuntimeException("Book not found with id: " + id));
-    book.setTitle(bookDetails.getTitle());
-    book.setPublisher(bookDetails.getPublisher());
-    book.setIsbn(bookDetails.getIsbn());
-    book.setPages(bookDetails.getPages());
-    book.setGenre(bookDetails.getGenre());
-    book.setPublishDate(bookDetails.getPublishDate());
-    book.setLanguage(bookDetails.getLanguage());
-    book.setDescription(bookDetails.getDescription());
-    book.setImageUrl(bookDetails.getImageUrl());
-    return bookRepository.save(book);
+
+    Book updateBook = bookMapper.toBookEntity(bookDtoRequest);
+    updateBook.setId(id);
+    updateBook.setAuthor(savedBook.getAuthor());
+
+    return bookMapper.toBookDtoResponse(bookRepository.save(updateBook));
   }
 
   @Override
-  public void delete(int id) {
+  public void delete(Long id) {
     Book book = bookRepository.findById(id).orElseThrow(
         () -> new RuntimeException("Book not found with id: " + id));
     bookRepository.delete(book);
   }
 
   /**
-   * Retrieves a list of books filtered by genre.
+   * Retrieves books by genre.
    *
-   * @param genre
-   *     the genre to filter books by
+   * @param genre the genre of books to filter by
    * @return a list of books matching the specified genre
    */
-  public List<Book> getBooksByGenre(String genre) {
-    return bookRepository.findByGenre(genre);
+  public List<BookDtoResponse> getByGenre(String genre) {
+    return bookMapper.toBookDtoResponse(bookRepository.findByGenre(genre));
   }
 }

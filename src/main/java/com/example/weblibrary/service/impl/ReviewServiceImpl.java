@@ -1,90 +1,78 @@
 package com.example.weblibrary.service.impl;
 
+import com.example.weblibrary.mapper.BookMapper;
+import com.example.weblibrary.mapper.ReviewMapperImpl;
+import com.example.weblibrary.model.Book;
 import com.example.weblibrary.model.Review;
+import com.example.weblibrary.model.User;
+import com.example.weblibrary.model.dto.ReviewDtoRequest;
+import com.example.weblibrary.model.dto.ReviewDtoResponse;
+import com.example.weblibrary.repository.BookRepository;
 import com.example.weblibrary.repository.ReviewRepository;
+import com.example.weblibrary.repository.UserRepository;
 import com.example.weblibrary.service.CrudService;
 import java.util.List;
-import java.util.Optional;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-
 /**
- * Service implementation for managing {@link Review} entities.
+ * Implementation of CRUD service for working with reviews.
  */
 @Service
-public class ReviewServiceImpl implements CrudService<Review> {
+@RequiredArgsConstructor
+public class ReviewServiceImpl implements CrudService<ReviewDtoRequest, ReviewDtoResponse> {
 
   private final ReviewRepository reviewRepository;
+  private final ReviewMapperImpl reviewMapper;
+  private final BookRepository bookRepository;
+  private final UserRepository userRepository;
+  private final BookMapper bookMapper;
 
-  /**
-   * Constructor for dependency injection.
-   *
-   * @param reviewRepository The repository for {@link Review} entities.
-   */
-  public ReviewServiceImpl(ReviewRepository reviewRepository) {
-    this.reviewRepository = reviewRepository;
+  @Override
+  public List<ReviewDtoResponse> getAll() {
+    return reviewMapper.toReviewDtoResponse(reviewRepository.findAll());
   }
 
-  /**
-   * Retrieve all reviews.
-   *
-   * @return A list of all {@link Review} entities.
-   */
   @Override
-  public List<Review> getAll() {
-    return reviewRepository.findAll();  // Возвращаем все отзывы
+  public ReviewDtoResponse getById(Long id) {
+    return reviewMapper.toReviewDtoResponse(
+        reviewRepository.findById(id)
+                        .orElseThrow(NullPointerException::new)
+    );
   }
 
-  /**
-   * Retrieve a review by its ID.
-   *
-   * @param id The ID of the review.
-   * @return An {@link Optional} containing the review if found, empty otherwise.
-   */
   @Override
-  public Optional<Review> getById(int id) {
-    return reviewRepository.findById(id);  // Ищем отзыв по id, приводим к Long
+  public ReviewDtoResponse create(ReviewDtoRequest reviewDtoRequest) {
+    Book book = bookRepository.findById(reviewDtoRequest.bookId())
+                              .orElseThrow(NullPointerException::new);
+    User user = userRepository.findById(reviewDtoRequest.userId())
+                              .orElseThrow(NullPointerException::new);
+
+    Review review = reviewMapper.toReviewEntity(reviewDtoRequest);
+    review.setBook(book);
+    review.setUser(user);
+
+    return reviewMapper.toReviewDtoResponse(reviewRepository.save(review));
   }
 
-  /**
-   * Create a new review.
-   *
-   * @param review The review to create.
-   * @return The created {@link Review} entity.
-   */
   @Override
-  public Review create(Review review) {
-    return reviewRepository.save(review);  // Сохраняем новый отзыв
+  public ReviewDtoResponse update(Long id, ReviewDtoRequest reviewDtoRequest) {
+    Review savedReview = reviewRepository.findById(id).orElseThrow(
+        () -> new RuntimeException("Review not found with id: " + id));
+
+    Review updateReview = reviewMapper.toReviewEntity(reviewDtoRequest);
+    updateReview.setId(id);
+    updateReview.setBook(savedReview.getBook());
+    updateReview.setUser(savedReview.getUser());
+
+    return reviewMapper.toReviewDtoResponse(reviewRepository.save(updateReview));
   }
 
-  /**
-   * Update an existing review.
-   *
-   * @param id The ID of the review to update.
-   * @param review The review data to update.
-   * @return The updated {@link Review} entity.
-   */
   @Override
-  public Review update(int id, Review review) {
-    if (reviewRepository.existsById(id)) {  // Проверяем, существует ли отзыв с таким id
-      review.setId(id);  // Приводим id к типу Long
-      return reviewRepository.save(review);  // Обновляем отзыв
-    } else {
-      throw new RuntimeException("Review not found with id: " + id);  // Если отзыв не найден
-    }
-  }
-
-  /**
-   * Delete a review by its ID.
-   *
-   * @param id The ID of the review to delete.
-   */
-  @Override
-  public void delete(int id) {
-    if (reviewRepository.existsById(id)) {  // Проверяем, существует ли отзыв с таким id
-      reviewRepository.deleteById(id);  // Удаляем отзыв
-    } else {
-      throw new RuntimeException("Review not found with id: " + id);  // Если отзыв не найден
-    }
+  public void delete(Long id) {
+    Review review = reviewRepository.findById(id)
+                                    .orElseThrow(() ->
+                                        new RuntimeException("Review not found with id: " + id));
+    reviewRepository.delete(review);
   }
 }

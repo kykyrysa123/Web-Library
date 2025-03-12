@@ -1,7 +1,7 @@
 package com.example.weblibrary.model.dto;
 
 import java.time.LocalDate;
-import lombok.Builder;
+
 
 /**
  * Data Transfer Object (DTO) for representing book details in responses.
@@ -18,8 +18,11 @@ import lombok.Builder;
  * @param description  a brief description of the book
  * @param imageUrl     the URL of the book's cover image
  */
-@Builder
-public record BookDtoResponse(Long id, String title, String publisher,
-                              String isbn, Long pages, String genre,
-                              LocalDate publishDate, String language,
-                              String description, String imageUrl) {}
+public record BookDtoResponse(
+    Long id, String title, String publisher,
+    String isbn, Long pages, String genre,
+    LocalDate publishDate, String language,
+    String description, String imageUrl,
+    AuthorDtoResponse author
+) {
+}

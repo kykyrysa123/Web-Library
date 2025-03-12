@@ -1,92 +1,85 @@
 package com.example.weblibrary.service.impl;
 
+import com.example.weblibrary.mapper.UserMapperImpl;
 import com.example.weblibrary.model.User;
+import com.example.weblibrary.model.dto.UserDtoRequest;
+import com.example.weblibrary.model.dto.UserDtoResponse;
 import com.example.weblibrary.repository.UserRepository;
 import com.example.weblibrary.service.CrudService;
 import java.util.List;
-import java.util.Optional;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 /**
- * Service implementation for managing users.
- * Provides methods to retrieve, create, update, and delete users.
+ * Implementation of the {@link CrudService} interface for {@link User} entities.
+ * Provides methods for creating, reading, updating, and deleting users.
  */
 @Service
-public class UserServiceImpl implements CrudService<User> {
+@RequiredArgsConstructor
+public class UserServiceImpl implements CrudService<UserDtoRequest, UserDtoResponse> {
 
   private final UserRepository userRepository;
+  private final UserMapperImpl userMapper;
 
   /**
-   * Constructor for dependency injection.
+   * Retrieves all users.
    *
-   * @param userRepository The UserRepository to be injected.
-   */
-  public UserServiceImpl(UserRepository userRepository) {
-    this.userRepository = userRepository;
-  }
-
-  /**
-   * Retrieves all users from the database.
-   *
-   * @return A list of all users.
+   * @return List of {@link UserDtoResponse} objects.
    */
   @Override
-  public List<User> getAll() {
-    return userRepository.findAll();  // Возвращаем всех пользователей
+  public List<UserDtoResponse> getAll() {
+    return userMapper.toUserDtoResponse(userRepository.findAll());
   }
 
   /**
-   * Retrieves a user by their ID.
+   * Retrieves a user by ID.
    *
-   * @param id The ID of the user to be retrieved.
-   * @return An Optional containing the user if found, otherwise an empty Optional.
+   * @param id The ID of the user to retrieve.
+   * @return The {@link UserDtoResponse} corresponding to the given ID.
    */
   @Override
-  public Optional<User> getById(int id) {
-    return userRepository.findById(id);  // Ищем пользователя по id
+  public UserDtoResponse getById(Long id) {
+    return userMapper.toUserDtoResponse(
+        userRepository.findById(id).orElseThrow(NullPointerException::new));
   }
 
   /**
-   * Creates a new user in the database.
+   * Creates a new user.
    *
-   * @param user The user to be created.
-   * @return The created user.
+   * @param userDtoRequest The user data for creation.
+   * @return The {@link UserDtoResponse} of the created user.
    */
   @Override
-  public User create(User user) {
-    return userRepository.save(user);  // Сохраняем нового пользователя
+  public UserDtoResponse create(UserDtoRequest userDtoRequest) {
+    return userMapper.toUserDtoResponse(
+        userRepository.save(userMapper.toUserEntity(userDtoRequest)));
   }
 
   /**
-   * Updates an existing user by their ID.
+   * Updates an existing user.
    *
-   * @param id   The ID of the user to be updated.
-   * @param user The user data to update.
-   * @return The updated user.
-   * @throws RuntimeException if the user is not found.
+   * @param id              The ID of the user to update.
+   * @param userDtoRequest The new user data.
+   * @return The updated {@link UserDtoResponse}.
    */
   @Override
-  public User update(int id, User user) {
-    if (userRepository.existsById(id)) {  // Проверяем, существует ли пользователь с таким id
-      user.setId(id);  // Устанавливаем id пользователя
-      return userRepository.save(user);  // Обновляем пользователя
-    } else {
-      throw new RuntimeException("User not found with id: " + id);  // Если пользователь не найден
-    }
+  public UserDtoResponse update(Long id, UserDtoRequest userDtoRequest) {
+    userRepository.findById(id).orElseThrow(
+        () -> new RuntimeException("User not found with id: " + id));
+    User updatedUser = userMapper.toUserEntity(userDtoRequest);
+    return userMapper.toUserDtoResponse(userRepository.save(updatedUser));
   }
 
   /**
-   * Deletes a user by their ID.
+   * Deletes a user by ID.
    *
-   * @param id The ID of the user to be deleted.
-   * @throws RuntimeException if the user is not found.
+   * @param id The ID of the user to delete.
    */
   @Override
-  public void delete(int id) {
-    if (userRepository.existsById(id)) {  // Проверяем, существует ли пользователь с таким id
-      userRepository.deleteById(id);  // Удаляем пользователя
-    } else {
-      throw new RuntimeException("User not found with id: " + id);  // Если пользователь не найден
-    }
+  public void delete(Long id) {
+    User user = userRepository.findById(id).orElseThrow(
+        () -> new RuntimeException("User not found with id: " + id));
+    userRepository.delete(user);
   }
+
 }

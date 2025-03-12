@@ -1,6 +1,7 @@
 package com.example.weblibrary.controllers;
 
-import com.example.weblibrary.model.User;
+import com.example.weblibrary.model.dto.UserDtoRequest;
+import com.example.weblibrary.model.dto.UserDtoResponse;
 import com.example.weblibrary.service.impl.UserServiceImpl;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
@@ -15,9 +16,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-
 /**
- * Controller to handle the CRUD operations for users in the web library system.
+ * Controller for managing users.
+ * This controller handles requests for getting, creating, updating, and deleting users.
  */
 @RestController
 @RequestMapping("/api/users")
@@ -27,60 +28,60 @@ public class UserController {
   private final UserServiceImpl userService;
 
   /**
-   * Get all users.
+   * Retrieves a list of all users.
    *
    * @return A list of all users.
    */
   @GetMapping
-  public ResponseEntity<List<User>> getAllUsers() {
+  public ResponseEntity<List<UserDtoResponse>> getAllUsers() {
     return new ResponseEntity<>(userService.getAll(), HttpStatus.OK);
   }
 
   /**
-   * Get a user by its ID.
+   * Retrieves a user by ID.
    *
-   * @param id The ID of the user.
-   * @return The user if found, otherwise a NOT_FOUND response.
+   * @param id The ID of the user to retrieve.
+   * @return The user with the given ID.
    */
   @GetMapping("/{id}")
-  public ResponseEntity<User> getUserById(@PathVariable int id) {
-    return userService.getById(id)
-                      .map(user -> new ResponseEntity<>(user, HttpStatus.OK))
-                      .orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
+  public ResponseEntity<UserDtoResponse> getUserById(@PathVariable Long id) {
+    return new ResponseEntity<>(userService.getById(id), HttpStatus.OK);
   }
 
   /**
-   * Create a new user.
+   * Creates a new user.
    *
-   * @param user The user to be created.
+   * @param userDtoRequest The user data for creation.
    * @return The created user.
    */
   @PostMapping
-  public ResponseEntity<User> createUser(@RequestBody User user) {
-    return new ResponseEntity<>(userService.create(user), HttpStatus.CREATED);
+  public ResponseEntity<UserDtoResponse> createUser(@RequestBody UserDtoRequest userDtoRequest) {
+    return new ResponseEntity<>(userService.create(userDtoRequest), HttpStatus.CREATED);
   }
 
   /**
-   * Update an existing user.
+   * Updates an existing user.
    *
-   * @param id   The ID of the user to be updated.
-   * @param user The user data to update.
+   * @param id              The ID of the user to update.
+   * @param userDtoRequest The new user data.
    * @return The updated user.
    */
   @PutMapping("/{id}")
-  public ResponseEntity<User> updateUser(@PathVariable int id, @RequestBody User user) {
-    return new ResponseEntity<>(userService.update(id, user), HttpStatus.OK);
+  public ResponseEntity<UserDtoResponse> updateUser(@PathVariable Long id,
+      @RequestBody UserDtoRequest userDtoRequest) {
+    return new ResponseEntity<>(userService.update(id, userDtoRequest), HttpStatus.OK);
   }
 
   /**
-   * Delete a user by its ID.
+   * Deletes a user by ID.
    *
-   * @param id The ID of the user to be deleted.
-   * @return A response indicating the deletion was successful.
+   * @param id The ID of the user to delete.
+   * @return HTTP response with no content.
    */
   @DeleteMapping("/{id}")
-  public ResponseEntity<Void> deleteUser(@PathVariable int id) {
+  public ResponseEntity<Void> deleteUser(@PathVariable Long id) {
     userService.delete(id);
     return new ResponseEntity<>(HttpStatus.NO_CONTENT);
   }
+
 }

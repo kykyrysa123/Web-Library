@@ -1,91 +1,74 @@
 package com.example.weblibrary.service.impl;
 
+import com.example.weblibrary.mapper.AuthorMapperImpl;
 import com.example.weblibrary.model.Author;
+import com.example.weblibrary.model.dto.AuthorDtoRequest;
+import com.example.weblibrary.model.dto.AuthorDtoResponse;
 import com.example.weblibrary.repository.AuthorRepository;
 import com.example.weblibrary.service.CrudService;
 import java.util.List;
-import java.util.Optional;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
- * Implementation of CRUD operations for authors.
+ * Service implementation for managing author-related operations. Provides methods
+ * to retrieve, create, update, and delete authors using the AuthorRepository.
  */
 @Service
-public class AuthorServiceImpl implements CrudService<Author> {
+@RequiredArgsConstructor
+public class AuthorServiceImpl implements CrudService<AuthorDtoRequest, AuthorDtoResponse> {
 
   private final AuthorRepository authorRepository;
+  private final AuthorMapperImpl authorMapper;
 
-  /**
-   * Constructor for AuthorServiceImpl.
-   *
-   * @param authorRepository repository for managing authors
-   */
-  public AuthorServiceImpl(AuthorRepository authorRepository) {
-    this.authorRepository = authorRepository;
+  @Override
+  public List<AuthorDtoResponse> getAll() {
+    return authorMapper.toAuthorDtoResponse(authorRepository.findAll());
+  }
+
+  @Override
+  public AuthorDtoResponse getById(Long id) {
+    return authorMapper.toAuthorDtoResponse(
+        authorRepository.findById(id).orElseThrow(NullPointerException::new));
+  }
+
+  @Override
+  public AuthorDtoResponse create(AuthorDtoRequest authorDtoRequest) {
+    Author author = authorMapper.toAuthorEntity(authorDtoRequest);
+    return authorMapper.toAuthorDtoResponse(authorRepository.save(author));
+  }
+
+  @Override
+  @Transactional
+  public AuthorDtoResponse update(Long id, AuthorDtoRequest authorDtoRequest) {
+    authorRepository.findById(id).orElseThrow(
+        () -> new RuntimeException("Author not found with id: " + id));
+    Author updatedAuthor = authorMapper.toAuthorEntity(authorDtoRequest);
+    updatedAuthor.setId(id);
+
+    return authorMapper.toAuthorDtoResponse(authorRepository.save(updatedAuthor));
+  }
+
+  @Override
+  public void delete(Long id) {
+    Author author = authorRepository.findById(id).orElseThrow(
+        () -> new RuntimeException("Author not found with id: " + id));
+    authorRepository.delete(author);
   }
 
   /**
-   * Retrieve all authors.
+   * Retrieves an author along with their associated books by the author's ID.
    *
-   * @return list of authors
+   * @param id the ID of the author to retrieve.
+   * @return the AuthorDtoResponse containing author details and their books.
+   * @throws RuntimeException if the author is not found.
    */
-  @Override
-  public List<Author> getAll() {
-    return authorRepository.findAll();
-  }
-
-  /**
-   * Retrieve an author by ID.
-   *
-   * @param id author ID
-   * @return optional author
-   */
-  @Override
-  public Optional<Author> getById(int id) {
-    return authorRepository.findById(id);
-  }
-
-  /**
-   * Create a new author.
-   *
-   * @param author author object
-   * @return created author
-   */
-  @Override
-  public Author create(Author author) {
-    return authorRepository.save(author);
-  }
-
-  /**
-   * Update an existing author.
-   *
-   * @param id author ID
-   * @param author updated author data
-   * @return updated author
-   * @throws RuntimeException if author is not found
-   */
-  @Override
-  public Author update(int id, Author author) {
-    if (authorRepository.existsById(id)) {
-      author.setId(id);
-      return authorRepository.save(author);
-    } else {
-      throw new RuntimeException("Author not found with id: " + id);
-    }
-  }
-
-  /**
-   * Delete an author by ID.
-   *
-   * @param id author ID
-   * @throws RuntimeException if author is not found
-   */
-  @Override
-  public void delete(int id) {
-    if (authorRepository.existsById(id)) {
-      authorRepository.deleteById(id);
-    } else {
-      throw new RuntimeException("Author not found with id: " + id);
-    }
+  @Transactional(readOnly = true)
+  public AuthorDtoResponse getAuthorWithBooks(Long id) {
+    Author author = authorRepository.findByIdWithBooks(id).orElseThrow(
+        () -> new RuntimeException("Author not found with id: " + id)
+    );
+    return authorMapper.toAuthorDtoResponse(author);
   }
 }

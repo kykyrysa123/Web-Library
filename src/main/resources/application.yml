@@ -8,11 +8,11 @@ spring:
   jpa:
     database-platform: org.hibernate.dialect.MySQL8Dialect
     hibernate:
-      ddl-auto: create-drop  # Меняем create-drop → update, чтобы не терять данные
+      ddl-auto: update  # Change create-drop → update to avoid losing data
     show-sql: true
     properties:
       hibernate:
         format_sql: true
 
 server:
-  port: 228  # Изменил на стандартный порт (по желанию)
+  port: 228  # Changed to standard port (optional)
