@@ -1,6 +1,5 @@
 package com.example.weblibrary.service.impl;
 
-import com.example.weblibrary.mapper.BookMapper;
 import com.example.weblibrary.mapper.ReviewMapperImpl;
 import com.example.weblibrary.model.Book;
 import com.example.weblibrary.model.Review;
