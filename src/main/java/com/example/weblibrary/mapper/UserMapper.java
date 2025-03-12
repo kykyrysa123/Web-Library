@@ -22,14 +22,6 @@ public interface UserMapper {
   User toUserEntity(UserDtoRequest userDtoRequest);
 
   /**
-   * Converts a list of UserDtoRequest objects to a list of User entities.
-   *
-   * @param userDtoRequest The list of DTO objects to be converted.
-   * @return The corresponding list of User entities.
-   */
-  List<User> toUserEntity(List<UserDtoRequest> userDtoRequest);
-
-  /**
    * Converts a User entity to a UserDtoResponse.
    *
    * @param user The User entity to be converted.

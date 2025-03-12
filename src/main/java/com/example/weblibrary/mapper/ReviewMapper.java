@@ -22,14 +22,6 @@ public interface ReviewMapper {
   Review toReviewEntity(ReviewDtoRequest reviewDtoRequest);
 
   /**
-   * Converts a list of ReviewDtoRequest to a list of Review entities.
-   *
-   * @param reviewDtoRequest The list of review DTOs.
-   * @return The list of corresponding Review entities.
-   */
-  List<Review> toReviewEntity(List<ReviewDtoRequest> reviewDtoRequest);
-
-  /**
    * Converts a Review entity to a ReviewDtoResponse.
    *
    * @param review The Review entity.

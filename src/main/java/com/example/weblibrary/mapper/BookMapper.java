@@ -22,14 +22,6 @@ public interface BookMapper {
   Book toBookEntity(BookDtoRequest bookDtoRequest);
 
   /**
-   * Converts a list of BookDtoRequest objects to a list of Book entities.
-   *
-   * @param bookDtoRequests the list of DTOs containing book data to be mapped.
-   * @return the corresponding list of Book entities.
-   */
-  List<Book> toBookEntity(List<BookDtoRequest> bookDtoRequests);
-
-  /**
    * Converts a Book entity to a BookDtoResponse.
    *
    * @param book the Book entity to be mapped.

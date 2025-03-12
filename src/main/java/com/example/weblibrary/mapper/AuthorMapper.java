@@ -22,14 +22,6 @@ public interface AuthorMapper {
   Author toAuthorEntity(AuthorDtoRequest authorDtoRequest);
 
   /**
-   * Converts a list of {@link AuthorDtoRequest} objects to a list of {@link Author} entities.
-   *
-   * @param authorDtoRequests the list of DTOs containing author details.
-   * @return the corresponding list of {@link Author} entities.
-   */
-  List<Author> toAuthorEntity(List<AuthorDtoRequest> authorDtoRequests);
-
-  /**
    * Converts an {@link Author} entity to an {@link AuthorDtoResponse}.
    *
    * @param author the entity containing author details.

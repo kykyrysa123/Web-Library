@@ -26,7 +26,6 @@ public class ReviewServiceImpl implements CrudService<ReviewDtoRequest, ReviewDt
   private final ReviewMapperImpl reviewMapper;
   private final BookRepository bookRepository;
   private final UserRepository userRepository;
-  private final BookMapper bookMapper;
 
   @Override
   public List<ReviewDtoResponse> getAll() {
