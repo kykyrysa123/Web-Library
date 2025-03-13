@@ -19,6 +19,8 @@ import org.springframework.transaction.annotation.Transactional;
 @RequiredArgsConstructor
 public class AuthorServiceImpl implements CrudService<AuthorDtoRequest, AuthorDtoResponse> {
 
+  private static final String AUTHOR_NOT_FOUND = "Author not found with id: ";
+
   private final AuthorRepository authorRepository;
   private final AuthorMapperImpl authorMapper;
 
@@ -31,7 +33,7 @@ public class AuthorServiceImpl implements CrudService<AuthorDtoRequest, AuthorDt
   @Override
   public AuthorDtoResponse getById(Long id) {
     return authorMapper.toAuthorDtoResponse(
-        authorRepository.findById(id).orElseThrow(NullPointerException::new));
+        authorRepository.findById(id).orElseThrow(() -> new RuntimeException(AUTHOR_NOT_FOUND + id)));
   }
 
   @Override
@@ -44,7 +46,7 @@ public class AuthorServiceImpl implements CrudService<AuthorDtoRequest, AuthorDt
   @Transactional
   public AuthorDtoResponse update(Long id, AuthorDtoRequest authorDtoRequest) {
     authorRepository.findById(id).orElseThrow(
-        () -> new RuntimeException("Author not found with id: " + id));
+        () -> new RuntimeException(AUTHOR_NOT_FOUND + id));
     Author updatedAuthor = authorMapper.toAuthorEntity(authorDtoRequest);
     updatedAuthor.setId(id);
 
@@ -54,7 +56,7 @@ public class AuthorServiceImpl implements CrudService<AuthorDtoRequest, AuthorDt
   @Override
   public void delete(Long id) {
     Author author = authorRepository.findById(id).orElseThrow(
-        () -> new RuntimeException("Author not found with id: " + id));
+        () -> new RuntimeException(AUTHOR_NOT_FOUND + id));
     authorRepository.delete(author);
   }
 
@@ -68,7 +70,7 @@ public class AuthorServiceImpl implements CrudService<AuthorDtoRequest, AuthorDt
   @Transactional(readOnly = true)
   public AuthorDtoResponse getAuthorWithBooks(Long id) {
     Author author = authorRepository.findByIdWithBooks(id).orElseThrow(
-        () -> new RuntimeException("Author not found with id: " + id)
+        () -> new RuntimeException(AUTHOR_NOT_FOUND + id)
     );
     return authorMapper.toAuthorDtoResponse(author);
   }

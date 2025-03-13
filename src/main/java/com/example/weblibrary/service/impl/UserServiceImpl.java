@@ -51,8 +51,6 @@ public class UserServiceImpl implements CrudService<UserDtoRequest, UserDtoRespo
    */
   @Override
   public UserDtoResponse create(UserDtoRequest userDtoRequest) {
-    User user = new User();
-    
     return userMapper.toUserDtoResponse(
         userRepository.save(userMapper.toUserEntity(userDtoRequest)));
   }

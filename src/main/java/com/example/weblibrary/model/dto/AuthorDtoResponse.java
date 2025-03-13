@@ -1,20 +1,18 @@
 package com.example.weblibrary.model.dto;
 
-import com.example.weblibrary.model.Book;
-
 import java.time.LocalDate;
 import java.util.List;
 
 /**
  * Represents a response data transfer object (DTO) for an author.
  * This record encapsulates the details about an author, including their ID, name,
- * birth date, biography, and other relevant information.
+ * birthdate, biography, and other relevant information.
  *
  * @param id                 the unique identifier of the author.
  * @param name               the first name of the author.
  * @param surname            the last name of the author.
  * @param patronymic         the patronymic (middle name) of the author.
- * @param birthDate          the birth date of the author.
+ * @param birthDate          the birthdate of the author.
  * @param deathDate          the death date of the author (if applicable).
  * @param biography          a brief biography of the author.
  * @param genreSpecialization the genre(s) the author specializes in.
