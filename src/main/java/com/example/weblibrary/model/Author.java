@@ -12,15 +12,14 @@ import jakarta.persistence.Table;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+
+import lombok.*;
 
 /**
  * Class for Author book in libraryy.
  */
 @Entity
+@Data
 @Table(name = "author")
 @Getter
 @Setter
