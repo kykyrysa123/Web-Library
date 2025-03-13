@@ -19,7 +19,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 /**
- * Represents a user in the system.
+ * Represents a user in the systemm.
  * This class contains information about a user such as name, subscription, and reviews.
  */
 @Entity

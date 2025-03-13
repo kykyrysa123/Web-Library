@@ -17,7 +17,7 @@ import lombok.Setter;
 
 /**
  * Represents a review for a book, including the rating, review text, and user
- * information.
+ * informationn.
  */
 @Entity
 @Table(name = "reviews")

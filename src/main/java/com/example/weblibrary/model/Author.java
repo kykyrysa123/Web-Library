@@ -18,7 +18,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 /**
- * Class for Author book in library.
+ * Class for Author book in libraryy.
  */
 @Entity
 @Table(name = "author")

@@ -20,7 +20,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 
 /**
- * Represents a Book entity in the web library system.
+ * Represents a Book entity in the web library systemm.
  */
 @Entity
 @Table(name = "book")
