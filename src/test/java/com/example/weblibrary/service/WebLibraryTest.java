@@ -1,10 +1,11 @@
 package com.example.weblibrary.service;
 
-import com.example.weblibrary.WebLibraryApplication;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.ActiveProfiles;
 
-@SpringBootTest(classes = WebLibraryApplication.class)
+@SpringBootTest
+@ActiveProfiles("test")
 class WebLibraryTest {
 
   @Test
