@@ -75,7 +75,7 @@ public class AuthorServiceImpl implements CrudService<AuthorDtoRequest, AuthorDt
     return authorMapper.toAuthorDtoResponse(author);
   }
 
-  public Author saveAuthor(Author author) {
+ /* public Author saveAuthor(Author author) {
     return authorRepository.save(author);
-  }
+  }*/
 }
