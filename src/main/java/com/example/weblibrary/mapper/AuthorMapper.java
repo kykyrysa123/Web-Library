@@ -10,7 +10,7 @@ import org.mapstruct.Mapper;
  * Mapper interface for converting between {@link Author} entities and their DTOs.
  * This interface uses MapStruct to generate the implementation at compile time.
  */
-@Mapper(componentModel = "spring")
+@Mapper(componentModel = "spring", uses = {BookMapper.class})
 public interface AuthorMapper {
 
   /**

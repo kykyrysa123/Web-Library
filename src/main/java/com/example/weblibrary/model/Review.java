@@ -21,8 +21,6 @@ import lombok.Setter;
  */
 @Entity
 @Table(name = "reviews")
-@Getter
-@Setter
 @NoArgsConstructor
 @RequiredArgsConstructor
 public class Review {
@@ -46,4 +44,51 @@ public class Review {
 
   private LocalDate reviewDate;
 
+  public @NonNull Double getRating() {
+    return rating;
+  }
+
+  public void setRating(@NonNull Double rating) {
+    this.rating = rating;
+  }
+
+  public String getReviewText() {
+    return reviewText;
+  }
+
+  public void setReviewText(String reviewText) {
+    this.reviewText = reviewText;
+  }
+
+  public LocalDate getReviewDate() {
+    return reviewDate;
+  }
+
+  public void setReviewDate(LocalDate reviewDate) {
+    this.reviewDate = reviewDate;
+  }
+
+  public User getUser() {
+    return user;
+  }
+
+  public void setUser(User user) {
+    this.user = user;
+  }
+
+  public Long getId() {
+    return id;
+  }
+
+  public void setId(Long id) {
+    this.id = id;
+  }
+
+  public Book getBook() {
+    return book;
+  }
+
+  public void setBook(Book book) {
+    this.book = book;
+  }
 }

@@ -24,8 +24,6 @@ import lombok.Setter;
  */
 @Entity
 @Table(name = "book")
-@Getter
-@Setter
 @NoArgsConstructor
 @RequiredArgsConstructor
 public class Book {
@@ -64,7 +62,7 @@ public class Book {
 
   private Double rating;
 
-  @ManyToOne(fetch = FetchType.EAGER)
+  @ManyToOne(fetch = FetchType.LAZY)
   @JoinColumn(name = "author_id", nullable = false)
   private Author author;
 
@@ -72,4 +70,107 @@ public class Book {
       cascade = CascadeType.ALL, orphanRemoval = true)
   private List<Review> review;
 
+  public Long getId() {
+    return id;
+  }
+
+  public void setId(Long id) {
+    this.id = id;
+  }
+
+  public @NonNull String getTitle() {
+    return title;
+  }
+
+  public void setTitle(@NonNull String title) {
+    this.title = title;
+  }
+
+  public @NonNull String getPublisher() {
+    return publisher;
+  }
+
+  public void setPublisher(@NonNull String publisher) {
+    this.publisher = publisher;
+  }
+
+  public String getIsbn() {
+    return isbn;
+  }
+
+  public void setIsbn(String isbn) {
+    this.isbn = isbn;
+  }
+
+  public Integer getPages() {
+    return pages;
+  }
+
+  public void setPages(Integer pages) {
+    this.pages = pages;
+  }
+
+  public @NonNull String getGenre() {
+    return genre;
+  }
+
+  public void setGenre(@NonNull String genre) {
+    this.genre = genre;
+  }
+
+  public LocalDate getPublishDate() {
+    return publishDate;
+  }
+
+  public void setPublishDate(LocalDate publishDate) {
+    this.publishDate = publishDate;
+  }
+
+  public @NonNull String getLanguage() {
+    return language;
+  }
+
+  public void setLanguage(@NonNull String language) {
+    this.language = language;
+  }
+
+  public String getDescription() {
+    return description;
+  }
+
+  public void setDescription(String description) {
+    this.description = description;
+  }
+
+  public Double getRating() {
+    return rating;
+  }
+
+  public void setRating(Double rating) {
+    this.rating = rating;
+  }
+
+  public String getImageUrl() {
+    return imageUrl;
+  }
+
+  public void setImageUrl(String imageUrl) {
+    this.imageUrl = imageUrl;
+  }
+
+  public Author getAuthor() {
+    return author;
+  }
+
+  public void setAuthor(Author author) {
+    this.author = author;
+  }
+
+  public List<Review> getReview() {
+    return review;
+  }
+
+  public void setReview(List<Review> review) {
+    this.review = review;
+  }
 }

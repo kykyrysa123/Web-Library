@@ -22,7 +22,6 @@ public record BookDtoResponse(
     Long id, String title, String publisher,
     String isbn, Long pages, String genre,
     LocalDate publishDate, String language,
-    String description, String imageUrl,
-    AuthorDtoResponse author
+    String description, String imageUrl
 ) {
 }

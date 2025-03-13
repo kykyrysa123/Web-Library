@@ -22,8 +22,6 @@ import lombok.Setter;
  */
 @Entity
 @Table(name = "author")
-@Getter
-@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 public class Author {
@@ -49,4 +47,83 @@ public class Author {
       true, fetch = FetchType.LAZY)
   private List<Book> books = new ArrayList<>();
 
+  public Long getId() {
+    return id;
+  }
+
+  public void setId(Long id) {
+    this.id = id;
+  }
+
+  public String getName() {
+    return name;
+  }
+
+  public void setName(String name) {
+    this.name = name;
+  }
+
+  public String getSurname() {
+    return surname;
+  }
+
+  public void setSurname(String surname) {
+    this.surname = surname;
+  }
+
+  public String getPatronymic() {
+    return patronymic;
+  }
+
+  public void setPatronymic(String patronymic) {
+    this.patronymic = patronymic;
+  }
+
+  public LocalDate getBirthDate() {
+    return birthDate;
+  }
+
+  public void setBirthDate(LocalDate birthDate) {
+    this.birthDate = birthDate;
+  }
+
+  public LocalDate getDeathDate() {
+    return deathDate;
+  }
+
+  public void setDeathDate(LocalDate deathDate) {
+    this.deathDate = deathDate;
+  }
+
+  public String getBiography() {
+    return biography;
+  }
+
+  public void setBiography(String biography) {
+    this.biography = biography;
+  }
+
+  public String getGenreSpecialization() {
+    return genreSpecialization;
+  }
+
+  public void setGenreSpecialization(String genreSpecialization) {
+    this.genreSpecialization = genreSpecialization;
+  }
+
+  public Double getRating() {
+    return rating;
+  }
+
+  public void setRating(Double rating) {
+    this.rating = rating;
+  }
+
+  public List<Book> getBooks() {
+    return books;
+  }
+
+  public void setBooks(List<Book> books) {
+    this.books = books;
+  }
 }

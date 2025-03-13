@@ -1,6 +1,9 @@
 package com.example.weblibrary.model.dto;
 
+import com.example.weblibrary.model.Book;
+
 import java.time.LocalDate;
+import java.util.List;
 
 /**
  * Represents a response data transfer object (DTO) for an author.
@@ -26,5 +29,6 @@ public record AuthorDtoResponse(
     LocalDate deathDate,
     String biography,
     String genreSpecialization,
-    Double rating
+    Double rating,
+    List<BookDtoResponse> books
 ) {}
