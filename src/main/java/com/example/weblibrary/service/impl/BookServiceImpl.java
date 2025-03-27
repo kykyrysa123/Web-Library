@@ -135,16 +135,17 @@ public class BookServiceImpl implements CrudService<BookDtoRequest,
    * @return список книг указанного жанра
    */
   public List<BookDtoResponse> getByGenre(String genre) {
-    log.info("Поиск книг по жанру: {}", genre);
-    List<Book> books = bookRepository.findByGenre(genre);
+    log.info("Поиск книг по жанру.");
 
+    List<Book> books = bookRepository.findByGenre(genre);
     if (books.isEmpty()) {
-      log.info("Книги с жанром '{}' не найдены.", genre);
+      log.info("Книги с указанным жанром не найдены.");
       return Collections.emptyList();
     }
 
     return bookMapper.toBookDtoResponse(books);
   }
+
 
   /**
    * Получает список книг по имени автора.
@@ -154,15 +155,15 @@ public class BookServiceImpl implements CrudService<BookDtoRequest,
    * @return список книг данного автора
    */
   public List<BookDtoResponse> getBooksByAuthorName(String authorName) {
-    log.info("Поиск книг по автору: {}", authorName);
-    List<Book> books = bookRepository.findByAuthorName(authorName);
+    log.info("Поиск книг по автору.");
 
+    List<Book> books = bookRepository.findByAuthorName(authorName);
     if (books.isEmpty()) {
-      log.info("Книги автора '{}' не найдены.", authorName);
+      log.info("Книги указанного автора не найдены.");
       return Collections.emptyList();
     }
 
-    log.info("Найдено {} книг автора '{}'.", books.size(), authorName);
+    log.info("Найдено {} книг", books.size());
     return bookMapper.toBookDtoResponse(books);
   }
 
@@ -174,16 +175,18 @@ public class BookServiceImpl implements CrudService<BookDtoRequest,
    * @return список книг, содержащих указанное название
    */
   public List<BookDtoResponse> getBookByTitle(String title) {
-    log.info("Поиск книг по названию: {}", title);
-    List<Book> books = bookRepository.findByTitleLike(title);
+    log.info("Выполняется поиск книг по названию.");
 
+    List<Book> books = bookRepository.findByTitleLike(title);
     if (books.isEmpty()) {
-      log.info("Книги с названием, содержащим '{}', не найдены.", title);
+      log.info("Книги с указанным названием не найдены.");
       return Collections.emptyList();
     }
 
+    log.info("Найдено {} книг.", books.size());
     return bookMapper.toBookDtoResponse(books);
   }
+
 
   /**
    * Создаёт несколько книг за один запрос.
