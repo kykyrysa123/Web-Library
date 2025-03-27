@@ -141,16 +141,6 @@ public class SimpleCache<K, V> {
     return cache.size();
   }
 
-  /**
-   * Checks if the cache contains a specific key.
-   *
-   * @param key the key to check
-   * @return true if the cache contains the key, false otherwise
-   */
-  public synchronized boolean containsKey(K key) {
-    return cache.containsKey(key);
-  }
-
   @Override
   public synchronized String toString() {
     return cache.toString();
