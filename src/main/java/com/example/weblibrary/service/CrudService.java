@@ -5,10 +5,12 @@ import java.util.List;
 /**
  * Interface for CRUD (Create, Read, Update, Delete) operations on entities.
  *
- * @param <Q>  The type of request DTO.
- * @param <T> The type of response DTO.
+ * @param <Q>
+ *     The type of request DTO.
+ * @param <T>
+ *     The type of response DTO.
  */
-public interface CrudService<Q,T> {
+public interface CrudService<Q, T> {
 
   /**
    * Retrieves all entities.
@@ -20,7 +22,8 @@ public interface CrudService<Q,T> {
   /**
    * Retrieves an entity by its ID.
    *
-   * @param id The ID of the entity to retrieve.
+   * @param id
+   *     The ID of the entity to retrieve.
    * @return The entity if found.
    */
   T getById(Long id);
@@ -28,7 +31,8 @@ public interface CrudService<Q,T> {
   /**
    * Creates a new entity.
    *
-   * @param entity The entity to be created.
+   * @param entity
+   *     The entity to be created.
    * @return The created entity.
    */
   T create(Q entity);
@@ -36,8 +40,10 @@ public interface CrudService<Q,T> {
   /**
    * Updates an existing entity.
    *
-   * @param id     The ID of the entity to update.
-   * @param entity The updated entity data.
+   * @param id
+   *     The ID of the entity to update.
+   * @param entity
+   *     The updated entity data.
    * @return The updated entity.
    */
   T update(Long id, Q entity);
@@ -45,7 +51,8 @@ public interface CrudService<Q,T> {
   /**
    * Deletes an entity by its ID.
    *
-   * @param id The ID of the entity to delete.
+   * @param id
+   *     The ID of the entity to delete.
    */
   void delete(Long id);
 }

@@ -40,7 +40,6 @@ public class User {
   private String subscription;
   private String sex;
   private String country;
-  private String favoriteBooks;
   private String email;
   private String passwordHash;
   private LocalDate registrationDate = LocalDate.now();

@@ -10,8 +10,11 @@ import com.example.weblibrary.repository.BookRepository;
 import com.example.weblibrary.repository.ReviewRepository;
 import com.example.weblibrary.repository.UserRepository;
 import com.example.weblibrary.service.CrudService;
+import com.example.weblibrary.service.cache.SimpleCache;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 /**
@@ -19,38 +22,78 @@ import org.springframework.stereotype.Service;
  */
 @Service
 @RequiredArgsConstructor
-public class ReviewServiceImpl implements CrudService<ReviewDtoRequest, ReviewDtoResponse> {
+public class ReviewServiceImpl implements CrudService<ReviewDtoRequest,
+    ReviewDtoResponse> {
 
   private final ReviewRepository reviewRepository;
   private final ReviewMapperImpl reviewMapper;
   private final BookRepository bookRepository;
   private final UserRepository userRepository;
 
+  private final SimpleCache<Long, ReviewDtoResponse> reviewCache =
+      new SimpleCache<>(
+      100);
+  private final SimpleCache<String, List<ReviewDtoResponse>> reviewListCache
+      = new SimpleCache<>(
+      100);
+  private static final Logger log = LoggerFactory.getLogger(
+      ReviewServiceImpl.class);
+
   @Override
   public List<ReviewDtoResponse> getAll() {
-    return reviewMapper.toReviewDtoResponse(reviewRepository.findAll());
+    String cacheKey = "all_reviews";
+
+    List<ReviewDtoResponse> cachedList = reviewListCache.get(cacheKey);
+    if (cachedList != null) {
+      log.debug("Data on all reviews is obtained from the cache");
+      return cachedList;
+    }
+
+    log.debug("Data on all reviews is downloaded from the database");
+    List<ReviewDtoResponse> responseList = reviewMapper.toReviewDtoResponse(
+        reviewRepository.findAll());
+    reviewListCache.put(cacheKey, responseList);
+    return responseList;
   }
 
   @Override
   public ReviewDtoResponse getById(Long id) {
-    return reviewMapper.toReviewDtoResponse(
-        reviewRepository.findById(id)
-                        .orElseThrow(NullPointerException::new)
-    );
+    ReviewDtoResponse cachedReview = reviewCache.get(id);
+    if (cachedReview != null) {
+      log.debug("Review with id={} retrieved from cache", id);
+      return cachedReview;
+    }
+
+    log.debug("Review with id={} retrieved from the database", id);
+    Review review = reviewRepository.findById(id).orElseThrow(
+        () -> new RuntimeException("Review not found with id: " + id));
+
+    ReviewDtoResponse response = reviewMapper.toReviewDtoResponse(review);
+    reviewCache.put(id, response);
+    return response;
   }
 
   @Override
   public ReviewDtoResponse create(ReviewDtoRequest reviewDtoRequest) {
-    Book book = bookRepository.findById(reviewDtoRequest.bookId())
-                              .orElseThrow(NullPointerException::new);
-    User user = userRepository.findById(reviewDtoRequest.userId())
-                              .orElseThrow(NullPointerException::new);
+    Book book = bookRepository.findById(reviewDtoRequest.bookId()).orElseThrow(
+        () -> new RuntimeException(
+            "Book not found with id: " + reviewDtoRequest.bookId()));
+
+    User user = userRepository.findById(reviewDtoRequest.userId()).orElseThrow(
+        () -> new RuntimeException(
+            "User not found with id: " + reviewDtoRequest.userId()));
 
     Review review = reviewMapper.toReviewEntity(reviewDtoRequest);
     review.setBook(book);
     review.setUser(user);
 
-    return reviewMapper.toReviewDtoResponse(reviewRepository.save(review));
+    Review savedReview = reviewRepository.save(review);
+    ReviewDtoResponse response = reviewMapper.toReviewDtoResponse(savedReview);
+
+    reviewCache.put(savedReview.getId(), response);
+    reviewListCache.remove("all_reviews"); // Удаляем только кэш списка
+
+    return response;
   }
 
   @Override
@@ -63,14 +106,23 @@ public class ReviewServiceImpl implements CrudService<ReviewDtoRequest, ReviewDt
     updateReview.setBook(savedReview.getBook());
     updateReview.setUser(savedReview.getUser());
 
-    return reviewMapper.toReviewDtoResponse(reviewRepository.save(updateReview));
+    Review updatedReview = reviewRepository.save(updateReview);
+    ReviewDtoResponse response = reviewMapper.toReviewDtoResponse(
+        updatedReview);
+
+    reviewCache.put(id, response);
+    reviewListCache.clear(); // Очистка кэша списка отзывов
+
+    return response;
   }
 
   @Override
   public void delete(Long id) {
-    Review review = reviewRepository.findById(id)
-                                    .orElseThrow(() ->
-                                        new RuntimeException("Review not found with id: " + id));
+    Review review = reviewRepository.findById(id).orElseThrow(
+        () -> new RuntimeException("Review not found with id: " + id));
+
     reviewRepository.delete(review);
+    reviewCache.remove(id);
+    reviewListCache.remove("all_reviews"); // Удаляем только кэш списка
   }
 }

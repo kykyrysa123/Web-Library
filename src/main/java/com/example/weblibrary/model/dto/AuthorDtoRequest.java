@@ -1,28 +1,36 @@
 package com.example.weblibrary.model.dto;
 
+import jakarta.validation.constraints.*;
 import java.time.LocalDate;
 
 /**
- * Represents a request data transfer object (DTO) for creating or updating an author.
- * This record encapsulates the necessary details about an author, such as their name,
- * birth date, biography, and other relevant information.
- *
- * @param name               the first name of the author.
- * @param surname            the last name of the author.
- * @param patronymic         the patronymic (middle name) of the author.
- * @param birthDate          the birth date of the author.
- * @param deathDate          the death date of the author (if applicable).
- * @param biography          a brief biography of the author.
- * @param genreSpecialization the genre(s) the author specializes in.
- * @param rating             the rating of the author.
+ * Request DTO for creating/updating author with validation constraints
  */
 public record AuthorDtoRequest(
+    @NotBlank(message = "Name cannot be blank")
+    @Size(max = 100, message = "Name must not exceed 100 characters")
     String name,
+
+    @NotBlank(message = "Surname cannot be blank")
+    @Size(max = 100, message = "Surname must not exceed 100 characters")
     String surname,
+
+    @Size(max = 100, message = "Patronymic must not exceed 100 characters")
     String patronymic,
+
+    @Past(message = "Birth date must be in the past")
     LocalDate birthDate,
+
+    @PastOrPresent(message = "Death date must be in past or present")
     LocalDate deathDate,
+
+    @Size(max = 2000, message = "Biography must not exceed 2000 characters")
     String biography,
+
+    @Size(max = 100, message = "Genre specialization must not exceed 100 characters")
     String genreSpecialization,
+
+    @DecimalMin(value = "0.0", message = "Rating must be at least 0.0")
+    @DecimalMax(value = "5.0", message = "Rating must be at most 5.0")
     Double rating
 ) {}

@@ -1,18 +1,40 @@
 spring:
   datasource:
     url: jdbc:mysql://localhost:3306/weblibrary
-    username: root
-    password: 0098
+    username: ${DB_USERNAME}
+    password: ${DB_PASSWORD}
     driver-class-name: com.mysql.cj.jdbc.Driver
 
   jpa:
     database-platform: org.hibernate.dialect.MySQL8Dialect
     hibernate:
-      ddl-auto: update  # Change create-drop → update to avoid losing data
+      ddl-auto: update  # Избегаем потери данных при перезапуске
     show-sql: true
     properties:
       hibernate:
         format_sql: true
+    defer-datasource-initialization: true  # Позволяет корректно загружать SQL-скрипты при старте
+
+  sql:
+    init:
+      mode: always  # Загружает schema.sql и data.sql при каждом старте
+
+  mvc:
+    throw-exception-if-no-handler-found: true  # Позволяет обработать 404 в GlobalExceptionHandler
+
+  resources:
+    add-mappings: false  # Отключает автообработку 404
 
 server:
-  port: 228  # Changed to standard port (optional)
+  port: 228  # Если не нужен кастомный порт, лучше оставить 8080
+
+springdoc:
+  swagger-ui:
+    path: /swagger-ui.html
+  api-docs:
+    path: /v3/api-docs
+
+logging:
+  level:
+    org.hibernate.SQL: DEBUG  # Логировать SQL-запросы
+    org.hibernate.type.descriptor.sql: TRACE  # Показывать параметры SQL-запросов

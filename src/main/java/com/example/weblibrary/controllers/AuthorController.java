@@ -3,100 +3,92 @@ package com.example.weblibrary.controllers;
 import com.example.weblibrary.model.dto.AuthorDtoRequest;
 import com.example.weblibrary.model.dto.AuthorDtoResponse;
 import com.example.weblibrary.service.impl.AuthorServiceImpl;
-import java.util.List;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.persistence.EntityNotFoundException;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 /**
- * Controller for managing author-related operations. Provides endpoints to
- * retrieve, create, update, and delete authors.
+ * Контроллер для управления авторами.
  */
 @RestController
 @RequestMapping("/api/authors")
 @RequiredArgsConstructor
+@Tag(name = "Authors", description = "Управление авторами")
 public class AuthorController {
 
   private final AuthorServiceImpl authorService;
 
-  /**
-   * Retrieves a list of all authors.
-   *
-   * @return ResponseEntity containing a list of AuthorDtoResponse objects and HTTP status OK.
-   */
   @GetMapping
+  @Operation(summary = "Получить всех авторов", description = "Возвращает "
+      + "список всех авторов")
   public ResponseEntity<List<AuthorDtoResponse>> getAllAuthors() {
-    return new ResponseEntity<>(authorService.getAll(), HttpStatus.OK);
+    return ResponseEntity.ok(authorService.getAll());
   }
 
-  /**
-   * Retrieves an author by their ID.
-   *
-   * @param id the ID of the author to retrieve.
-   * @return ResponseEntity containing the AuthorDtoResponse object and HTTP status OK.
-   */
   @GetMapping("/{id}")
-  public ResponseEntity<AuthorDtoResponse> getAuthorById(@PathVariable Long id) {
-    return new ResponseEntity<>(authorService.getById(id), HttpStatus.OK);
+  @Operation(summary = "Получить автора по ID", description = "Возвращает "
+      + "автора по его идентификатору")
+  public ResponseEntity<AuthorDtoResponse> getAuthorById(@PathVariable Long id
+  ) {
+    if (!authorService.existsById(id)) {
+      throw new EntityNotFoundException("Автор с ID " + id + " не найден");
+    }
+    return ResponseEntity.ok(authorService.getById(id));
   }
 
-  /**
-   * Retrieves an author along with their associated books by the author's ID.
-   *
-   * @param id the ID of the author to retrieve.
-   * @return ResponseEntity containing the AuthorDtoResponse object and HTTP status OK.
-   */
   @GetMapping("/{id}/with-books")
-  public ResponseEntity<AuthorDtoResponse> getAuthorWithBooks(@PathVariable Long id) {
-    return new ResponseEntity<>(authorService.getAuthorWithBooks(id), HttpStatus.OK);
+  @Operation(summary = "Получить автора с книгами", description = "Возвращает"
+      + " автора вместе со списком его книг")
+  public ResponseEntity<AuthorDtoResponse> getAuthorWithBooks(
+      @PathVariable Long id
+  ) {
+    try {
+      AuthorDtoResponse author = authorService.getAuthorWithBooks(id);
+      return ResponseEntity.ok(author);
+    } catch (EntityNotFoundException e) {
+      return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+    }
   }
 
-  /**
-   * Creates a new author.
-   *
-   * @param authorDtoRequest the AuthorDtoRequest object containing author details.
-   * @return ResponseEntity containing the created AuthorDtoResponse object and HTTP status CREATED.
-   */
   @PostMapping
+  @Operation(summary = "Создать нового автора", description = "Создаёт нового"
+      + " автора и возвращает его данные")
   public ResponseEntity<AuthorDtoResponse> createAuthor(
-      @RequestBody AuthorDtoRequest authorDtoRequest) {
-    return new ResponseEntity<>(authorService.create(
-        authorDtoRequest
-    ),
-        HttpStatus.CREATED
-    );
+      @Valid @RequestBody AuthorDtoRequest request
+  ) {
+    return ResponseEntity.status(HttpStatus.CREATED).body(
+        authorService.create(request));
   }
 
-  /**
-   * Updates an existing author by their ID.
-   *
-   * @param id the ID of the author to update.
-   * @param authorDtoRequest the AuthorDtoRequest object containing updated author details.
-   * @return ResponseEntity containing the updated AuthorDtoResponse object and HTTP status OK.
-   */
   @PutMapping("/{id}")
+  @Operation(summary = "Обновить данные автора", description = "Обновляет "
+      + "информацию об авторе по его идентификатору")
   public ResponseEntity<AuthorDtoResponse> updateAuthor(@PathVariable Long id,
-      @RequestBody AuthorDtoRequest authorDtoRequest) {
-    return new ResponseEntity<>(authorService.update(id, authorDtoRequest), HttpStatus.OK);
+      @Valid @RequestBody AuthorDtoRequest request
+  ) {
+    try {
+      AuthorDtoResponse updatedAuthor = authorService.update(id, request);
+      return ResponseEntity.ok(updatedAuthor);
+    } catch (EntityNotFoundException e) {
+      return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+    }
   }
 
-  /**
-   * Deletes an author by their ID.
-   *
-   * @param id the ID of the author to delete.
-   * @return ResponseEntity with HTTP status NO_CONTENT.
-   */
   @DeleteMapping("/{id}")
+  @Operation(summary = "Удалить автора", description = "Удаляет автора по его"
+      + " идентификатору")
   public ResponseEntity<Void> deleteAuthor(@PathVariable Long id) {
+    if (!authorService.existsById(id)) {
+      return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+    }
     authorService.delete(id);
-    return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    return ResponseEntity.noContent().build();
   }
 }
