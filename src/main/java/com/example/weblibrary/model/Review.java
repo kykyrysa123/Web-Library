@@ -45,4 +45,9 @@ public class Review {
   private String reviewText;
 
   private LocalDate reviewDate;
+
+  public Review(Long id, String reviewText) {
+    this.id = id;
+    this.reviewText = reviewText;
+  }
 }

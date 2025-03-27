@@ -36,7 +36,7 @@ class ReviewServiceImplTest {
 
   @BeforeEach
   void setUp() {
-
+    review = new Review(1L, "Great book!");
     reviewDtoRequest = new ReviewDtoRequest("Great book!");
     reviewDtoResponse = new ReviewDtoResponse(1L, "Great book!");
   }
