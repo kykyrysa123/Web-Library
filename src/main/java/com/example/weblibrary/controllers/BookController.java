@@ -32,8 +32,14 @@ public class BookController {
 
   @GetMapping
   @Operation(summary = "Получить список книг", description = "Возвращает список всех книг или фильтрует по имени автора")
-  public ResponseEntity<List<BookDtoResponse>> getBooks(@RequestParam(required = false) String authorName) {
-    logger.info("Получен запрос на получение книг. Фильтр по автору: {}", authorName);
+  public ResponseEntity<List<BookDtoResponse>> getBooks(
+      @RequestParam(required = false) String authorName) {
+    // Log a sanitized message, without the actual user input
+    if (authorName != null) {
+      logger.info("Получен запрос на получение книг с фильтром по автору.");
+    } else {
+      logger.info("Получен запрос на получение всех книг.");
+    }
 
     if (StringUtils.hasText(authorName)) {
       return ResponseEntity.ok(bookService.getBooksByAuthorName(authorName));
@@ -50,17 +56,26 @@ public class BookController {
 
   @GetMapping("/genre")
   @Operation(summary = "Получить книги по жанру", description = "Возвращает список книг указанного жанра")
-  public ResponseEntity<List<BookDtoResponse>> getBooksByGenre(@RequestParam @NotBlank String genre) {
-    logger.info("Получен запрос на получение книг по жанру: {}", genre);
+  public ResponseEntity<List<BookDtoResponse>> getBooksByGenre(
+      @RequestParam @NotBlank String genre) {
+
+    // Log without exposing user-controlled data
+    logger.info("Получен запрос на получение книг по жанру.");
+
     return ResponseEntity.ok(bookService.getByGenre(genre));
   }
 
   @GetMapping("/by-title")
   @Operation(summary = "Получить книги по названию", description = "Возвращает список книг, содержащих указанное название")
-  public ResponseEntity<List<BookDtoResponse>> getBookByTitle(@RequestParam @NotBlank String title) {
-    logger.info("Получен запрос на поиск книг с названием: {}", title);
+  public ResponseEntity<List<BookDtoResponse>> getBookByTitle(
+      @RequestParam @NotBlank String title) {
+
+    // Log without exposing user-controlled data
+    logger.info("Получен запрос на поиск книг по названию.");
+
     return ResponseEntity.ok(bookService.getBookByTitle(title));
   }
+
 
   @PostMapping
   @Operation(summary = "Создать книгу", description = "Создаёт новую книгу и возвращает её данные")
