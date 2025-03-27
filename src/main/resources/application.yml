@@ -22,8 +22,10 @@ spring:
   mvc:
     throw-exception-if-no-handler-found: true  # Позволяет обработать 404 в GlobalExceptionHandler
 
-  resources:
-    add-mappings: false  # Отключает автообработку 404
+  spring:
+    web:
+      resources:
+        add-mappings: false  # Отключает автообработку 404
 
 server:
   port: 228  # Если не нужен кастомный порт, лучше оставить 8080
