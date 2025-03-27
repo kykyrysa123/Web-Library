@@ -48,4 +48,8 @@ public record UserDtoRequest(
         message = "Password must contain at least one digit, one lowercase letter, one uppercase letter, and one special character"
     )
     String passwordHash
-) {}
+) {
+    public UserDtoRequest(String name) {
+        this(null, name, null, null, null, null, null, null, null, null, null);
+    }
+}

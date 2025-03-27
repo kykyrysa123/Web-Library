@@ -28,4 +28,8 @@ public record ReviewDtoRequest(
 
     @PastOrPresent(message = "Review date cannot be in the future")
     LocalDate reviewDate
-) {}
+) {
+    public ReviewDtoRequest(String reviewText) {
+        this(null, null, null, null,reviewText , null);
+    }
+}

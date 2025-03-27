@@ -18,5 +18,9 @@ public record ReviewDtoResponse(
     UserDtoResponse user,
     Double rating,
     String reviewText,
-    LocalDate reviewDate) {
+    LocalDate reviewDate)
+{
+  public ReviewDtoResponse(Long id, String reviewText) {
+    this(id, null, null, null, reviewText, null);
+  }
 }

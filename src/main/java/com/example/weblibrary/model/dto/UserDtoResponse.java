@@ -20,4 +20,9 @@ public record UserDtoResponse(
     String passwordHash,
     LocalDate registrationDate,
     LocalDate lastLogin
-) {}
+) {
+  // Constructor for UserDtoResponse with only id and name
+  public UserDtoResponse(Long id, String name) {
+    this(id, name, null, null, null, null, null, null, null, null, null, null,null);
+  }
+}
