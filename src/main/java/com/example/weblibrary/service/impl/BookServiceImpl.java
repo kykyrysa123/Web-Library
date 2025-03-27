@@ -24,6 +24,8 @@ import java.util.List;
 @RequiredArgsConstructor
 public class BookServiceImpl implements CrudService<BookDtoRequest,
     BookDtoResponse> {
+  private static final String BOOK_NOT_FOUND_MESSAGE = "Книга не найдена с ID: ";
+  private static final String AUTHOR_NOT_FOUND_MESSAGE = "Автор не найдена с ID: ";
 
   private final BookRepository bookRepository;
   private final BookMapperImpl bookMapper;
@@ -67,7 +69,7 @@ public class BookServiceImpl implements CrudService<BookDtoRequest,
 
     log.info("Загрузка книги с ID={} из базы данных.", id);
     Book book = bookRepository.findById(id).orElseThrow(
-        () -> new RuntimeException("Книга не найдена с ID: " + id));
+        () -> new RuntimeException(BOOK_NOT_FOUND_MESSAGE + id));
     BookDtoResponse response = bookMapper.toBookDtoResponse(book);
 
     bookCache.put(id, response);
@@ -78,7 +80,7 @@ public class BookServiceImpl implements CrudService<BookDtoRequest,
   public BookDtoResponse create(BookDtoRequest bookDtoRequest) {
     Author author = authorRepository.findById(
         bookDtoRequest.authorId()).orElseThrow(() -> new RuntimeException(
-        "Автор не найден с ID: " + bookDtoRequest.authorId()));
+        AUTHOR_NOT_FOUND_MESSAGE + bookDtoRequest.authorId()));
 
     Book book = bookMapper.toBookEntity(bookDtoRequest);
     book.setAuthor(author);
@@ -95,11 +97,11 @@ public class BookServiceImpl implements CrudService<BookDtoRequest,
   @Override
   public BookDtoResponse update(Long id, BookDtoRequest bookDtoRequest) {
     Book book = bookRepository.findById(id).orElseThrow(
-        () -> new RuntimeException("Книга не найдена с ID: " + id));
+        () -> new RuntimeException(BOOK_NOT_FOUND_MESSAGE + id));
 
     Author author = authorRepository.findById(
         bookDtoRequest.authorId()).orElseThrow(() -> new RuntimeException(
-        "Автор не найден с ID: " + bookDtoRequest.authorId()));
+        AUTHOR_NOT_FOUND_MESSAGE + bookDtoRequest.authorId()));
 
     book.setTitle(bookDtoRequest.title());
     book.setGenre(bookDtoRequest.genre());
@@ -118,7 +120,7 @@ public class BookServiceImpl implements CrudService<BookDtoRequest,
   @Override
   public void delete(Long id) {
     Book book = bookRepository.findById(id).orElseThrow(
-        () -> new RuntimeException("Книга не найдена с ID: " + id));
+        () -> new RuntimeException(BOOK_NOT_FOUND_MESSAGE + id));
 
     bookRepository.delete(book);
     bookCache.remove(id);
@@ -201,7 +203,7 @@ public class BookServiceImpl implements CrudService<BookDtoRequest,
     List<Book> books = requests.stream().map(request -> {
       Author author = authorRepository.findById(request.authorId()).orElseThrow(
           () -> new RuntimeException(
-              "Автор не найден с ID: " + request.authorId()));
+              AUTHOR_NOT_FOUND_MESSAGE + request.authorId()));
 
       Book book = bookMapper.toBookEntity(request);
       book.setAuthor(author);

@@ -24,6 +24,8 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class ReviewServiceImpl implements CrudService<ReviewDtoRequest,
     ReviewDtoResponse> {
+  private static final String ALL_REVIEWS_CACHE_KEY = "all_reviews";
+  private static final String REVIEW_NOT_FOUND_MESSAGE = "Review not found with id: ";
 
   private final ReviewRepository reviewRepository;
   private final ReviewMapperImpl reviewMapper;
@@ -41,7 +43,7 @@ public class ReviewServiceImpl implements CrudService<ReviewDtoRequest,
 
   @Override
   public List<ReviewDtoResponse> getAll() {
-    String cacheKey = "all_reviews";
+    String cacheKey = ALL_REVIEWS_CACHE_KEY;
 
     List<ReviewDtoResponse> cachedList = reviewListCache.get(cacheKey);
     if (cachedList != null) {
@@ -66,7 +68,7 @@ public class ReviewServiceImpl implements CrudService<ReviewDtoRequest,
 
     log.debug("Review with id={} retrieved from the database", id);
     Review review = reviewRepository.findById(id).orElseThrow(
-        () -> new RuntimeException("Review not found with id: " + id));
+        () -> new RuntimeException(REVIEW_NOT_FOUND_MESSAGE + id));
 
     ReviewDtoResponse response = reviewMapper.toReviewDtoResponse(review);
     reviewCache.put(id, response);
@@ -91,7 +93,7 @@ public class ReviewServiceImpl implements CrudService<ReviewDtoRequest,
     ReviewDtoResponse response = reviewMapper.toReviewDtoResponse(savedReview);
 
     reviewCache.put(savedReview.getId(), response);
-    reviewListCache.remove("all_reviews"); // Удаляем только кэш списка
+    reviewListCache.remove(ALL_REVIEWS_CACHE_KEY); // Удаляем только кэш списка
 
     return response;
   }
@@ -99,7 +101,7 @@ public class ReviewServiceImpl implements CrudService<ReviewDtoRequest,
   @Override
   public ReviewDtoResponse update(Long id, ReviewDtoRequest reviewDtoRequest) {
     Review savedReview = reviewRepository.findById(id).orElseThrow(
-        () -> new RuntimeException("Review not found with id: " + id));
+        () -> new RuntimeException(REVIEW_NOT_FOUND_MESSAGE + id));
 
     Review updateReview = reviewMapper.toReviewEntity(reviewDtoRequest);
     updateReview.setId(id);
@@ -119,10 +121,10 @@ public class ReviewServiceImpl implements CrudService<ReviewDtoRequest,
   @Override
   public void delete(Long id) {
     Review review = reviewRepository.findById(id).orElseThrow(
-        () -> new RuntimeException("Review not found with id: " + id));
+        () -> new RuntimeException(REVIEW_NOT_FOUND_MESSAGE + id));
 
     reviewRepository.delete(review);
     reviewCache.remove(id);
-    reviewListCache.remove("all_reviews"); // Удаляем только кэш списка
+    reviewListCache.remove(ALL_REVIEWS_CACHE_KEY); // Удаляем только кэш списка
   }
 }

@@ -12,7 +12,6 @@ import java.nio.file.*;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
-import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 @RestController
@@ -23,7 +22,7 @@ public class LogController {
   private String logPath;
 
   @GetMapping
-  public ResponseEntity<?> getLogsByDate(@RequestParam(name = "date") String dateString) {
+  public ResponseEntity<byte[]> getLogsByDate(@RequestParam(name = "date") String dateString) {
 
     LocalDate date = parseDate(dateString);
 
