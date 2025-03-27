@@ -111,8 +111,6 @@ public class UserServiceImpl implements CrudService<UserDtoRequest,
    */
   @Override
   public UserDtoResponse update(Long id, UserDtoRequest userDtoRequest) {
-    /*User savedUser = userRepository.findById(id).orElseThrow(
-        () -> new RuntimeException("User not found with id: " + id));*/
 
     User updatedUser = userMapper.toUserEntity(userDtoRequest);
     updatedUser.setId(id);

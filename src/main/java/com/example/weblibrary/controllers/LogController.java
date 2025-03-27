@@ -1,6 +1,7 @@
 package com.example.weblibrary.controllers;
 
 import com.example.weblibrary.exception.InvalidDateFormatException;
+import com.example.weblibrary.exception.LogProcessingException;
 import com.example.weblibrary.exception.LogsNotFoundException;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpHeaders;
@@ -45,7 +46,7 @@ public class LogController {
     try (Stream<String> lines = Files.lines(logFile)) {
       List<String> filteredLogs = lines
           .filter(line -> line.startsWith(formattedDate)) // Фильтруем строки по дате
-          .collect(Collectors.toList());
+          .toList();
 
 
       if (filteredLogs.isEmpty()) {
@@ -63,7 +64,7 @@ public class LogController {
       return ResponseEntity.ok().headers(headers).body(fileContent);
 
     } catch (IOException e) {
-      throw new RuntimeException("Ошибка при обработке логов.");
+      throw new LogProcessingException("Ошибка при обработке логов.");
     }
   }
 
