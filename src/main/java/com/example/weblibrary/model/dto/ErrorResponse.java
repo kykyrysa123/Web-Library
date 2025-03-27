@@ -14,7 +14,4 @@ public record ErrorResponse(
     LocalDateTime timestamp,
     Map<String, String> errors
 ) {
-  public ErrorResponse(String message, Map<String, String> errors) {
-    this(message, LocalDateTime.now(), errors);
-  }
 }

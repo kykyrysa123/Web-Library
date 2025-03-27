@@ -29,7 +29,6 @@ public class AuthorServiceImpl implements CrudService<AuthorDtoRequest,
 
   private final AuthorRepository authorRepository;
   private final AuthorMapperImpl authorMapper;
-  private final BookRepository bookRepository;
   private static final Logger logger = LoggerFactory.getLogger(
       AuthorServiceImpl.class);
 
