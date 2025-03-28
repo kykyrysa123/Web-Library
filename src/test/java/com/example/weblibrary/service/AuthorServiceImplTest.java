@@ -12,10 +12,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.util.List;
 import java.util.Optional;
@@ -23,7 +20,6 @@ import java.util.Optional;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.*;
-import static org.mockito.Mockito.lenient;
 
 @ExtendWith(MockitoExtension.class)
 class AuthorServiceImplTest {
@@ -38,7 +34,6 @@ class AuthorServiceImplTest {
   private Author author;
   private AuthorDtoRequest authorDtoRequest;
   private AuthorDtoResponse authorDtoResponse;
-  private final Logger logger = LoggerFactory.getLogger(AuthorServiceImplTest.class);
 
   @BeforeEach
   void setUp() {
@@ -50,6 +45,9 @@ class AuthorServiceImplTest {
     authorDtoResponse = new AuthorDtoResponse(1L, "J.R.R. Tolkien");
 
     lenient().when(authorRepository.findById(99L)).thenReturn(Optional.empty());
+    lenient().doNothing().when(authorCache).put(anyLong(), any());
+    lenient().doNothing().when(authorCache).remove(anyLong());
+    lenient().doNothing().when(authorListCache).put(anyString(), any());
   }
 
   @Test
@@ -61,7 +59,7 @@ class AuthorServiceImplTest {
 
     assertThat(result).hasSize(1).containsExactly(authorDtoResponse);
     verify(authorListCache).get(cacheKey);
-    verifyNoMoreInteractions(authorRepository);
+    verifyNoInteractions(authorRepository);
   }
 
   @Test
