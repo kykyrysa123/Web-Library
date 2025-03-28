@@ -80,19 +80,17 @@ public class AuthorServiceImpl implements CrudService<AuthorDtoRequest, AuthorDt
 
   @Override
   public AuthorDtoResponse update(Long id, AuthorDtoRequest authorDtoRequest) {
-    Author existingAuthor = authorRepository.findById(id).orElseThrow(
-        () -> new RuntimeException(AUTHOR_NOT_FOUND + id)
-    );
-
-    authorMapper.updateAuthorFromDto(authorDtoRequest, existingAuthor);
+    authorRepository.findById(id).orElseThrow(
+        () -> new RuntimeException(AUTHOR_NOT_FOUND + id));
+    Author updatedAuthor = authorMapper.toAuthorEntity(authorDtoRequest);
+    updatedAuthor.setId(id);
     AuthorDtoResponse response = authorMapper.toAuthorDtoResponse(
-        authorRepository.save(existingAuthor));
+        authorRepository.save(updatedAuthor));
 
     authorCache.put(id, response);
     authorListCache.clear();
     return response;
   }
-
 
   @Override
   public void delete(Long id) {

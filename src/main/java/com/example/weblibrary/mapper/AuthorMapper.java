@@ -37,5 +37,5 @@ public interface AuthorMapper {
    * @return the corresponding list of {@link AuthorDtoResponse} DTOs.
    */
   List<AuthorDtoResponse> toAuthorDtoResponse(List<Author> authors);
-  void updateAuthorFromDto(AuthorDtoRequest dto, @MappingTarget Author author);
+
 }
