@@ -21,22 +21,28 @@ import org.springframework.transaction.annotation.Transactional;
  */
 @Service
 @RequiredArgsConstructor
-public class AuthorServiceImpl implements CrudService<AuthorDtoRequest, AuthorDtoResponse> {
+public class AuthorServiceImpl implements CrudService<AuthorDtoRequest,
+    AuthorDtoResponse> {
 
   private static final String AUTHOR_NOT_FOUND = "Author not found with id: ";
 
   private final AuthorRepository authorRepository;
   private final AuthorMapperImpl authorMapper;
-  private static final Logger logger = LoggerFactory.getLogger(AuthorServiceImpl.class);
+  private static final Logger logger = LoggerFactory.getLogger(
+      AuthorServiceImpl.class);
 
-  private final SimpleCache<Long, AuthorDtoResponse> authorCache;
-  private final SimpleCache<String, List<AuthorDtoResponse>> authorListCache;
+  private final SimpleCache<Long, AuthorDtoResponse> authorCache =
+      new SimpleCache<>(
+          100);
+  private final SimpleCache<String, List<AuthorDtoResponse>> authorCache1 =
+      new SimpleCache<>(
+          100);
 
   @Override
   public List<AuthorDtoResponse> getAll() {
     String cacheKey = "all_authors";
 
-    List<AuthorDtoResponse> cachedList = authorListCache.get(cacheKey);
+    List<AuthorDtoResponse> cachedList = authorCache1.get(cacheKey);
     if (cachedList != null) {
       logger.info("Author data loaded from cache (getAll)");
       return cachedList;
@@ -44,9 +50,10 @@ public class AuthorServiceImpl implements CrudService<AuthorDtoRequest, AuthorDt
 
     logger.info("Data for the author is loaded from the database (getAll)");
     List<Author> list = authorRepository.findAll();
-    List<AuthorDtoResponse> responseList = authorMapper.toAuthorDtoResponse(list);
+    List<AuthorDtoResponse> responseList = authorMapper.toAuthorDtoResponse(
+        list);
 
-    authorListCache.put(cacheKey, responseList);
+    authorCache1.put(cacheKey, responseList);
     return responseList;
   }
 
@@ -61,7 +68,8 @@ public class AuthorServiceImpl implements CrudService<AuthorDtoRequest, AuthorDt
     logger.info("The author with id={} is loaded from the database", id);
     Author author = authorRepository.findById(id).orElseThrow(
         () -> new RuntimeException(AUTHOR_NOT_FOUND + id));
-    AuthorDtoResponse authorDtoResponse = authorMapper.toAuthorDtoResponse(author);
+    AuthorDtoResponse authorDtoResponse = authorMapper.toAuthorDtoResponse(
+        author);
 
     authorCache.put(id, authorDtoResponse);
     return authorDtoResponse;
@@ -74,7 +82,7 @@ public class AuthorServiceImpl implements CrudService<AuthorDtoRequest, AuthorDt
     AuthorDtoResponse response = authorMapper.toAuthorDtoResponse(savedAuthor);
 
     authorCache.put(savedAuthor.getId(), response);
-    authorListCache.clear();
+    authorCache1.clear(); // Очищаем кэш со списком всех авторов
     return response;
   }
 
@@ -88,7 +96,7 @@ public class AuthorServiceImpl implements CrudService<AuthorDtoRequest, AuthorDt
         authorRepository.save(updatedAuthor));
 
     authorCache.put(id, response);
-    authorListCache.clear();
+    authorCache1.clear(); // Очищаем кэш со списком всех авторов
     return response;
   }
 
@@ -99,18 +107,25 @@ public class AuthorServiceImpl implements CrudService<AuthorDtoRequest, AuthorDt
 
     authorRepository.delete(author);
     authorCache.remove(id);
-    authorListCache.clear();
+    authorCache1.clear(); // Очищаем кэш со списком всех авторов
   }
 
+  /**
+   * Retrieves an author along with their associated books by the author's ID.
+   *
+   * @param id
+   *     the ID of the author to retrieve.
+   * @return the AuthorDtoResponse containing author details and their books.
+   * @throws RuntimeException
+   *     if the author is not found.
+   */
   @Transactional(readOnly = true)
   public AuthorDtoResponse getAuthorWithBooks(Long id) {
     Author author = authorRepository.findByIdWithBooks(id).orElseThrow(
         () -> new RuntimeException(AUTHOR_NOT_FOUND + id));
     return authorMapper.toAuthorDtoResponse(author);
   }
-
   public boolean existsById(Long id) {
     return authorRepository.existsById(id);
   }
 }
-
