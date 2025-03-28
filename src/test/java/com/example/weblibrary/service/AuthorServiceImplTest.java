@@ -46,7 +46,7 @@ class AuthorServiceImplTest {
 
     lenient().when(authorRepository.findById(99L)).thenReturn(Optional.empty());
     lenient().doNothing().when(authorCache).put(anyLong(), any());
-    lenient().doNothing().when(authorCache).remove(anyLong());
+    lenient().when(authorCache.remove(anyLong())).thenReturn(null);
     lenient().doNothing().when(authorListCache).put(anyString(), any());
   }
 
