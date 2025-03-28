@@ -148,7 +148,7 @@ class AuthorServiceImplTest {
 
     authorService.delete(authorId);
 
-    verify(authorCache).remove(authorId);
+    verify(authorRepository).delete(any(Author.class));
     verify(authorListCache).clear();
     verify(authorRepository).delete(author);
   }

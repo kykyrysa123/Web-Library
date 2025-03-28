@@ -5,6 +5,7 @@ import com.example.weblibrary.model.dto.AuthorDtoRequest;
 import com.example.weblibrary.model.dto.AuthorDtoResponse;
 import java.util.List;
 import org.mapstruct.Mapper;
+import org.mapstruct.MappingTarget;
 
 /**
  * Mapper interface for converting between {@link Author} entities and their DTOs.
@@ -36,4 +37,5 @@ public interface AuthorMapper {
    * @return the corresponding list of {@link AuthorDtoResponse} DTOs.
    */
   List<AuthorDtoResponse> toAuthorDtoResponse(List<Author> authors);
+  void updateAuthorFromDto(AuthorDtoRequest dto, @MappingTarget Author author);
 }
