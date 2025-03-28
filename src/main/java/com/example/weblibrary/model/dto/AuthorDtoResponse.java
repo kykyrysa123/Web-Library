@@ -29,4 +29,8 @@ public record AuthorDtoResponse(
     String genreSpecialization,
     Double rating,
     List<BookDtoResponse> books
-) {}
+) {
+  public AuthorDtoResponse(Long id, String name) {
+    this(id, name, null, null, null, null, null, null, null, null);
+  }
+}

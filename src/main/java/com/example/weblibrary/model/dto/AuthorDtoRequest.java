@@ -33,4 +33,8 @@ public record AuthorDtoRequest(
     @DecimalMin(value = "0.0", message = "Rating must be at least 0.0")
     @DecimalMax(value = "5.0", message = "Rating must be at most 5.0")
     Double rating
-) {}
+) {
+    public AuthorDtoRequest(String name) {
+        this( name, null, null, null, null, null, null, null);
+    }
+}
