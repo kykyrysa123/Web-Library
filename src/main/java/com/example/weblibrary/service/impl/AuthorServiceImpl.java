@@ -21,8 +21,14 @@ import org.springframework.transaction.annotation.Transactional;
  * AuthorRepository.
  */
 @Service
-@RequiredArgsConstructor
 public class AuthorServiceImpl implements CrudService<AuthorDtoRequest, AuthorDtoResponse> {
+
+  public AuthorServiceImpl(AuthorRepository authorRepository,
+      AuthorMapperImpl authorMapper
+  ) {
+    this.authorRepository = authorRepository;
+    this.authorMapper = authorMapper;
+  }
 
   private static final String AUTHOR_NOT_FOUND = "Author not found with id: ";
 

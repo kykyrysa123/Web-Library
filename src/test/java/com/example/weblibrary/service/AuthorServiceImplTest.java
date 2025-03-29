@@ -4,6 +4,7 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
 import com.example.weblibrary.mapper.AuthorMapper;
+import com.example.weblibrary.mapper.AuthorMapperImpl;
 import com.example.weblibrary.model.Author;
 import com.example.weblibrary.model.dto.AuthorDtoRequest;
 import com.example.weblibrary.model.dto.AuthorDtoResponse;
@@ -20,7 +21,9 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.boot.test.context.SpringBootTest;
 
+//@SpringBootTest
 @ExtendWith(MockitoExtension.class)
 class AuthorServiceImplTest {
 
@@ -28,7 +31,7 @@ class AuthorServiceImplTest {
   private AuthorRepository authorRepository;
 
   @Mock
-  private AuthorMapper authorMapper;
+  private AuthorMapperImpl authorMapper;
 
   @Mock
   private SimpleCache<Long, AuthorDtoResponse> authorCache;
