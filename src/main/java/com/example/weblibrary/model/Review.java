@@ -46,6 +46,12 @@ public class Review {
 
   private LocalDate reviewDate;
 
+  /**
+   * Constructs a Review with the specified ID and review text.
+   *
+   * @param id the unique identifier for the review
+   * @param reviewText the text content of the review
+   */
   public Review(Long id, String reviewText) {
     this.id = id;
     this.reviewText = reviewText;

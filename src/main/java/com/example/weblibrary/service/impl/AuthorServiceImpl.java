@@ -21,22 +21,16 @@ import org.springframework.transaction.annotation.Transactional;
  */
 @Service
 @RequiredArgsConstructor
-public class AuthorServiceImpl implements CrudService<AuthorDtoRequest,
-    AuthorDtoResponse> {
+public class AuthorServiceImpl implements CrudService<AuthorDtoRequest, AuthorDtoResponse> {
 
   private static final String AUTHOR_NOT_FOUND = "Author not found with id: ";
 
   private final AuthorRepository authorRepository;
   private final AuthorMapperImpl authorMapper;
-  private static final Logger logger = LoggerFactory.getLogger(
-      AuthorServiceImpl.class);
+  private static final Logger logger = LoggerFactory.getLogger(AuthorServiceImpl.class);
 
-  private final SimpleCache<Long, AuthorDtoResponse> authorCache =
-      new SimpleCache<>(
-          100);
-  private final SimpleCache<String, List<AuthorDtoResponse>> authorCache1 =
-      new SimpleCache<>(
-          100);
+  private final SimpleCache<Long, AuthorDtoResponse> authorCache = new SimpleCache<>(100);
+  private final SimpleCache<String, List<AuthorDtoResponse>> authorCache1 = new SimpleCache<>(100);
 
   @Override
   public List<AuthorDtoResponse> getAll() {
@@ -50,8 +44,7 @@ public class AuthorServiceImpl implements CrudService<AuthorDtoRequest,
 
     logger.info("Data for the author is loaded from the database (getAll)");
     List<Author> list = authorRepository.findAll();
-    List<AuthorDtoResponse> responseList = authorMapper.toAuthorDtoResponse(
-        list);
+    List<AuthorDtoResponse> responseList = authorMapper.toAuthorDtoResponse(list);
 
     authorCache1.put(cacheKey, responseList);
     return responseList;
@@ -66,10 +59,9 @@ public class AuthorServiceImpl implements CrudService<AuthorDtoRequest,
     }
 
     logger.info("The author with id={} is loaded from the database", id);
-    Author author = authorRepository.findById(id).orElseThrow(
-        () -> new RuntimeException(AUTHOR_NOT_FOUND + id));
-    AuthorDtoResponse authorDtoResponse = authorMapper.toAuthorDtoResponse(
-        author);
+    Author author = authorRepository.findById(id)
+                                    .orElseThrow(() -> new RuntimeException(AUTHOR_NOT_FOUND + id));
+    AuthorDtoResponse authorDtoResponse = authorMapper.toAuthorDtoResponse(author);
 
     authorCache.put(id, authorDtoResponse);
     return authorDtoResponse;
@@ -82,49 +74,54 @@ public class AuthorServiceImpl implements CrudService<AuthorDtoRequest,
     AuthorDtoResponse response = authorMapper.toAuthorDtoResponse(savedAuthor);
 
     authorCache.put(savedAuthor.getId(), response);
-    authorCache1.clear(); // Очищаем кэш со списком всех авторов
+    authorCache1.clear(); // Clear the cache containing all authors list
     return response;
   }
 
   @Override
   public AuthorDtoResponse update(Long id, AuthorDtoRequest authorDtoRequest) {
-    authorRepository.findById(id).orElseThrow(
-        () -> new RuntimeException(AUTHOR_NOT_FOUND + id));
+    authorRepository.findById(id)
+                    .orElseThrow(() -> new RuntimeException(AUTHOR_NOT_FOUND + id));
     Author updatedAuthor = authorMapper.toAuthorEntity(authorDtoRequest);
     updatedAuthor.setId(id);
     AuthorDtoResponse response = authorMapper.toAuthorDtoResponse(
         authorRepository.save(updatedAuthor));
 
     authorCache.put(id, response);
-    authorCache1.clear(); // Очищаем кэш со списком всех авторов
+    authorCache1.clear(); // Clear the cache containing all authors list
     return response;
   }
 
   @Override
   public void delete(Long id) {
-    Author author = authorRepository.findById(id).orElseThrow(
-        () -> new RuntimeException(AUTHOR_NOT_FOUND + id));
+    Author author = authorRepository.findById(id)
+                                    .orElseThrow(() -> new RuntimeException(AUTHOR_NOT_FOUND + id));
 
     authorRepository.delete(author);
     authorCache.remove(id);
-    authorCache1.clear(); // Очищаем кэш со списком всех авторов
+    authorCache1.clear(); // Clear the cache containing all authors list
   }
 
   /**
    * Retrieves an author along with their associated books by the author's ID.
    *
-   * @param id
-   *     the ID of the author to retrieve.
-   * @return the AuthorDtoResponse containing author details and their books.
-   * @throws RuntimeException
-   *     if the author is not found.
+   * @param id the ID of the author to retrieve
+   * @return the AuthorDtoResponse containing author details and their books
+   * @throws RuntimeException if the author is not found
    */
   @Transactional(readOnly = true)
   public AuthorDtoResponse getAuthorWithBooks(Long id) {
-    Author author = authorRepository.findByIdWithBooks(id).orElseThrow(
-        () -> new RuntimeException(AUTHOR_NOT_FOUND + id));
+    Author author = authorRepository.findByIdWithBooks(id)
+                                    .orElseThrow(() -> new RuntimeException(AUTHOR_NOT_FOUND + id));
     return authorMapper.toAuthorDtoResponse(author);
   }
+
+  /**
+   * Checks if an author exists with the given ID.
+   *
+   * @param id the ID of the author to check
+   * @return true if the author exists, false otherwise
+   */
   public boolean existsById(Long id) {
     return authorRepository.existsById(id);
   }

@@ -7,12 +7,18 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.validation.Valid;
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 /**
  * Контроллер для управления авторами.
@@ -25,6 +31,11 @@ public class AuthorController {
 
   private final AuthorServiceImpl authorService;
 
+  /**
+   * Получает список всех авторов.
+   *
+   * @return ResponseEntity со списком всех авторов
+   */
   @GetMapping
   @Operation(summary = "Получить всех авторов", description = "Возвращает "
       + "список всех авторов")
@@ -32,6 +43,15 @@ public class AuthorController {
     return ResponseEntity.ok(authorService.getAll());
   }
 
+  /**
+   * Получает автора по его идентификатору.
+   *
+   * @param id
+   *     идентификатор автора
+   * @return ResponseEntity с данными автора
+   * @throws EntityNotFoundException
+   *     если автор не найден
+   */
   @GetMapping("/{id}")
   @Operation(summary = "Получить автора по ID", description = "Возвращает "
       + "автора по его идентификатору")
@@ -43,6 +63,13 @@ public class AuthorController {
     return ResponseEntity.ok(authorService.getById(id));
   }
 
+  /**
+   * Получает автора вместе со списком его книг.
+   *
+   * @param id
+   *     идентификатор автора
+   * @return ResponseEntity с данными автора и списком его книг
+   */
   @GetMapping("/{id}/with-books")
   @Operation(summary = "Получить автора с книгами", description = "Возвращает"
       + " автора вместе со списком его книг")
@@ -57,6 +84,13 @@ public class AuthorController {
     }
   }
 
+  /**
+   * Создает нового автора.
+   *
+   * @param request
+   *     DTO с данными для создания автора
+   * @return ResponseEntity с данными созданного автора
+   */
   @PostMapping
   @Operation(summary = "Создать нового автора", description = "Создаёт нового"
       + " автора и возвращает его данные")
@@ -67,6 +101,15 @@ public class AuthorController {
         authorService.create(request));
   }
 
+  /**
+   * Обновляет данные автора.
+   *
+   * @param id
+   *     идентификатор автора
+   * @param request
+   *     DTO с обновленными данными автора
+   * @return ResponseEntity с обновленными данными автора
+   */
   @PutMapping("/{id}")
   @Operation(summary = "Обновить данные автора", description = "Обновляет "
       + "информацию об авторе по его идентификатору")
@@ -81,6 +124,13 @@ public class AuthorController {
     }
   }
 
+  /**
+   * Удаляет автора по его идентификатору.
+   *
+   * @param id
+   *     идентификатор автора
+   * @return ResponseEntity без содержимого
+   */
   @DeleteMapping("/{id}")
   @Operation(summary = "Удалить автора", description = "Удаляет автора по его"
       + " идентификатору")

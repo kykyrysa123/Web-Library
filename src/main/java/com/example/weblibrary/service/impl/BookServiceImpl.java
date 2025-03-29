@@ -9,13 +9,12 @@ import com.example.weblibrary.repository.AuthorRepository;
 import com.example.weblibrary.repository.BookRepository;
 import com.example.weblibrary.service.CrudService;
 import com.example.weblibrary.service.cache.SimpleCache;
+import java.util.Collections;
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
-
-import java.util.Collections;
-import java.util.List;
 
 /**
  * Реализация сервиса для управления книгами.
@@ -24,20 +23,20 @@ import java.util.List;
 @RequiredArgsConstructor
 public class BookServiceImpl implements CrudService<BookDtoRequest,
     BookDtoResponse> {
-  private static final String BOOK_NOT_FOUND_MESSAGE = "Книга не найдена с ID: ";
-  private static final String AUTHOR_NOT_FOUND_MESSAGE = "Автор не найдена с ID: ";
+  private static final String BOOK_NOT_FOUND_MESSAGE =
+      "Книга не найдена с " + "ID: ";
+  private static final String AUTHOR_NOT_FOUND_MESSAGE =
+      "Автор не найдена с " + "ID: ";
 
   private final BookRepository bookRepository;
   private final BookMapperImpl bookMapper;
   private final AuthorRepository authorRepository;
-
   private final SimpleCache<Long, BookDtoResponse> bookCache =
       new SimpleCache<>(
       100);
   private final SimpleCache<String, List<BookDtoResponse>> bookListCache =
       new SimpleCache<>(
       100);
-
   private static final Logger log = LoggerFactory.getLogger(
       BookServiceImpl.class);
 
@@ -85,11 +84,10 @@ public class BookServiceImpl implements CrudService<BookDtoRequest,
     Book book = bookMapper.toBookEntity(bookDtoRequest);
     book.setAuthor(author);
     Book savedBook = bookRepository.save(book);
-
     BookDtoResponse response = bookMapper.toBookDtoResponse(savedBook);
-    bookCache.put(savedBook.getId(), response);
-    bookListCache.clear(); // Очистка кэша списка книг
 
+    bookCache.put(savedBook.getId(), response);
+    bookListCache.clear();
     log.info("Создана новая книга с ID={}.", savedBook.getId());
     return response;
   }
@@ -111,8 +109,7 @@ public class BookServiceImpl implements CrudService<BookDtoRequest,
     BookDtoResponse response = bookMapper.toBookDtoResponse(updatedBook);
 
     bookCache.put(id, response);
-    bookListCache.clear(); // Очистка кэша списка книг
-
+    bookListCache.clear();
     log.info("Обновлена книга с ID={}.", id);
     return response;
   }
@@ -124,8 +121,7 @@ public class BookServiceImpl implements CrudService<BookDtoRequest,
 
     bookRepository.delete(book);
     bookCache.remove(id);
-    bookListCache.clear(); // Очистка кэша списка книг
-
+    bookListCache.clear();
     log.warn("Удалена книга с ID={}.", id);
   }
 
@@ -147,7 +143,6 @@ public class BookServiceImpl implements CrudService<BookDtoRequest,
 
     return bookMapper.toBookDtoResponse(books);
   }
-
 
   /**
    * Получает список книг по имени автора.
@@ -189,7 +184,6 @@ public class BookServiceImpl implements CrudService<BookDtoRequest,
     return bookMapper.toBookDtoResponse(books);
   }
 
-
   /**
    * Создаёт несколько книг за один запрос.
    *
@@ -200,27 +194,26 @@ public class BookServiceImpl implements CrudService<BookDtoRequest,
   public List<BookDtoResponse> createBooksBulk(List<BookDtoRequest> requests) {
     log.info("Создание {} книг (bulk-операция).", requests.size());
 
+    // Сначала преобразуем все запросы в сущности Book
     List<Book> books = requests.stream().map(request -> {
       Author author = authorRepository.findById(request.authorId()).orElseThrow(
           () -> new RuntimeException(
               AUTHOR_NOT_FOUND_MESSAGE + request.authorId()));
-
       Book book = bookMapper.toBookEntity(request);
       book.setAuthor(author);
       return book;
-    }).toList(); // Java 16+: заменяет collect(Collectors.toList())
+    }).toList();
 
-    List<Book> savedBooks = bookRepository.saveAll(
-        books); // Массовое сохранение
-    List<BookDtoResponse> responses = bookMapper.toBookDtoResponse(savedBooks);
+    // Сохраняем все книги разом
+    List<Book> savedBooks = bookRepository.saveAll(books);
 
-    // Добавляем созданные книги в кэш
+    // Обновляем кэш
     savedBooks.forEach(book -> bookCache.put(book.getId(),
         bookMapper.toBookDtoResponse(book)));
-
-    bookListCache.clear(); // Очистка кэша списка книг
+    bookListCache.clear();
     log.info("Успешно создано {} книг.", savedBooks.size());
 
-    return responses;
+    // Преобразуем сохраненные книги в DTO и возвращаем
+    return bookMapper.toBookDtoResponse(savedBooks);
   }
 }

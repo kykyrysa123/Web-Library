@@ -6,11 +6,21 @@ import org.aspectj.lang.annotation.AfterThrowing;
 import org.aspectj.lang.annotation.Aspect;
 import org.springframework.stereotype.Component;
 
+/**
+ * Aspect for logging exceptions thrown by methods in the application.
+ * This aspect intercepts exceptions and logs them with relevant context information.
+ */
 @Aspect
 @Component
 @Slf4j
 public class ExceptionLoggingAspect {
 
+  /**
+   * Logs exceptions thrown by any method in the application.
+   *
+   * @param joinPoint the join point containing method execution context
+   * @param exception the exception that was thrown
+   */
   @AfterThrowing(
       pointcut = "within(com.example.weblibrary..*)",
       throwing = "exception"

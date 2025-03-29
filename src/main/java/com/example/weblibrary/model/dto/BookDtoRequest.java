@@ -1,9 +1,16 @@
 package com.example.weblibrary.model.dto;
 
-import jakarta.validation.constraints.*;
-import org.hibernate.validator.constraints.URL;
-
+import jakarta.validation.constraints.DecimalMax;
+import jakarta.validation.constraints.DecimalMin;
+import jakarta.validation.constraints.Max;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.PastOrPresent;
+import jakarta.validation.constraints.Positive;
+import jakarta.validation.constraints.PositiveOrZero;
+import jakarta.validation.constraints.Size;
 import java.time.LocalDate;
+import org.hibernate.validator.constraints.URL;
 
 /**
  * Represents a request data transfer object (DTO) for creating or updating a book.

@@ -4,7 +4,8 @@ import java.time.LocalDateTime;
 import java.util.Map;
 
 /**
- * Standard error response format
+ * Standard error response format.
+ *
  * @param message General error message
  * @param timestamp Time when error occurred
  * @param errors Map of field errors (field name -> error message)
