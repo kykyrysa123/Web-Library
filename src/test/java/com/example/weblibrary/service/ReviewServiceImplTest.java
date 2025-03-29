@@ -1,10 +1,11 @@
-/*
 package com.example.weblibrary.service;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
+import com.example.weblibrary.WebLibraryApplication;
 import com.example.weblibrary.mapper.ReviewMapper;
+import com.example.weblibrary.mapper.ReviewMapperImpl;
 import com.example.weblibrary.model.Book;
 import com.example.weblibrary.model.Review;
 import com.example.weblibrary.model.User;
@@ -21,19 +22,29 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.TestPropertySource;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
-@ExtendWith(MockitoExtension.class)
+@ExtendWith(SpringExtension.class)
+@SpringBootTest(
+    webEnvironment = SpringBootTest.WebEnvironment.MOCK,
+    classes = WebLibraryApplication.class)
+@AutoConfigureMockMvc
+@TestPropertySource(properties = "spring.config.name=application-test")
 class ReviewServiceImplTest {
 
   @Mock
   private ReviewRepository reviewRepository;
 
   @Mock
-  private ReviewMapper reviewMapper;
+  private ReviewMapperImpl reviewMapper;
 
   @Mock
   private BookRepository bookRepository;
@@ -168,4 +179,3 @@ class ReviewServiceImplTest {
     assertTrue(exception.getMessage().contains("Review not found with id: 2"));
   }
 }
-*/

@@ -1,6 +1,5 @@
 package com.example.weblibrary.service.impl;
 
-import com.example.weblibrary.mapper.AuthorMapper;
 import com.example.weblibrary.mapper.AuthorMapperImpl;
 import com.example.weblibrary.model.Author;
 import com.example.weblibrary.model.dto.AuthorDtoRequest;
@@ -8,12 +7,12 @@ import com.example.weblibrary.model.dto.AuthorDtoResponse;
 import com.example.weblibrary.repository.AuthorRepository;
 import com.example.weblibrary.service.CrudService;
 import com.example.weblibrary.service.cache.SimpleCache;
-import java.util.List;
-import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
 
 /**
  * Service implementation for managing author-related operations. Provides
