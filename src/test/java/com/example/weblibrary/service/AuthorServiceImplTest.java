@@ -45,12 +45,7 @@ class AuthorServiceImplTest {
 
   @BeforeEach
   void setUp() {
-    author = new Author();
-    author.setId(1L);
-    author.setName("John");
-    author.setSurname("Doe");
-    author.setBirthDate(LocalDate.of(1980, 1, 1));
-
+    author = new Author(1L, "John", "Doe",null, LocalDate.of(1980, 1, 1), null, "Bio", "Fiction", 4.5,null);
     authorDtoRequest = new AuthorDtoRequest("John", "Doe", null, LocalDate.of(1980, 1, 1), null, "Bio", "Fiction", 4.5);
     authorDtoResponse = new AuthorDtoResponse(1L, "John", "Doe", null, LocalDate.of(1980, 1, 1), null, "Bio", "Fiction", 4.5, null);
   }
@@ -62,6 +57,7 @@ class AuthorServiceImplTest {
     when(authorMapper.toAuthorDtoResponse(List.of(author))).thenReturn(List.of(authorDtoResponse));
 
     List<AuthorDtoResponse> result = authorService.getAll();
+
     assertEquals(1, result.size());
     assertEquals("John", result.get(0).name());
   }
@@ -73,6 +69,7 @@ class AuthorServiceImplTest {
     when(authorMapper.toAuthorDtoResponse(author)).thenReturn(authorDtoResponse);
 
     AuthorDtoResponse result = authorService.getById(1L);
+
     assertNotNull(result);
     assertEquals("John", result.name());
   }
@@ -91,6 +88,7 @@ class AuthorServiceImplTest {
     when(authorMapper.toAuthorDtoResponse(author)).thenReturn(authorDtoResponse);
 
     AuthorDtoResponse result = authorService.create(authorDtoRequest);
+
     assertNotNull(result);
     assertEquals("John", result.name());
   }
@@ -103,6 +101,7 @@ class AuthorServiceImplTest {
     when(authorMapper.toAuthorDtoResponse(author)).thenReturn(authorDtoResponse);
 
     AuthorDtoResponse result = authorService.update(1L, authorDtoRequest);
+
     assertNotNull(result);
     assertEquals("John", result.name());
   }
