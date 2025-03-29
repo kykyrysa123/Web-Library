@@ -45,14 +45,14 @@ class AuthorServiceImplTest {
 
   @BeforeEach
   void setUp() {
-    author = new Author(1L, "John", "Doe",null, LocalDate.of(1980, 1, 1), null, "Bio", "Fiction", 4.5,null);
+    author = new Author(1L, "John", "Doe", null, LocalDate.of(1980, 1, 1), null, "Bio", "Fiction", 4.5, null);
     authorDtoRequest = new AuthorDtoRequest("John", "Doe", null, LocalDate.of(1980, 1, 1), null, "Bio", "Fiction", 4.5);
     authorDtoResponse = new AuthorDtoResponse(1L, "John", "Doe", null, LocalDate.of(1980, 1, 1), null, "Bio", "Fiction", 4.5, null);
   }
 
   @Test
   void testGetAll() {
-    when(authorCache1.get("all_authors")).thenReturn(null);
+    lenient().when(authorCache1.get("all_authors")).thenReturn(null);
     when(authorRepository.findAll()).thenReturn(List.of(author));
     when(authorMapper.toAuthorDtoResponse(List.of(author))).thenReturn(List.of(authorDtoResponse));
 
@@ -64,7 +64,7 @@ class AuthorServiceImplTest {
 
   @Test
   void testGetById() {
-    when(authorCache.get(1L)).thenReturn(null);
+    lenient().when(authorCache.get(1L)).thenReturn(null);
     when(authorRepository.findById(1L)).thenReturn(Optional.of(author));
     when(authorMapper.toAuthorDtoResponse(author)).thenReturn(authorDtoResponse);
 

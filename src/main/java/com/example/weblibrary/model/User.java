@@ -23,7 +23,7 @@ import lombok.Setter;
  * This class contains information about a user such as name, subscription, and reviews.
  */
 @Entity
-@Table(name = "user")
+@Table(name = "users")
 @Getter
 @Setter
 @NoArgsConstructor
