@@ -71,4 +71,22 @@ public class Book {
   @OneToMany(mappedBy = "book", fetch = FetchType.LAZY,
       cascade = CascadeType.ALL, orphanRemoval = true)
   private List<Review> review;
+
+  public Book(Long id, @NonNull String title, @NonNull String publisher,
+      String isbn, Integer pages, @NonNull String genre, LocalDate publishDate,
+      @NonNull String language, String description, String imageUrl,
+      Double rating
+  ) {
+    this.id = id;
+    this.title = title;
+    this.publisher = publisher;
+    this.isbn = isbn;
+    this.pages = pages;
+    this.genre = genre;
+    this.publishDate = publishDate;
+    this.language = language;
+    this.description = description;
+    this.imageUrl = imageUrl;
+    this.rating = rating;
+  }
 }

@@ -56,4 +56,24 @@ public class User {
       inverseJoinColumns = @JoinColumn(name = "book_id")
   )
   private List<Book> favouriteBooks = new ArrayList<>();
+
+  public User(Long id, String name, String surname, String patronymic,
+      Integer age, String subscription, String sex, String country,
+      String email, String passwordHash, LocalDate registrationDate,
+      LocalDate lastLogin
+  ) {
+    this.id = id;
+    this.name = name;
+    this.surname = surname;
+    this.patronymic = patronymic;
+    this.age = age;
+    this.subscription = subscription;
+    this.sex = sex;
+    this.country = country;
+    this.email = email;
+    this.passwordHash = passwordHash;
+    this.registrationDate = registrationDate;
+    this.lastLogin = lastLogin;
+
+  }
 }

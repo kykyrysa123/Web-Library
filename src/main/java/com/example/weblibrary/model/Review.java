@@ -9,11 +9,8 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import java.time.LocalDate;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.NonNull;
-import lombok.RequiredArgsConstructor;
-import lombok.Setter;
+
+import lombok.*;
 
 /**
  * Represents a review for a book, including the rating, review text, and user
@@ -23,7 +20,6 @@ import lombok.Setter;
 @Table(name = "reviews")
 @Getter
 @Setter
-@NoArgsConstructor
 @RequiredArgsConstructor
 public class Review {
 
@@ -36,7 +32,7 @@ public class Review {
   private Book book;
 
   @ManyToOne(fetch = FetchType.LAZY)
-  @JoinColumn(name = "user_id", nullable = false)
+  @JoinColumn(name = "user", nullable = false)
   private User user;
 
   @NonNull
@@ -52,8 +48,23 @@ public class Review {
    * @param id the unique identifier for the review
    * @param reviewText the text content of the review
    */
+
   public Review(Long id, String reviewText) {
     this.id = id;
     this.reviewText = reviewText;
+  }
+
+  public Review(Long id, Book book, User user, @NonNull Double rating,
+      String reviewText, LocalDate reviewDate
+  ) {
+    this.id = id;
+    this.book = book;
+    this.user = user;
+    this.rating = rating;
+    this.reviewText = reviewText;
+    this.reviewDate = reviewDate;
+  }
+
+  public Review() {
   }
 }

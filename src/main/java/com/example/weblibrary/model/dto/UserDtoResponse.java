@@ -44,4 +44,5 @@ public record UserDtoResponse(
   public UserDtoResponse(Long id, String name) {
     this(id, name, null, null, null, null, null, null, null, null, null, null, null);
   }
+
 }
