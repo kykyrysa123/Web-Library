@@ -18,9 +18,6 @@ import lombok.*;
  */
 @Entity
 @Table(name = "reviews")
-@Getter
-@Setter
-@RequiredArgsConstructor
 public class Review {
 
   @Id
@@ -48,12 +45,6 @@ public class Review {
    * @param id the unique identifier for the review
    * @param reviewText the text content of the review
    */
-
-  public Review(Long id, String reviewText) {
-    this.id = id;
-    this.reviewText = reviewText;
-  }
-
   public Review(Long id, Book book, User user, @NonNull Double rating,
       String reviewText, LocalDate reviewDate
   ) {
@@ -66,5 +57,53 @@ public class Review {
   }
 
   public Review() {
+  }
+
+  public Long getId() {
+    return id;
+  }
+
+  public void setId(Long id) {
+    this.id = id;
+  }
+
+  public Book getBook() {
+    return book;
+  }
+
+  public void setBook(Book book) {
+    this.book = book;
+  }
+
+  public User getUser() {
+    return user;
+  }
+
+  public void setUser(User user) {
+    this.user = user;
+  }
+
+  public @NonNull Double getRating() {
+    return rating;
+  }
+
+  public void setRating(@NonNull Double rating) {
+    this.rating = rating;
+  }
+
+  public String getReviewText() {
+    return reviewText;
+  }
+
+  public void setReviewText(String reviewText) {
+    this.reviewText = reviewText;
+  }
+
+  public LocalDate getReviewDate() {
+    return reviewDate;
+  }
+
+  public void setReviewDate(LocalDate reviewDate) {
+    this.reviewDate = reviewDate;
   }
 }
