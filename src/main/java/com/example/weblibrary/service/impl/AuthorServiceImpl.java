@@ -27,7 +27,7 @@ public class AuthorServiceImpl implements CrudService<AuthorDtoRequest, AuthorDt
   private static final String AUTHOR_NOT_FOUND = "Author not found with id: ";
 
   private final AuthorRepository authorRepository;
-  private final AuthorMapper authorMapper;
+  private final AuthorMapperImpl authorMapper;
   private static final Logger logger = LoggerFactory.getLogger(AuthorServiceImpl.class);
 
   private final SimpleCache<Long, AuthorDtoResponse> authorCache = new SimpleCache<>(100);
