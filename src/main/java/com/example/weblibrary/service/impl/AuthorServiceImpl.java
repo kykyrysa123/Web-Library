@@ -1,5 +1,6 @@
 package com.example.weblibrary.service.impl;
 
+import com.example.weblibrary.mapper.AuthorMapper;
 import com.example.weblibrary.mapper.AuthorMapperImpl;
 import com.example.weblibrary.model.Author;
 import com.example.weblibrary.model.dto.AuthorDtoRequest;
@@ -26,7 +27,7 @@ public class AuthorServiceImpl implements CrudService<AuthorDtoRequest, AuthorDt
   private static final String AUTHOR_NOT_FOUND = "Author not found with id: ";
 
   private final AuthorRepository authorRepository;
-  private final AuthorMapperImpl authorMapper;
+  private final AuthorMapper authorMapper;
   private static final Logger logger = LoggerFactory.getLogger(AuthorServiceImpl.class);
 
   private final SimpleCache<Long, AuthorDtoResponse> authorCache = new SimpleCache<>(100);
