@@ -12,17 +12,13 @@ import jakarta.persistence.Table;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+
 
 /**
  * Class for Author book in libraryy.
  */
 @Entity
-@Table(name = "author")
+@Table(name = "AUTHOR")
 public class Author {
 
   @Id
@@ -51,10 +47,11 @@ public class Author {
 
   public Author(Long id, String name, String surname, String patronymic,
       LocalDate birthDate, LocalDate deathDate, String biography,
-      String genreSpecialization, Double rating, List<Book> books
+      String genreSpecialization, Double rating
   ) {
     this.id = id;
     this.name = name;
+
     this.surname = surname;
     this.patronymic = patronymic;
     this.birthDate = birthDate;
@@ -62,7 +59,7 @@ public class Author {
     this.biography = biography;
     this.genreSpecialization = genreSpecialization;
     this.rating = rating;
-    this.books = books;
+
   }
 
   public Long getId() {

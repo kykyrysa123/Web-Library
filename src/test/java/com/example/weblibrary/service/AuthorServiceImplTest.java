@@ -2,9 +2,7 @@ package com.example.weblibrary.service;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
-
 import com.example.weblibrary.WebLibraryApplication;
-import com.example.weblibrary.mapper.AuthorMapper;
 import com.example.weblibrary.mapper.AuthorMapperImpl;
 import com.example.weblibrary.model.Author;
 import com.example.weblibrary.model.dto.AuthorDtoRequest;
@@ -14,14 +12,12 @@ import com.example.weblibrary.service.cache.SimpleCache;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
-
 import com.example.weblibrary.service.impl.AuthorServiceImpl;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.TestPropertySource;
@@ -57,7 +53,7 @@ class AuthorServiceImplTest {
 
   @BeforeEach
   void setUp() {
-    author = new Author(1L, "John", "Doe", null, LocalDate.of(1980, 1, 1), null, "Bio", "Fiction", 4.5, null);
+    author = new Author(1L, "John", "Doe", null, LocalDate.of(1980, 1, 1), null, "Bio", "Fiction", 4.5);
     authorDtoRequest = new AuthorDtoRequest("John", "Doe", null, LocalDate.of(1980, 1, 1), null, "Bio", "Fiction", 4.5);
     authorDtoResponse = new AuthorDtoResponse(1L, "John", "Doe", null, LocalDate.of(1980, 1, 1), null, "Bio", "Fiction", 4.5, null);
   }

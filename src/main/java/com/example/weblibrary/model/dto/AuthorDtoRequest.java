@@ -12,10 +12,10 @@ import java.time.LocalDate;
  * Request DTO for creating/updating author with validation constraints.
  */
 public record AuthorDtoRequest(
-    @NotBlank(message = "Name cannot be blank") @Size(max = 100, message =
+    @Size(max = 100, message =
         "Name must not exceed 100 characters") String name,
 
-    @NotBlank(message = "Surname cannot be blank") @Size(max = 100, message =
+    @Size(max = 100, message =
         "Surname must not exceed 100 characters") String surname,
 
     @Size(max = 100, message = "Patronymic must not exceed 100 characters") String patronymic,
