@@ -16,45 +16,29 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
-/**
- * Реализация сервиса для управления книгами.
- */
 @Service
 @RequiredArgsConstructor
-public class BookServiceImpl implements CrudService<BookDtoRequest,
-    BookDtoResponse> {
-  private static final String BOOK_NOT_FOUND_MESSAGE =
-      "Книга не найдена с " + "ID: ";
-  private static final String AUTHOR_NOT_FOUND_MESSAGE =
-      "Автор не найдена с " + "ID: ";
-
+public class BookServiceImpl implements CrudService<BookDtoRequest, BookDtoResponse> {
+  private static final String BOOK_NOT_FOUND_MESSAGE = "Книга не найдена с ID: ";
+  private static final String AUTHOR_NOT_FOUND_MESSAGE = "Автор не найдена с ID: ";
   private final BookRepository bookRepository;
   private final BookMapperImpl bookMapper;
   private final AuthorRepository authorRepository;
-  private final SimpleCache<Long, BookDtoResponse> bookCache =
-      new SimpleCache<>(
-      100);
-  private final SimpleCache<String, List<BookDtoResponse>> bookListCache =
-      new SimpleCache<>(
-      100);
-  private static final Logger log = LoggerFactory.getLogger(
-      BookServiceImpl.class);
+  private final SimpleCache<Long, BookDtoResponse> bookCache; // Внедряется через конструктор
+  private final SimpleCache<String, List<BookDtoResponse>> bookListCache; // Внедряется через конструктор
+  private static final Logger log = LoggerFactory.getLogger(BookServiceImpl.class);
 
   @Override
   public List<BookDtoResponse> getAll() {
     String cacheKey = "all_books";
     List<BookDtoResponse> cachedList = bookListCache.get(cacheKey);
-
     if (cachedList != null) {
       log.info("Получены все книги из кэша.");
       return cachedList;
     }
-
     log.info("Загрузка всех книг из базы данных.");
-    List<BookDtoResponse> responseList = bookMapper.toBookDtoResponse(
-        bookRepository.findAll());
+    List<BookDtoResponse> responseList = bookMapper.toBookDtoResponse(bookRepository.findAll());
     bookListCache.put(cacheKey, responseList);
-
     return responseList;
   }
 
@@ -65,27 +49,22 @@ public class BookServiceImpl implements CrudService<BookDtoRequest,
       log.info("Книга с ID={} получена из кэша.", id);
       return cachedBook;
     }
-
     log.info("Загрузка книги с ID={} из базы данных.", id);
     Book book = bookRepository.findById(id).orElseThrow(
         () -> new RuntimeException(BOOK_NOT_FOUND_MESSAGE + id));
     BookDtoResponse response = bookMapper.toBookDtoResponse(book);
-
     bookCache.put(id, response);
     return response;
   }
 
   @Override
   public BookDtoResponse create(BookDtoRequest bookDtoRequest) {
-    Author author = authorRepository.findById(
-        bookDtoRequest.authorId()).orElseThrow(() -> new RuntimeException(
-        AUTHOR_NOT_FOUND_MESSAGE + bookDtoRequest.authorId()));
-
+    Author author = authorRepository.findById(bookDtoRequest.authorId()).orElseThrow(
+        () -> new RuntimeException(AUTHOR_NOT_FOUND_MESSAGE + bookDtoRequest.authorId()));
     Book book = bookMapper.toBookEntity(bookDtoRequest);
     book.setAuthor(author);
     Book savedBook = bookRepository.save(book);
     BookDtoResponse response = bookMapper.toBookDtoResponse(savedBook);
-
     bookCache.put(savedBook.getId(), response);
     bookListCache.clear();
     log.info("Создана новая книга с ID={}.", savedBook.getId());
@@ -96,18 +75,13 @@ public class BookServiceImpl implements CrudService<BookDtoRequest,
   public BookDtoResponse update(Long id, BookDtoRequest bookDtoRequest) {
     Book book = bookRepository.findById(id).orElseThrow(
         () -> new RuntimeException(BOOK_NOT_FOUND_MESSAGE + id));
-
-    Author author = authorRepository.findById(
-        bookDtoRequest.authorId()).orElseThrow(() -> new RuntimeException(
-        AUTHOR_NOT_FOUND_MESSAGE + bookDtoRequest.authorId()));
-
+    Author author = authorRepository.findById(bookDtoRequest.authorId()).orElseThrow(
+        () -> new RuntimeException(AUTHOR_NOT_FOUND_MESSAGE + bookDtoRequest.authorId()));
     book.setTitle(bookDtoRequest.title());
     book.setGenre(bookDtoRequest.genre());
     book.setAuthor(author);
-
     Book updatedBook = bookRepository.save(book);
     BookDtoResponse response = bookMapper.toBookDtoResponse(updatedBook);
-
     bookCache.put(id, response);
     bookListCache.clear();
     log.info("Обновлена книга с ID={}.", id);
@@ -118,102 +92,57 @@ public class BookServiceImpl implements CrudService<BookDtoRequest,
   public void delete(Long id) {
     Book book = bookRepository.findById(id).orElseThrow(
         () -> new RuntimeException(BOOK_NOT_FOUND_MESSAGE + id));
-
     bookRepository.delete(book);
     bookCache.remove(id);
     bookListCache.clear();
     log.warn("Удалена книга с ID={}.", id);
   }
 
-  /**
-   * Получает список книг по жанру.
-   *
-   * @param genre
-   *     жанр книги
-   * @return список книг указанного жанра
-   */
   public List<BookDtoResponse> getByGenre(String genre) {
     log.info("Поиск книг по жанру.");
-
     List<Book> books = bookRepository.findByGenre(genre);
     if (books.isEmpty()) {
       log.info("Книги с указанным жанром не найдены.");
       return Collections.emptyList();
     }
-
     return bookMapper.toBookDtoResponse(books);
   }
 
-  /**
-   * Получает список книг по имени автора.
-   *
-   * @param authorName
-   *     имя автора
-   * @return список книг данного автора
-   */
   public List<BookDtoResponse> getBooksByAuthorName(String authorName) {
     log.info("Поиск книг по автору.");
-
     List<Book> books = bookRepository.findByAuthorName(authorName);
     if (books.isEmpty()) {
       log.info("Книги указанного автора не найдены.");
       return Collections.emptyList();
     }
-
     log.info("Найдено {} книг", books.size());
     return bookMapper.toBookDtoResponse(books);
   }
 
-  /**
-   * Получает список книг, название которых содержит указанную строку.
-   *
-   * @param title
-   *     часть названия книги
-   * @return список книг, содержащих указанное название
-   */
   public List<BookDtoResponse> getBookByTitle(String title) {
     log.info("Выполняется поиск книг по названию.");
-
     List<Book> books = bookRepository.findByTitleLike(title);
     if (books.isEmpty()) {
       log.info("Книги с указанным названием не найдены.");
       return Collections.emptyList();
     }
-
     log.info("Найдено {} книг.", books.size());
     return bookMapper.toBookDtoResponse(books);
   }
 
-  /**
-   * Создаёт несколько книг за один запрос.
-   *
-   * @param requests
-   *     список книг для создания
-   * @return список созданных книг
-   */
   public List<BookDtoResponse> createBooksBulk(List<BookDtoRequest> requests) {
     log.info("Создание {} книг (bulk-операция).", requests.size());
-
-    // Сначала преобразуем все запросы в сущности Book
     List<Book> books = requests.stream().map(request -> {
       Author author = authorRepository.findById(request.authorId()).orElseThrow(
-          () -> new RuntimeException(
-              AUTHOR_NOT_FOUND_MESSAGE + request.authorId()));
+          () -> new RuntimeException(AUTHOR_NOT_FOUND_MESSAGE + request.authorId()));
       Book book = bookMapper.toBookEntity(request);
       book.setAuthor(author);
       return book;
     }).toList();
-
-    // Сохраняем все книги разом
     List<Book> savedBooks = bookRepository.saveAll(books);
-
-    // Обновляем кэш
-    savedBooks.forEach(book -> bookCache.put(book.getId(),
-        bookMapper.toBookDtoResponse(book)));
+    savedBooks.forEach(book -> bookCache.put(book.getId(), bookMapper.toBookDtoResponse(book)));
     bookListCache.clear();
     log.info("Успешно создано {} книг.", savedBooks.size());
-
-    // Преобразуем сохраненные книги в DTO и возвращаем
     return bookMapper.toBookDtoResponse(savedBooks);
   }
 }

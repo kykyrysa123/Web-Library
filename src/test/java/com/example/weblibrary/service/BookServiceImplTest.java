@@ -25,6 +25,7 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
+
 class BookServiceImplTest {
 
   @Mock
@@ -67,6 +68,84 @@ class BookServiceImplTest {
   }
 
   @Test
+  void testGetAll_FromCache() {
+    when(bookListCache.get("all_books")).thenReturn(List.of(bookDtoResponse));
+
+    List<BookDtoResponse> result = bookService.getAll();
+
+    assertNotNull(result);
+    assertEquals(1, result.size());
+    assertEquals("Test Book", result.get(0).title());
+    verify(bookRepository, never()).findAll();
+  }
+
+  @Test
+  void testGetAll_FromDatabase() {
+    when(bookListCache.get("all_books")).thenReturn(null);
+    when(bookRepository.findAll()).thenReturn(List.of(book));
+    when(bookMapper.toBookDtoResponse(anyList())).thenReturn(List.of(bookDtoResponse));
+
+    List<BookDtoResponse> result = bookService.getAll();
+
+    assertNotNull(result);
+    assertEquals(1, result.size());
+    assertEquals("Test Book", result.get(0).title());
+    //verify(bookListCache).put("all_books", List.of(bookDtoResponse));
+  }
+
+  @Test
+  void testGetById_FromCache() {
+    // Явная инициализация сервиса с моками
+    BookServiceImpl bookService = new BookServiceImpl(bookRepository, bookMapper, authorRepository, bookCache, bookListCache);
+
+    when(bookCache.get(1L)).thenReturn(bookDtoResponse);
+
+    BookDtoResponse result = bookService.getById(1L);
+
+    assertNotNull(result);
+    assertEquals("Test Book", result.title());
+    verify(bookRepository, never()).findById(anyLong());
+  }
+
+  @Test
+  void testGetById_FromDatabase() {
+    when(bookCache.get(1L)).thenReturn(null);
+    when(bookRepository.findById(1L)).thenReturn(Optional.of(book));
+    when(bookMapper.toBookDtoResponse(book)).thenReturn(bookDtoResponse);
+
+    BookDtoResponse result = bookService.getById(1L);
+
+    assertNotNull(result);
+    assertEquals("Test Book", result.title());
+    verify(bookCache).put(eq(1L), any(BookDtoResponse.class));
+  }
+
+  @Test
+  void testGetById_NotFound() {
+    when(bookCache.get(2L)).thenReturn(null);
+    when(bookRepository.findById(2L)).thenReturn(Optional.empty());
+
+    Exception exception = assertThrows(RuntimeException.class, () -> bookService.getById(2L));
+    assertEquals("Книга не найдена с ID: 2", exception.getMessage());
+  }
+
+  @Test
+  void testCreate_Success() {
+    BookServiceImpl bookService = new BookServiceImpl(bookRepository, bookMapper, authorRepository, bookCache, bookListCache);
+    when(authorRepository.findById(1L)).thenReturn(Optional.of(author));
+    when(bookMapper.toBookEntity(bookDtoRequest)).thenReturn(book);
+    when(bookRepository.save(book)).thenReturn(book);
+    when(bookMapper.toBookDtoResponse(book)).thenReturn(bookDtoResponse);
+
+    BookDtoResponse result = bookService.create(bookDtoRequest);
+
+    assertNotNull(result);
+    assertEquals("Test Book", result.title());
+    verify(bookCache).put(eq(1L), any(BookDtoResponse.class));
+    verify(bookListCache).clear();
+  }
+
+  @Test
   void testCreate_AuthorNotFound() {
     when(authorRepository.findById(1L)).thenReturn(Optional.empty());
 
@@ -75,6 +154,22 @@ class BookServiceImplTest {
     verify(bookRepository, never()).save(any());
   }
 
+  @Test
+  void testUpdate_Success() {
+    BookServiceImpl bookService = new BookServiceImpl(bookRepository, bookMapper, authorRepository, bookCache, bookListCache);
+
+    when(bookRepository.findById(1L)).thenReturn(Optional.of(book));
+    when(authorRepository.findById(1L)).thenReturn(Optional.of(author));
+    when(bookRepository.save(book)).thenReturn(book);
+    when(bookMapper.toBookDtoResponse(book)).thenReturn(bookDtoResponse);
+
+    BookDtoResponse result = bookService.update(1L, bookDtoRequest);
+
+    assertNotNull(result);
+    assertEquals("Test Book", result.title());
+    verify(bookCache).put(eq(1L), any(BookDtoResponse.class));
+    verify(bookListCache).clear();
+  }
 
   @Test
   void testUpdate_BookNotFound() {
@@ -95,6 +190,19 @@ class BookServiceImplTest {
     verify(bookRepository, never()).save(any());
   }
 
+  @Test
+  void testDelete_Success() {
+    // Явная инициализация сервиса с моками
+    BookServiceImpl bookService = new BookServiceImpl(bookRepository, bookMapper, authorRepository, bookCache, bookListCache);
+
+    when(bookRepository.findById(1L)).thenReturn(Optional.of(book));
+    doNothing().when(bookRepository).delete(book);
+
+    bookService.delete(1L);
+
+    verify(bookCache).remove(1L);
+    verify(bookListCache).clear();
+  }
 
   @Test
   void testDelete_NotFound() {
@@ -112,7 +220,7 @@ class BookServiceImplTest {
 
     List<BookDtoResponse> result = bookService.getByGenre("Fiction");
 
-    assertFalse(result.isEmpty());
+    assertNotNull(result);
     assertEquals(1, result.size());
     assertEquals("Test Book", result.get(0).title());
   }
@@ -123,6 +231,7 @@ class BookServiceImplTest {
 
     List<BookDtoResponse> result = bookService.getByGenre("NonFiction");
 
+    assertNotNull(result);
     assertTrue(result.isEmpty());
   }
 
@@ -133,7 +242,7 @@ class BookServiceImplTest {
 
     List<BookDtoResponse> result = bookService.getBooksByAuthorName("John Doe");
 
-    assertFalse(result.isEmpty());
+    assertNotNull(result);
     assertEquals(1, result.size());
     assertEquals("Test Book", result.get(0).title());
   }
@@ -144,6 +253,7 @@ class BookServiceImplTest {
 
     List<BookDtoResponse> result = bookService.getBooksByAuthorName("Unknown");
 
+    assertNotNull(result);
     assertTrue(result.isEmpty());
   }
 
@@ -154,7 +264,7 @@ class BookServiceImplTest {
 
     List<BookDtoResponse> result = bookService.getBookByTitle("Test");
 
-    assertFalse(result.isEmpty());
+    assertNotNull(result);
     assertEquals(1, result.size());
     assertEquals("Test Book", result.get(0).title());
   }
@@ -165,10 +275,30 @@ class BookServiceImplTest {
 
     List<BookDtoResponse> result = bookService.getBookByTitle("Unknown");
 
+    assertNotNull(result);
     assertTrue(result.isEmpty());
   }
 
+  @Test
+  void testCreateBooksBulk_Success() {
+    // Явная инициализация сервиса с моками
+    BookServiceImpl bookService = new BookServiceImpl(bookRepository, bookMapper, authorRepository, bookCache, bookListCache);
 
+    List<BookDtoRequest> requests = List.of(bookDtoRequest);
+    when(authorRepository.findById(1L)).thenReturn(Optional.of(author));
+    when(bookMapper.toBookEntity(bookDtoRequest)).thenReturn(book);
+    when(bookRepository.saveAll(anyList())).thenReturn(List.of(book));
+    when(bookMapper.toBookDtoResponse(book)).thenReturn(bookDtoResponse);
+    when(bookMapper.toBookDtoResponse(anyList())).thenReturn(List.of(bookDtoResponse));
+
+    List<BookDtoResponse> result = bookService.createBooksBulk(requests);
+
+    assertNotNull(result);
+    assertEquals(1, result.size());
+    assertEquals("Test Book", result.get(0).title());
+    verify(bookCache).put(eq(1L), any(BookDtoResponse.class));
+    verify(bookListCache).clear();
+  }
 
   @Test
   void testCreateBooksBulk_AuthorNotFound() {
