@@ -31,6 +31,10 @@ public class LogController {
   @Value("${logging.file.path:./logs}")
   private String logPath;
 
+  // Добавляем сеттер для тестов
+  public void setLogPath(String logPath) {
+    this.logPath = logPath;
+  }
   /**
    * Retrieves log entries for a specific date.
    *
