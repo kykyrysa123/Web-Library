@@ -1,25 +1,17 @@
-package com.example.weblibrary.service.cache;
+package com.example.weblibrary.service;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-import com.example.weblibrary.WebLibraryApplication;
+import com.example.weblibrary.service.cache.SimpleCache;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mockito;
-import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import java.util.function.Consumer;
+
 @ExtendWith(SpringExtension.class)
-@SpringBootTest(
-    webEnvironment = SpringBootTest.WebEnvironment.MOCK,
-    classes = WebLibraryApplication.class)
-@AutoConfigureMockMvc
-@TestPropertySource(properties = "spring.config.name=application-test")
 class SimpleCacheTest {
 
   private SimpleCache<String, String> cache;
