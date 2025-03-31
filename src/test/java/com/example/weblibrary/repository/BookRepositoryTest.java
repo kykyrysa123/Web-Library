@@ -1,15 +1,13 @@
-package com.example.weblibrary.service;
+package com.example.weblibrary.repository;
 
 import com.example.weblibrary.WebLibraryApplication;
 import com.example.weblibrary.model.Author;
 import com.example.weblibrary.model.Book;
-import com.example.weblibrary.repository.BookRepository;
 import jakarta.transaction.Transactional;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.AutoConfigureTestEntityManager;
-import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.TestPropertySource;
