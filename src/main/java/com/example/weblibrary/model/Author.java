@@ -141,4 +141,12 @@ public class Author {
   public void setBooks(List<Book> books) {
     this.books = books;
   }
+
+  public String getFullName() {
+    return surname + " " + name + (patronymic != null && !patronymic.isEmpty() ? " " + patronymic : "");
+  }
+
+  public boolean isDeceased() {
+    return deathDate != null;
+  }
 }
