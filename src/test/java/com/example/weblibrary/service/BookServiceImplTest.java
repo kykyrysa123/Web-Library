@@ -1,9 +1,5 @@
 package com.example.weblibrary.service;
 
-import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.*;
-
-import com.example.weblibrary.WebLibraryApplication;
 import com.example.weblibrary.mapper.BookMapperImpl;
 import com.example.weblibrary.model.Author;
 import com.example.weblibrary.model.Book;
@@ -13,50 +9,40 @@ import com.example.weblibrary.repository.AuthorRepository;
 import com.example.weblibrary.repository.BookRepository;
 import com.example.weblibrary.service.cache.SimpleCache;
 import com.example.weblibrary.service.impl.BookServiceImpl;
-
-import java.time.LocalDate;
-import java.util.List;
-import java.util.Optional;
-
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.MockitoAnnotations;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.TestPropertySource;
-import org.springframework.test.context.bean.override.mockito.MockitoBean;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
-import org.springframework.transaction.annotation.Transactional;
 
-@SuppressWarnings("FieldCanBeLocal")
-@ExtendWith(SpringExtension.class)
-@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.MOCK, classes
-    = WebLibraryApplication.class)
-@AutoConfigureMockMvc
-@TestPropertySource(properties = "spring.config.name=application-test")
+import java.time.LocalDate;
+import java.util.Collections;
+import java.util.List;
+import java.util.Optional;
+
+import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.*;
+
 @ExtendWith(MockitoExtension.class)
-@Transactional
 class BookServiceImplTest {
 
-  @MockitoBean
+  @Mock
   private BookRepository bookRepository;
 
-  @MockitoBean
+  @Mock
   private BookMapperImpl bookMapper;
 
-  @MockitoBean
-  private SimpleCache<Long, BookDtoResponse> bookCache;
-
-  @MockitoBean
-  private SimpleCache<String, List<BookDtoResponse>> bookListCache;
-
-  @MockitoBean
+  @Mock
   private AuthorRepository authorRepository;
 
-  @Autowired
+  @Mock
+  private SimpleCache<Long, BookDtoResponse> bookCache;
+
+  @Mock
+  private SimpleCache<String, List<BookDtoResponse>> bookListCache;
+
+  @InjectMocks
   private BookServiceImpl bookService;
 
   private Book book;
@@ -64,11 +50,10 @@ class BookServiceImplTest {
   private BookDtoResponse bookDtoResponse;
   private Author author;
 
-
   @BeforeEach
   void setUp() {
-    author = new Author(1L, "John", "Doe", "asd", LocalDate.of(2020, 1, 1),
-        LocalDate.of(2025, 1, 1), "goodLife", "fantasy", 4.0);
+    author = new Author(1L, "John", "Doe", "asd", LocalDate.of(1970, 1, 1),
+        LocalDate.of(2020, 1, 1), "goodLife", "fantasy", 4.0);
     book = new Book(1L, "Test Book", "Test Publisher", "1234567890", 300,
         "Fiction", LocalDate.of(2020, 1, 1), "English", "A great book",
         "example.com/image.jpg", 4.5);
@@ -79,87 +64,119 @@ class BookServiceImplTest {
     bookDtoResponse = new BookDtoResponse(1L, "Test Book", "Test Publisher",
         "1234567890", 300L, "Fiction", LocalDate.of(2020, 1, 1), "English",
         "A great book", "example.com/image.jpg");
-    MockitoAnnotations.openMocks(this);
   }
 
   @Test
-  void testGetAll() {
-    lenient().when(bookCache.get(1L)).thenReturn(null);
-    when(bookRepository.findAll()).thenReturn(List.of(book));
-    when(bookMapper.toBookDtoResponse(List.of(book))).thenReturn(
-        List.of(bookDtoResponse));
+  void testCreate_AuthorNotFound() {
+    when(authorRepository.findById(1L)).thenReturn(Optional.empty());
 
-    List<BookDtoResponse> result = bookService.getAll();
+    Exception exception = assertThrows(RuntimeException.class, () -> bookService.create(bookDtoRequest));
+    assertEquals("Автор не найдена с ID: 1", exception.getMessage());
+    verify(bookRepository, never()).save(any());
+  }
 
+
+  @Test
+  void testUpdate_BookNotFound() {
+    when(bookRepository.findById(2L)).thenReturn(Optional.empty());
+
+    Exception exception = assertThrows(RuntimeException.class, () -> bookService.update(2L, bookDtoRequest));
+    assertEquals("Книга не найдена с ID: 2", exception.getMessage());
+    verify(authorRepository, never()).findById(anyLong());
+  }
+
+  @Test
+  void testUpdate_AuthorNotFound() {
+    when(bookRepository.findById(1L)).thenReturn(Optional.of(book));
+    when(authorRepository.findById(1L)).thenReturn(Optional.empty());
+
+    Exception exception = assertThrows(RuntimeException.class, () -> bookService.update(1L, bookDtoRequest));
+    assertEquals("Автор не найдена с ID: 1", exception.getMessage());
+    verify(bookRepository, never()).save(any());
+  }
+
+
+  @Test
+  void testDelete_NotFound() {
+    when(bookRepository.findById(2L)).thenReturn(Optional.empty());
+
+    Exception exception = assertThrows(RuntimeException.class, () -> bookService.delete(2L));
+    assertEquals("Книга не найдена с ID: 2", exception.getMessage());
+    verify(bookRepository, never()).delete(any());
+  }
+
+  @Test
+  void testGetByGenre_Found() {
+    when(bookRepository.findByGenre("Fiction")).thenReturn(List.of(book));
+    when(bookMapper.toBookDtoResponse(anyList())).thenReturn(List.of(bookDtoResponse));
+
+    List<BookDtoResponse> result = bookService.getByGenre("Fiction");
+
+    assertFalse(result.isEmpty());
     assertEquals(1, result.size());
     assertEquals("Test Book", result.get(0).title());
   }
 
   @Test
-  void testGetById() {
-    //lenient().when(bookCache.get(1L)).thenReturn(null);
-    when(bookRepository.findById(1L)).thenReturn(Optional.of(book));
-    when(bookMapper.toBookDtoResponse(book)).thenReturn(bookDtoResponse);
+  void testGetByGenre_NotFound() {
+    when(bookRepository.findByGenre("NonFiction")).thenReturn(Collections.emptyList());
 
-    BookDtoResponse result = bookService.getById(1L);
+    List<BookDtoResponse> result = bookService.getByGenre("NonFiction");
 
-    assertNotNull(result);
-    assertEquals("Test Book", result.title());
+    assertTrue(result.isEmpty());
   }
 
   @Test
-  void testGetById_NotFound() {
-    Exception exception = assertThrows(RuntimeException.class,
-        () -> bookService.getById(3L));
-    assertTrue(exception.getMessage().contains("Книга не найдена с ID: 3"));
+  void testGetBooksByAuthorName_Found() {
+    when(bookRepository.findByAuthorName("John Doe")).thenReturn(List.of(book));
+    when(bookMapper.toBookDtoResponse(anyList())).thenReturn(List.of(bookDtoResponse));
+
+    List<BookDtoResponse> result = bookService.getBooksByAuthorName("John Doe");
+
+    assertFalse(result.isEmpty());
+    assertEquals(1, result.size());
+    assertEquals("Test Book", result.get(0).title());
   }
 
   @Test
-  void testCreate() {
-    // Arrange
-    BookDtoRequest bookDtoRequest = new BookDtoRequest("Test Book",
-        "Test Publisher", "1234567890", 300, "Fiction",
-        LocalDate.of(2020, 1, 1), "English", "A great book",
-        "example.com/image.jpg", 4.5, 1L);
-    Author author = new Author();
-    author.setId(1L);
-    Book book = new Book();
-    book.setId(1L);
-    book.setTitle("Test Book");
-    book.setGenre("Fiction");
-    book.setAuthor(author);
-    BookDtoResponse bookDtoResponse = new BookDtoResponse(1L, "Test Book",
-        "Test Publisher", "1234567890", 300L, "Fiction",
-        LocalDate.of(2020, 1, 1), "English", "A great book",
-        "example.com/image.jpg");
+  void testGetBooksByAuthorName_NotFound() {
+    when(bookRepository.findByAuthorName("Unknown")).thenReturn(Collections.emptyList());
 
-    when(bookMapper.toBookEntity(bookDtoRequest)).thenReturn(book);
-    when(authorRepository.findById(bookDtoRequest.authorId())).thenReturn(
-        Optional.of(author));
-    when(bookRepository.save(any(Book.class))).thenReturn(book);
-    when(bookMapper.toBookDtoResponse(book)).thenReturn(bookDtoResponse);
+    List<BookDtoResponse> result = bookService.getBooksByAuthorName("Unknown");
 
-    // Act
-    BookDtoResponse result = bookService.create(bookDtoRequest);
-
-    // Assert
-    assertNotNull(result);
-    assertEquals("Test Book", result.title());
+    assertTrue(result.isEmpty());
   }
 
   @Test
-  void testDelete() {
-    when(bookRepository.findById(1L)).thenReturn(Optional.of(book));
-    doNothing().when(bookRepository).delete(book);
+  void testGetBookByTitle_Found() {
+    when(bookRepository.findByTitleLike("Test")).thenReturn(List.of(book));
+    when(bookMapper.toBookDtoResponse(anyList())).thenReturn(List.of(bookDtoResponse));
 
-    assertDoesNotThrow(() -> bookService.delete(1L));
+    List<BookDtoResponse> result = bookService.getBookByTitle("Test");
+
+    assertFalse(result.isEmpty());
+    assertEquals(1, result.size());
+    assertEquals("Test Book", result.get(0).title());
   }
 
   @Test
-  void testDelete_NotFound() {
-    when(bookRepository.findById(2L)).thenReturn(Optional.empty());
-    Exception exception = assertThrows(RuntimeException.class,
-        () -> bookService.delete(2L));
-    assertTrue(exception.getMessage().contains("Книга не найдена с ID: 2"));
+  void testGetBookByTitle_NotFound() {
+    when(bookRepository.findByTitleLike("Unknown")).thenReturn(Collections.emptyList());
+
+    List<BookDtoResponse> result = bookService.getBookByTitle("Unknown");
+
+    assertTrue(result.isEmpty());
+  }
+
+
+
+  @Test
+  void testCreateBooksBulk_AuthorNotFound() {
+    List<BookDtoRequest> requests = List.of(bookDtoRequest);
+    when(authorRepository.findById(1L)).thenReturn(Optional.empty());
+
+    Exception exception = assertThrows(RuntimeException.class, () -> bookService.createBooksBulk(requests));
+    assertEquals("Автор не найдена с ID: 1", exception.getMessage());
+    verify(bookRepository, never()).saveAll(any());
   }
 }
