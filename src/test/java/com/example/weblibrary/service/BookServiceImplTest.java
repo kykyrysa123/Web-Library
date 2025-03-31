@@ -69,6 +69,9 @@ class BookServiceImplTest {
 
   @Test
   void testGetAll_FromCache() {
+    // Явная инициализация сервиса с моками
+    BookServiceImpl bookService = new BookServiceImpl(bookRepository, bookMapper, authorRepository, bookCache, bookListCache);
+
     when(bookListCache.get("all_books")).thenReturn(List.of(bookDtoResponse));
 
     List<BookDtoResponse> result = bookService.getAll();
@@ -109,6 +112,9 @@ class BookServiceImplTest {
 
   @Test
   void testGetById_FromDatabase() {
+    // Явная инициализация сервиса с моками
+    BookServiceImpl bookService = new BookServiceImpl(bookRepository, bookMapper, authorRepository, bookCache, bookListCache);
+
     when(bookCache.get(1L)).thenReturn(null);
     when(bookRepository.findById(1L)).thenReturn(Optional.of(book));
     when(bookMapper.toBookDtoResponse(book)).thenReturn(bookDtoResponse);
@@ -122,7 +128,9 @@ class BookServiceImplTest {
 
   @Test
   void testGetById_NotFound() {
-    when(bookCache.get(2L)).thenReturn(null);
+    // Явная инициализация сервиса с моками для консистентности
+    BookServiceImpl bookService = new BookServiceImpl(bookRepository, bookMapper, authorRepository, bookCache, bookListCache);
+
     when(bookRepository.findById(2L)).thenReturn(Optional.empty());
 
     Exception exception = assertThrows(RuntimeException.class, () -> bookService.getById(2L));
