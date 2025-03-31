@@ -9,12 +9,10 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import java.time.LocalDate;
-
-import lombok.*;
+import lombok.NonNull;
 
 /**
- * Represents a review for a book, including the rating, review text, and user
- * information.
+ * Represents a review for a book, including the rating, review text, and user information.
  */
 @Entity
 @Table(name = "reviews")
@@ -40,14 +38,17 @@ public class Review {
   private LocalDate reviewDate;
 
   /**
-   * Constructs a Review with the specified ID and review text.
+   * Constructs a Review with all required fields.
    *
    * @param id the unique identifier for the review
+   * @param book the book being reviewed
+   * @param user the user who wrote the review
+   * @param rating the rating given (must not be null)
    * @param reviewText the text content of the review
+   * @param reviewDate the date when the review was written
    */
   public Review(Long id, Book book, User user, @NonNull Double rating,
-      String reviewText, LocalDate reviewDate
-  ) {
+      String reviewText, LocalDate reviewDate) {
     this.id = id;
     this.book = book;
     this.user = user;
@@ -56,6 +57,9 @@ public class Review {
     this.reviewDate = reviewDate;
   }
 
+  /**
+   * Default constructor required by JPA.
+   */
   public Review() {
   }
 

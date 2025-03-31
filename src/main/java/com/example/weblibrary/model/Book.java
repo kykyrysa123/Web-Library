@@ -64,10 +64,16 @@ public class Book {
   @OneToMany(mappedBy = "book", fetch = FetchType.LAZY,
       cascade = CascadeType.ALL, orphanRemoval = true)
   private List<Review> review;
+  /**
+  constructor default.
+  */
 
   public Book() {
   }
 
+  /**
+   constructor.
+   */
   public Book(Long id, @NonNull String title, @NonNull String publisher,
       String isbn, Integer pages, @NonNull String genre, LocalDate publishDate,
       @NonNull String language, String description, String imageUrl,

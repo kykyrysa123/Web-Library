@@ -16,6 +16,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
+/**
+ * Service implementation for book-related operations.
+ * Provides CRUD functionality and additional book search methods.
+ */
 @Service
 @RequiredArgsConstructor
 public class BookServiceImpl implements CrudService<BookDtoRequest, BookDtoResponse> {
@@ -24,8 +28,8 @@ public class BookServiceImpl implements CrudService<BookDtoRequest, BookDtoRespo
   private final BookRepository bookRepository;
   private final BookMapperImpl bookMapper;
   private final AuthorRepository authorRepository;
-  private final SimpleCache<Long, BookDtoResponse> bookCache; // Внедряется через конструктор
-  private final SimpleCache<String, List<BookDtoResponse>> bookListCache; // Внедряется через конструктор
+  private final SimpleCache<Long, BookDtoResponse> bookCache;
+  private final SimpleCache<String, List<BookDtoResponse>> bookListCache;
   private static final Logger log = LoggerFactory.getLogger(BookServiceImpl.class);
 
   @Override
@@ -98,6 +102,12 @@ public class BookServiceImpl implements CrudService<BookDtoRequest, BookDtoRespo
     log.warn("Удалена книга с ID={}.", id);
   }
 
+  /**
+   * Retrieves books by their genre.
+   *
+   * @param genre the genre to search for
+   * @return list of books matching the genre, or empty list if none found
+   */
   public List<BookDtoResponse> getByGenre(String genre) {
     log.info("Поиск книг по жанру.");
     List<Book> books = bookRepository.findByGenre(genre);
@@ -108,6 +118,12 @@ public class BookServiceImpl implements CrudService<BookDtoRequest, BookDtoRespo
     return bookMapper.toBookDtoResponse(books);
   }
 
+  /**
+   * Retrieves books by author's name.
+   *
+   * @param authorName the name of the author to search for
+   * @return list of books by the specified author, or empty list if none found
+   */
   public List<BookDtoResponse> getBooksByAuthorName(String authorName) {
     log.info("Поиск книг по автору.");
     List<Book> books = bookRepository.findByAuthorName(authorName);
@@ -119,6 +135,12 @@ public class BookServiceImpl implements CrudService<BookDtoRequest, BookDtoRespo
     return bookMapper.toBookDtoResponse(books);
   }
 
+  /**
+   * Retrieves books by title (partial match).
+   *
+   * @param title the title or part of title to search for
+   * @return list of books matching the title, or empty list if none found
+   */
   public List<BookDtoResponse> getBookByTitle(String title) {
     log.info("Выполняется поиск книг по названию.");
     List<Book> books = bookRepository.findByTitleLike(title);
@@ -130,6 +152,13 @@ public class BookServiceImpl implements CrudService<BookDtoRequest, BookDtoRespo
     return bookMapper.toBookDtoResponse(books);
   }
 
+  /**
+   * Creates multiple books in a single operation.
+   *
+   * @param requests list of book creation requests
+   * @return list of created book responses
+   * @throws RuntimeException if any author is not found
+   */
   public List<BookDtoResponse> createBooksBulk(List<BookDtoRequest> requests) {
     log.info("Создание {} книг (bulk-операция).", requests.size());
     List<Book> books = requests.stream().map(request -> {
@@ -140,7 +169,8 @@ public class BookServiceImpl implements CrudService<BookDtoRequest, BookDtoRespo
       return book;
     }).toList();
     List<Book> savedBooks = bookRepository.saveAll(books);
-    savedBooks.forEach(book -> bookCache.put(book.getId(), bookMapper.toBookDtoResponse(book)));
+    savedBooks.forEach(book ->
+        bookCache.put(book.getId(), bookMapper.toBookDtoResponse(book)));
     bookListCache.clear();
     log.info("Успешно создано {} книг.", savedBooks.size());
     return bookMapper.toBookDtoResponse(savedBooks);

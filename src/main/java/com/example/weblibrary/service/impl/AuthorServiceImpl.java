@@ -7,12 +7,11 @@ import com.example.weblibrary.model.dto.AuthorDtoResponse;
 import com.example.weblibrary.repository.AuthorRepository;
 import com.example.weblibrary.service.CrudService;
 import com.example.weblibrary.service.cache.SimpleCache;
+import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.List;
 
 /**
  * Service implementation for managing author-related operations. Provides
@@ -21,7 +20,9 @@ import java.util.List;
  */
 @Service
 public class AuthorServiceImpl implements CrudService<AuthorDtoRequest, AuthorDtoResponse> {
-
+  /**
+  constructor.
+ */
   public AuthorServiceImpl(AuthorRepository authorRepository,
       AuthorMapperImpl authorMapper
   ) {

@@ -19,7 +19,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 /**
- * Represents a user in the systemm.
+ * Represents a user in the system.
  * This class contains information about a user such as name, subscription, and reviews.
  */
 @Entity
@@ -54,9 +54,47 @@ public class User {
   )
   private List<Book> favouriteBooks = new ArrayList<>();
 
+  /**
+   * Default constructor required by JPA.
+   */
   public User() {
   }
 
+  /**
+   * Constructs a User with all required fields.
+   *
+   * @param id the unique identifier for the user
+   * @param name the user's first name
+   * @param surname the user's last name
+   * @param patronymic the user's middle name
+   * @param age the user's age
+   * @param subscription the user's subscription type
+   * @param sex the user's gender
+   * @param country the user's country
+   * @param email the user's email address
+   * @param passwordHash the hashed user password
+   * @param registrationDate the date when user registered
+   * @param lastLogin the date of user's last login
+   */
+  public User(Long id, String name, String surname, String patronymic,
+      Integer age, String subscription, String sex, String country,
+      String email, String passwordHash, LocalDate registrationDate,
+      LocalDate lastLogin) {
+    this.id = id;
+    this.name = name;
+    this.surname = surname;
+    this.patronymic = patronymic;
+    this.age = age;
+    this.subscription = subscription;
+    this.sex = sex;
+    this.country = country;
+    this.email = email;
+    this.passwordHash = passwordHash;
+    this.registrationDate = registrationDate;
+    this.lastLogin = lastLogin;
+  }
+
+  // Getters and setters below...
   public Long getId() {
     return id;
   }
@@ -165,29 +203,7 @@ public class User {
     return favouriteBooks;
   }
 
-  public void setFavouriteBooks(List<Book> favouriteBooks
-  ) {
+  public void setFavouriteBooks(List<Book> favouriteBooks) {
     this.favouriteBooks = favouriteBooks;
-  }
-
-  public User(Long id, String name, String surname, String patronymic,
-      Integer age, String subscription, String sex, String country,
-      String email, String passwordHash, LocalDate registrationDate,
-      LocalDate lastLogin
-  ) {
-    this.id = id;
-    this.name = name;
-    this.surname = surname;
-    this.patronymic = patronymic;
-    this.age = age;
-    this.subscription = subscription;
-    this.sex = sex;
-    this.country = country;
-    this.email = email;
-    this.passwordHash = passwordHash;
-    this.registrationDate = registrationDate;
-    this.lastLogin = lastLogin;
-
-
   }
 }

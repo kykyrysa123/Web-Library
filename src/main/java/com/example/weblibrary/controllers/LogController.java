@@ -44,6 +44,7 @@ public class LogController {
    * @throws LogsNotFoundException if no logs found for specified date
    * @throws LogProcessingException if error occurs while processing logs
    */
+
   @GetMapping
   public ResponseEntity<byte[]> getLogsByDate(
       @RequestParam(name = "date") String dateString) {
