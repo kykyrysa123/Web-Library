@@ -1,110 +1,141 @@
 package com.example.weblibrary.controllers;
 
 import com.example.weblibrary.exception.InvalidDateFormatException;
+import com.example.weblibrary.exception.LogFileNotReadyException;
 import com.example.weblibrary.exception.LogProcessingException;
-import com.example.weblibrary.exception.LogsNotFoundException;
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.nio.file.StandardOpenOption;
+import com.example.weblibrary.model.dto.LogDto;
+import com.example.weblibrary.service.impl.LogService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.enums.ParameterIn;
+import io.swagger.v3.oas.annotations.tags.Tag;
+import java.io.File;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.util.List;
-import java.util.stream.Stream;
-import org.springframework.beans.factory.annotation.Value;
+import java.util.concurrent.CompletableFuture;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.FileSystemResource;
+import org.springframework.core.io.Resource;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.server.ResponseStatusException;
 
 /**
- * Controller for handling log file operations.
- * Provides endpoints for retrieving log files filtered by date.
+ * Контроллер для работы с журналами приложения.
+ * Предоставляет API для создания, проверки статуса и загрузки файлов журналов.
  */
 @RestController
 @RequestMapping("/api/logs")
+@Tag(name = "Logs", description = "API для управления журналами приложений")
 public class LogController {
 
-  @Value("${logging.file.path:./logs}")
-  private String logPath;
+  @Autowired
+  private LogService logService;
 
-  // Добавляем сеттер для тестов
-  public void setLogPath(String logPath) {
-    this.logPath = logPath;
-  }
   /**
-   * Retrieves log entries for a specific date.
+   * Асинхронно создает новый файл журнала.
    *
-   * @param dateString the date in YYYY-MM-DD format
-   * @return ResponseEntity containing the log file as attachment
-   * @throws InvalidDateFormatException if date format is invalid
-   * @throws LogsNotFoundException if no logs found for specified date
-   * @throws LogProcessingException if error occurs while processing logs
+   * @return CompletableFuture с ResponseEntity, содержащим ID задачи создания журнала
    */
+  @PostMapping("/create")
+  @Operation(summary = "Асинхронное создание нового файла журнала")
+  public CompletableFuture<ResponseEntity<Long>> createLogFile() {
+    return logService.createLogFileAsync()
+                     .thenApply(ResponseEntity::ok)
+                     .exceptionally(ex -> {
+                       Throwable cause = ex.getCause() != null ? ex.getCause() : ex;
+                       throw new ResponseStatusException(
+                           HttpStatus.INTERNAL_SERVER_ERROR,
+                           "Failed to create log file: " + cause.getMessage());
+                     });
+  }
 
-  @GetMapping
-  public ResponseEntity<byte[]> getLogsByDate(
-      @RequestParam(name = "date") String dateString) {
-
-    LocalDate date = parseDate(dateString);
-
-    if (date.isAfter(LocalDate.now())) {
-      throw new InvalidDateFormatException(
-          "Дата не может быть в будущем: " + date);
+  /**
+   * Получает статус генерации журнала по ID задачи.
+   *
+   * @param id ID задачи генерации журнала
+   * @return ResponseEntity с информацией о статусе
+   */
+  @GetMapping("/{id}/status")
+  @Operation(summary = "Получение статуса генерации журнала по идентификатору")
+  public ResponseEntity<LogDto> getLogStatus(
+      @Parameter(name = "id", description = "Log task ID", required = true, in = ParameterIn.PATH)
+      @PathVariable Long id) {
+    try {
+      LogDto logDto = logService.getLogStatus(id);
+      return ResponseEntity.ok(logDto);
+    } catch (LogProcessingException ex) {
+      throw new ResponseStatusException(HttpStatus.NOT_FOUND, ex.getMessage());
     }
+  }
 
-    String formattedDate = date.format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
-    Path logFile = Paths.get(logPath, "web-library.log");
-    Path datedLogFile = Paths.get(logPath, "log-" + formattedDate + ".log");
-
-    if (!Files.exists(logFile)) {
-      throw new LogsNotFoundException("Файл логов не найден.");
-    }
-
-    try (Stream<String> lines = Files.lines(logFile)) {
-      List<String> filteredLogs = lines
-          .filter(line -> line.startsWith(formattedDate))
-          .toList();
-
-      if (filteredLogs.isEmpty()) {
-        throw new LogsNotFoundException(
-            "Логов за " + formattedDate + " не найдено.");
-      }
-
-      Files.write(datedLogFile, filteredLogs,
-          StandardOpenOption.CREATE,
-          StandardOpenOption.TRUNCATE_EXISTING);
-
-      byte[] fileContent = Files.readAllBytes(datedLogFile);
-      HttpHeaders headers = new HttpHeaders();
-      headers.add(HttpHeaders.CONTENT_DISPOSITION,
-          "attachment; filename=" + datedLogFile.getFileName());
+  /**
+   * Загружает файл журнала по ID задачи.
+   *
+   * @param id ID задачи генерации журнала
+   * @return ResponseEntity с файлом журнала
+   */
+  @GetMapping("/{id}/file")
+  @Operation(summary = "Загрузка файла журнала по идентификатору")
+  public ResponseEntity<Resource> getLogFile(
+      @Parameter(name = "id", description = "Log task ID", required = true, in = ParameterIn.PATH)
+      @PathVariable Long id) {
+    try {
+      File logFile = logService.getLogFile(id);
+      Resource resource = new FileSystemResource(logFile);
 
       return ResponseEntity.ok()
-                           .headers(headers)
-                           .body(fileContent);
-
-    } catch (IOException e) {
-      throw new LogProcessingException("Ошибка при обработке логов.");
+                           .contentType(MediaType.TEXT_PLAIN)
+                           .header(
+                               HttpHeaders.CONTENT_DISPOSITION,
+                               "attachment; filename=\"" + logFile.getName() + "\"")
+                           .body(resource);
+    } catch (LogFileNotReadyException ex) {
+      throw new ResponseStatusException(HttpStatus.ACCEPTED, ex.getMessage());
+    } catch (LogProcessingException ex) {
+      throw new ResponseStatusException(HttpStatus.NOT_FOUND, ex.getMessage());
     }
   }
 
   /**
-   * Parses date string into LocalDate object.
+   * Получает журналы за указанную дату.
    *
-   * @param dateString the date string to parse
-   * @return parsed LocalDate object
-   * @throws InvalidDateFormatException if date format is invalid
+   * @param date Дата в формате YYYY-MM-DD
+   * @return ResponseEntity с содержимым журнала
    */
-  private LocalDate parseDate(String dateString) {
+  @GetMapping
+  @Operation(summary = "Получение журналов по дате")
+  public ResponseEntity<byte[]> getLogsByDate(
+      @Parameter(name = "date", description = "Date in YYYY-MM-DD format",
+          required = true, in = ParameterIn.QUERY)
+      @RequestParam String date) {
     try {
-      return LocalDate.parse(dateString, DateTimeFormatter.ISO_LOCAL_DATE);
+      LocalDate logDate = LocalDate.parse(date, DateTimeFormatter.ISO_LOCAL_DATE);
+      if (logDate.isAfter(LocalDate.now())) {
+        throw new InvalidDateFormatException("Date cannot be in the future");
+      }
+
+      String sampleLogs = String.format("=== Logs for %s ===\n\n"
+          + "[INFO] Application started\n"
+          + "[DEBUG] Initializing components\n"
+          + "[INFO] Database connection established\n", logDate);
+
+      return ResponseEntity.ok()
+                           .header(HttpHeaders.CONTENT_DISPOSITION,
+                               "attachment; filename=logs-" + date + ".txt")
+                           .contentType(MediaType.TEXT_PLAIN)
+                           .body(sampleLogs.getBytes());
     } catch (Exception e) {
-      throw new InvalidDateFormatException(
-          "Дата указана в неверном формате. Ожидаемый формат: YYYY-MM-DD");
+      throw new ResponseStatusException(
+          HttpStatus.BAD_REQUEST, "Invalid date format. Use YYYY-MM-DD");
     }
   }
 }

@@ -2,7 +2,7 @@ package com.example.weblibrary.service.impl;
 
 import com.example.weblibrary.mapper.ReviewMapperImpl;
 import com.example.weblibrary.model.Book;
-import com.example.weblibrary.model.Review;
+import com.example.weblibrary.model.Log;
 import com.example.weblibrary.model.User;
 import com.example.weblibrary.model.dto.ReviewDtoRequest;
 import com.example.weblibrary.model.dto.ReviewDtoResponse;
@@ -67,7 +67,7 @@ public class ReviewServiceImpl implements CrudService<ReviewDtoRequest,
     }
 
     log.debug("Review with id={} retrieved from the database", id);
-    Review review = reviewRepository.findById(id).orElseThrow(
+    Log.Review review = reviewRepository.findById(id).orElseThrow(
         () -> new RuntimeException(REVIEW_NOT_FOUND_MESSAGE + id));
 
     ReviewDtoResponse response = reviewMapper.toReviewDtoResponse(review);
@@ -85,11 +85,11 @@ public class ReviewServiceImpl implements CrudService<ReviewDtoRequest,
         () -> new RuntimeException(
             "User not found with id: " + reviewDtoRequest.userId()));
 
-    Review review = reviewMapper.toReviewEntity(reviewDtoRequest);
+    Log.Review review = reviewMapper.toReviewEntity(reviewDtoRequest);
     review.setBook(book);
     review.setUser(user);
 
-    Review savedReview = reviewRepository.save(review);
+    Log.Review savedReview = reviewRepository.save(review);
     ReviewDtoResponse response = reviewMapper.toReviewDtoResponse(savedReview);
 
     reviewCache.put(savedReview.getId(), response);
@@ -100,15 +100,15 @@ public class ReviewServiceImpl implements CrudService<ReviewDtoRequest,
 
   @Override
   public ReviewDtoResponse update(Long id, ReviewDtoRequest reviewDtoRequest) {
-    Review savedReview = reviewRepository.findById(id).orElseThrow(
+    Log.Review savedReview = reviewRepository.findById(id).orElseThrow(
         () -> new RuntimeException(REVIEW_NOT_FOUND_MESSAGE + id));
 
-    Review updateReview = reviewMapper.toReviewEntity(reviewDtoRequest);
+    Log.Review updateReview = reviewMapper.toReviewEntity(reviewDtoRequest);
     updateReview.setId(id);
     updateReview.setBook(savedReview.getBook());
     updateReview.setUser(savedReview.getUser());
 
-    Review updatedReview = reviewRepository.save(updateReview);
+    Log.Review updatedReview = reviewRepository.save(updateReview);
     ReviewDtoResponse response = reviewMapper.toReviewDtoResponse(
         updatedReview);
 
@@ -120,7 +120,7 @@ public class ReviewServiceImpl implements CrudService<ReviewDtoRequest,
 
   @Override
   public void delete(Long id) {
-    Review review = reviewRepository.findById(id).orElseThrow(
+    Log.Review review = reviewRepository.findById(id).orElseThrow(
         () -> new RuntimeException(REVIEW_NOT_FOUND_MESSAGE + id));
 
     reviewRepository.delete(review);

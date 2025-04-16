@@ -2,6 +2,7 @@ package com.example.weblibrary;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.scheduling.annotation.EnableAsync;
 
 /**
  * This package contains the core components for a blog application built with
@@ -9,6 +10,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
  * classes for blog functionalities.
  */
 @SpringBootApplication
+@EnableAsync
 public class WebLibraryApplication {
 
   /**

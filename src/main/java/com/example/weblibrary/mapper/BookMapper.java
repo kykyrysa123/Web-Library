@@ -5,6 +5,7 @@ import com.example.weblibrary.model.dto.BookDtoRequest;
 import com.example.weblibrary.model.dto.BookDtoResponse;
 import java.util.List;
 import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
 
 /**
  * Mapper interface for converting between Book entities and DTOs. Provides

@@ -63,7 +63,7 @@ public class Book {
 
   @OneToMany(mappedBy = "book", fetch = FetchType.LAZY,
       cascade = CascadeType.ALL, orphanRemoval = true)
-  private List<Review> review;
+  private List<Log.Review> review;
   /**
   constructor default.
   */
@@ -188,11 +188,12 @@ public class Book {
     this.author = author;
   }
 
-  public List<Review> getReview() {
+  public List<Log.Review> getReview() {
     return review;
   }
 
-  public void setReview(List<Review> review) {
+  public void setReview(List<Log.Review> review) {
     this.review = review;
   }
+
 }

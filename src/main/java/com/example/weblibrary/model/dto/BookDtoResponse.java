@@ -1,6 +1,7 @@
 package com.example.weblibrary.model.dto;
 
 import java.time.LocalDate;
+import java.util.List;
 
 
 /**
@@ -22,6 +23,8 @@ public record BookDtoResponse(
     Long id, String title, String publisher,
     String isbn, Long pages, String genre,
     LocalDate publishDate, String language,
-    String description, String imageUrl
+    String description,
+    String imageUrl,
+    AuthorDtoResponse author
 ) {
 }

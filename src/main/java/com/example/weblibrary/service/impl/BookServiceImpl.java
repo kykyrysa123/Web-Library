@@ -166,7 +166,7 @@ public class BookServiceImpl implements CrudService<BookDtoRequest, BookDtoRespo
           () -> new RuntimeException(AUTHOR_NOT_FOUND_MESSAGE + request.authorId()));
       Book book = bookMapper.toBookEntity(request);
       book.setAuthor(author);
-      return book;
+      return book;  
     }).toList();
     List<Book> savedBooks = bookRepository.saveAll(books);
     savedBooks.forEach(book ->

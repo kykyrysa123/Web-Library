@@ -20,7 +20,7 @@ import java.util.List;
  * This class contains information about a user such as name, subscription, and reviews.
  */
 @Entity
-@Table(name = "users")
+@Table(name = "user")
 public class User {
 
   @Id
@@ -41,7 +41,7 @@ public class User {
 
   @OneToMany(mappedBy = "user", cascade = CascadeType.ALL,
       orphanRemoval = true, fetch = FetchType.LAZY)
-  private List<Review> reviews = new ArrayList<>();
+  private List<Log.Review> reviews = new ArrayList<>();
 
   @ManyToMany(fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.MERGE})
   @JoinTable(
@@ -188,11 +188,11 @@ public class User {
     this.lastLogin = lastLogin;
   }
 
-  public List<Review> getReviews() {
+  public List<Log.Review> getReviews() {
     return reviews;
   }
 
-  public void setReviews(List<Review> reviews) {
+  public void setReviews(List<Log.Review> reviews) {
     this.reviews = reviews;
   }
 

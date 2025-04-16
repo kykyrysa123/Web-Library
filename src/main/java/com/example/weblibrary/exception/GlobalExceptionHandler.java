@@ -118,7 +118,7 @@ public class GlobalExceptionHandler {
 
     Map<String, String> errorDetails = new HashMap<>();
     errorDetails.put("server",
-        "Произошла непредвиденная ошибка. Проверьте корректность вашего ввода.");
+        "Произошла непредвиденная ошибка. Проверьте корректность вашего запроса.");
 
     return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(
         new ErrorResponse("Внутренняя ошибка сервера",

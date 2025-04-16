@@ -30,7 +30,7 @@ public interface BookRepository extends JpaRepository<Book, Long> {
    * @param title часть заголовка книги для поиска
    * @return список книг с заголовками, содержащими указанную строку
    */
-  @Query(value = "SELECT * FROM book WHERE title ILIKE %:title%", nativeQuery = true)
+  @Query(value = "SELECT * FROM book WHERE title LIKE %:title%", nativeQuery = true)
   List<Book> findByTitleLike(@Param("title") String title);
 
   /**

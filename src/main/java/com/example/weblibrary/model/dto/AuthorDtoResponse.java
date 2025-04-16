@@ -28,16 +28,15 @@ public record AuthorDtoResponse(
     LocalDate deathDate,
     String biography,
     String genreSpecialization,
-    Double rating,
-    List<BookDtoResponse> books
+    Double rating
 ) {
-  /**
+/*  *
    * Creates a simplified AuthorDtoResponse with only ID and name.
    *
    * @param id   the unique identifier of the author
-   * @param name the first name of the author
-   */
+   * @param name the first name of the author*/
+
   public AuthorDtoResponse(Long id, String name) {
-    this(id, name, null, null, null, null, null, null, null, null);
+    this(id, name, null, null, null, null, null, null, null);
   }
 }

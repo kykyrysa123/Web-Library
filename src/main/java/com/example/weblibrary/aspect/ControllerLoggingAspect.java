@@ -8,6 +8,8 @@ import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
 import org.aspectj.lang.annotation.Pointcut;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 /**
@@ -19,6 +21,8 @@ import org.springframework.stereotype.Component;
 @Component
 @Slf4j
 public class ControllerLoggingAspect {
+
+  private static final Logger logger = LoggerFactory.getLogger(ControllerLoggingAspect.class);
 
   /**
    * Pointcut that matches all methods in controller classes.
@@ -74,5 +78,30 @@ public class ControllerLoggingAspect {
         joinPoint.getSignature().getName(),
         duration);
     return result;
+  }
+
+  /**
+   * Logs before execution of VisitController methods.
+   *
+   * @param joinPoint the join point containing method information
+   */
+  @Before("execution(* com.example.weblibrary.controllers.VisitController.*(..))")
+  public void logBefore(JoinPoint joinPoint) {
+    logger.info("Entering method: {} with arguments: {}",
+        joinPoint.getSignature().getName(), joinPoint.getArgs());
+  }
+
+  /**
+   * Logs after successful execution of VisitController methods.
+   *
+   * @param joinPoint the join point containing method information
+   * @param result the return value from the method
+   */
+  @AfterReturning(
+      pointcut = "execution(* com.example.weblibrary.controllers.VisitController.*(..))",
+      returning = "result")
+  public void logAfterReturning(JoinPoint joinPoint, Object result) {
+    logger.info("Method {} executed successfully with result: {}",
+        joinPoint.getSignature().getName(), result);
   }
 }

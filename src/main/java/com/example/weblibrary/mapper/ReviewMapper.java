@@ -1,6 +1,6 @@
 package com.example.weblibrary.mapper;
 
-import com.example.weblibrary.model.Review;
+import com.example.weblibrary.model.Log;
 import com.example.weblibrary.model.dto.ReviewDtoRequest;
 import com.example.weblibrary.model.dto.ReviewDtoResponse;
 import java.util.List;
@@ -20,7 +20,7 @@ public interface ReviewMapper {
    *     The DTO containing review data.
    * @return The corresponding Review entity.
    */
-  Review toReviewEntity(ReviewDtoRequest reviewDtoRequest);
+  Log.Review toReviewEntity(ReviewDtoRequest reviewDtoRequest);
 
   /**
    * Converts a Review entity to a ReviewDtoResponse.
@@ -29,7 +29,7 @@ public interface ReviewMapper {
    *     The Review entity.
    * @return The corresponding ReviewDtoResponse.
    */
-  ReviewDtoResponse toReviewDtoResponse(Review review);
+  ReviewDtoResponse toReviewDtoResponse(Log.Review review);
 
   /**
    * Converts a list of Review entities to a list of ReviewDtoResponse.
@@ -38,7 +38,7 @@ public interface ReviewMapper {
    *     The list of Review entities.
    * @return The list of corresponding ReviewDtoResponse objects.
    */
-  List<ReviewDtoResponse> toReviewDtoResponse(List<Review> review);
+  List<ReviewDtoResponse> toReviewDtoResponse(List<Log.Review> review);
 
 
 }
