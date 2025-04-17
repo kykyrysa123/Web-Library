@@ -1,9 +1,8 @@
 package com.example.weblibrary.model;
 
 import jakarta.persistence.*;
-import lombok.NonNull;
-
 import java.time.LocalDate;
+import lombok.NonNull;
 
 /**
  * Entity class representing a Log entry.

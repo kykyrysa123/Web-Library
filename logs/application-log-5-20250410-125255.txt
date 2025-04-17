@@ -1,0 +1,9 @@
+=== APPLICATION LOGS [ID: 5] ===
+=== Generated at: 2025-04-10 12:52:55.801 ===
+
+[INFO] 2025-04-10 12:52:55.801 - Application started
+[DEBUG] 2025-04-10 12:52:55.801 - Initializing components for log ID: 5
+[INFO] 2025-04-10 12:52:55.801 - Database connection established
+[WARN] 2025-04-10 12:52:55.801 - Cache size exceeds threshold (85%)
+[ERROR] 2025-04-10 12:52:55.801 - Failed to connect to external service - retrying...
+[INFO] 2025-04-10 12:52:55.801 - Log file generation completed successfully

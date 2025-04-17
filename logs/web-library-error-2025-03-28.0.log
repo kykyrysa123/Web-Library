@@ -1,0 +1,31 @@
+2025-03-28 09:45:51.843 [SpringApplicationShutdownHook] ERROR o.h.t.s.i.SchemaDropperImpl$DelayedDropActionImpl - HHH000478: Unsuccessful: 
+    drop table if exists user cascade 
+2025-03-28 10:13:09.316 [restartedMain] ERROR o.s.b.d.LoggingFailureAnalysisReporter - 
+
+***************************
+APPLICATION FAILED TO START
+***************************
+
+Description:
+
+Parameter 2 of constructor in com.example.weblibrary.service.impl.AuthorServiceImpl required a bean of type 'com.example.weblibrary.service.cache.SimpleCache' that could not be found.
+
+
+Action:
+
+Consider defining a bean of type 'com.example.weblibrary.service.cache.SimpleCache' in your configuration.
+
+2025-03-29 23:28:14.707 [restartedMain] ERROR o.s.b.d.LoggingFailureAnalysisReporter - 
+
+***************************
+APPLICATION FAILED TO START
+***************************
+
+Description:
+
+Web server failed to start. Port 228 was already in use.
+
+Action:
+
+Identify and stop the process that's listening on port 228 or configure this application to listen on another port.
+

@@ -1,0 +1,288 @@
+2025-04-04 09:05:33.066 [background-preinit] INFO  o.h.validator.internal.util.Version - HV000001: Hibernate Validator 8.0.1.Final
+2025-04-04 09:05:33.112 [restartedMain] INFO  c.e.weblibrary.WebLibraryApplication - Starting WebLibraryApplication using Java 17.0.14 with PID 24820 (C:\Users\Artem\IdeaProjects\web-library\target\classes started by Artem in C:\Users\Artem\IdeaProjects\web-library)
+2025-04-04 09:05:33.112 [restartedMain] DEBUG c.e.weblibrary.WebLibraryApplication - Running with Spring Boot v3.2.4, Spring v6.1.5
+2025-04-04 09:05:33.113 [restartedMain] INFO  c.e.weblibrary.WebLibraryApplication - The following 1 profile is active: "C:\Users\Artem\IdeaProjects\web-library"
+2025-04-04 09:05:33.150 [restartedMain] INFO  o.s.b.d.e.DevToolsPropertyDefaultsPostProcessor - Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable
+2025-04-04 09:05:33.150 [restartedMain] INFO  o.s.b.d.e.DevToolsPropertyDefaultsPostProcessor - For additional web related logging consider setting the 'logging.level.web' property to 'DEBUG'
+2025-04-04 09:05:33.841 [restartedMain] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2025-04-04 09:05:33.891 [restartedMain] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 44 ms. Found 5 JPA repository interfaces.
+2025-04-04 09:05:34.373 [restartedMain] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat initialized with port 228 (http)
+2025-04-04 09:05:34.381 [restartedMain] INFO  o.a.coyote.http11.Http11NioProtocol - Initializing ProtocolHandler ["http-nio-228"]
+2025-04-04 09:05:34.382 [restartedMain] INFO  o.a.catalina.core.StandardService - Starting service [Tomcat]
+2025-04-04 09:05:34.383 [restartedMain] INFO  o.a.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/10.1.19]
+2025-04-04 09:05:34.434 [restartedMain] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+2025-04-04 09:05:34.434 [restartedMain] INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 1283 ms
+2025-04-04 09:05:34.457 [restartedMain] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
+2025-04-04 09:05:34.784 [restartedMain] INFO  com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Added connection com.mysql.cj.jdbc.ConnectionImpl@4b827a28
+2025-04-04 09:05:34.786 [restartedMain] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
+2025-04-04 09:05:34.792 [restartedMain] INFO  o.s.b.a.h.H2ConsoleAutoConfiguration - H2 console available at '/h2-console'. Database available at 'jdbc:mysql://localhost:3306/weblibrary'
+2025-04-04 09:05:34.891 [restartedMain] INFO  o.h.jpa.internal.util.LogHelper - HHH000204: Processing PersistenceUnitInfo [name: default]
+2025-04-04 09:05:34.956 [restartedMain] INFO  org.hibernate.Version - HHH000412: Hibernate ORM core version 6.4.4.Final
+2025-04-04 09:05:34.989 [restartedMain] INFO  o.h.c.i.RegionFactoryInitiator - HHH000026: Second-level cache disabled
+2025-04-04 09:05:35.195 [restartedMain] INFO  o.s.o.j.p.SpringPersistenceUnitInfo - No LoadTimeWeaver setup: ignoring JPA class transformer
+2025-04-04 09:05:35.260 [restartedMain] WARN  org.hibernate.orm.deprecation - HHH90000025: MySQL8Dialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+2025-04-04 09:05:35.261 [restartedMain] WARN  org.hibernate.orm.deprecation - HHH90000026: MySQL8Dialect has been deprecated; use org.hibernate.dialect.MySQLDialect instead
+2025-04-04 09:05:35.273 [restartedMain] DEBUG o.h.t.d.sql.spi.DdlTypeRegistry - addDescriptor(12, org.hibernate.type.descriptor.sql.internal.CapacityDependentDdlType@123a16fa) replaced previous registration(org.hibernate.type.descriptor.sql.internal.CapacityDependentDdlType@7ef11248)
+2025-04-04 09:05:35.273 [restartedMain] DEBUG o.h.t.d.sql.spi.DdlTypeRegistry - addDescriptor(-9, org.hibernate.type.descriptor.sql.internal.CapacityDependentDdlType@2a9b2ca6) replaced previous registration(org.hibernate.type.descriptor.sql.internal.CapacityDependentDdlType@4aa79431)
+2025-04-04 09:05:35.273 [restartedMain] DEBUG o.h.t.d.sql.spi.DdlTypeRegistry - addDescriptor(-3, org.hibernate.type.descriptor.sql.internal.CapacityDependentDdlType@868c659) replaced previous registration(org.hibernate.type.descriptor.sql.internal.CapacityDependentDdlType@7e7de64e)
+2025-04-04 09:05:35.273 [restartedMain] DEBUG o.h.t.d.sql.spi.DdlTypeRegistry - addDescriptor(4003, org.hibernate.type.descriptor.sql.internal.DdlTypeImpl@df01b3b) replaced previous registration(org.hibernate.type.descriptor.sql.internal.DdlTypeImpl@7b0010a8)
+2025-04-04 09:05:35.273 [restartedMain] DEBUG o.h.t.d.sql.spi.DdlTypeRegistry - addDescriptor(4001, org.hibernate.type.descriptor.sql.internal.DdlTypeImpl@35944b9f) replaced previous registration(org.hibernate.type.descriptor.sql.internal.DdlTypeImpl@24ca84f5)
+2025-04-04 09:05:35.273 [restartedMain] DEBUG o.h.t.d.sql.spi.DdlTypeRegistry - addDescriptor(4002, org.hibernate.type.descriptor.sql.internal.DdlTypeImpl@29ee7a94) replaced previous registration(org.hibernate.type.descriptor.sql.internal.DdlTypeImpl@5210ba51)
+2025-04-04 09:05:35.274 [restartedMain] DEBUG o.h.t.d.sql.spi.DdlTypeRegistry - addDescriptor(2004, org.hibernate.type.descriptor.sql.internal.CapacityDependentDdlType@45cfdb3f) replaced previous registration(org.hibernate.type.descriptor.sql.internal.DdlTypeImpl@35d2025f)
+2025-04-04 09:05:35.274 [restartedMain] DEBUG o.h.t.d.sql.spi.DdlTypeRegistry - addDescriptor(2005, org.hibernate.type.descriptor.sql.internal.CapacityDependentDdlType@6f32e4ab) replaced previous registration(org.hibernate.type.descriptor.sql.internal.DdlTypeImpl@38a7092e)
+2025-04-04 09:05:35.274 [restartedMain] DEBUG o.h.t.d.sql.spi.DdlTypeRegistry - addDescriptor(2011, org.hibernate.type.descriptor.sql.internal.CapacityDependentDdlType@30a2b26) replaced previous registration(org.hibernate.type.descriptor.sql.internal.DdlTypeImpl@266f11e2)
+2025-04-04 09:05:35.987 [restartedMain] INFO  o.h.e.t.j.p.i.JtaPlatformInitiator - HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2025-04-04 09:05:35.999 [restartedMain] DEBUG org.hibernate.SQL - 
+2025-04-04 09:05:36.034 [restartedMain] WARN  o.h.t.s.i.ExceptionHandlerLoggedImpl - GenerationTarget encountered exception accepting command : Error executing DDL "
+2025-04-04 09:05:36.036 [restartedMain] DEBUG org.hibernate.SQL - 
+2025-04-04 09:05:36.038 [restartedMain] WARN  o.h.t.s.i.ExceptionHandlerLoggedImpl - GenerationTarget encountered exception accepting command : Error executing DDL "
+2025-04-04 09:05:36.038 [restartedMain] DEBUG org.hibernate.SQL - 
+2025-04-04 09:05:36.039 [restartedMain] WARN  o.h.t.s.i.ExceptionHandlerLoggedImpl - GenerationTarget encountered exception accepting command : Error executing DDL "
+2025-04-04 09:05:36.039 [restartedMain] DEBUG org.hibernate.SQL - 
+2025-04-04 09:05:36.041 [restartedMain] WARN  o.h.t.s.i.ExceptionHandlerLoggedImpl - GenerationTarget encountered exception accepting command : Error executing DDL "
+2025-04-04 09:05:36.041 [restartedMain] DEBUG org.hibernate.SQL - 
+2025-04-04 09:05:36.043 [restartedMain] WARN  o.h.t.s.i.ExceptionHandlerLoggedImpl - GenerationTarget encountered exception accepting command : Error executing DDL "
+2025-04-04 09:05:36.043 [restartedMain] DEBUG org.hibernate.SQL - 
+2025-04-04 09:05:36.054 [restartedMain] DEBUG org.hibernate.SQL - 
+2025-04-04 09:05:36.058 [restartedMain] DEBUG org.hibernate.SQL - 
+2025-04-04 09:05:36.062 [restartedMain] DEBUG org.hibernate.SQL - 
+2025-04-04 09:05:36.066 [restartedMain] DEBUG org.hibernate.SQL - 
+2025-04-04 09:05:36.070 [restartedMain] DEBUG org.hibernate.SQL - 
+2025-04-04 09:05:36.078 [restartedMain] DEBUG org.hibernate.SQL - 
+2025-04-04 09:05:36.124 [restartedMain] DEBUG org.hibernate.SQL - 
+2025-04-04 09:05:36.169 [restartedMain] DEBUG org.hibernate.SQL - 
+2025-04-04 09:05:36.207 [restartedMain] DEBUG org.hibernate.SQL - 
+2025-04-04 09:05:36.250 [restartedMain] DEBUG org.hibernate.SQL - 
+2025-04-04 09:05:36.290 [restartedMain] DEBUG org.hibernate.SQL - 
+2025-04-04 09:05:36.328 [restartedMain] DEBUG org.hibernate.SQL - 
+2025-04-04 09:05:36.357 [restartedMain] DEBUG org.hibernate.SQL - 
+2025-04-04 09:05:36.474 [restartedMain] DEBUG org.hibernate.SQL - 
+2025-04-04 09:05:36.570 [restartedMain] DEBUG org.hibernate.SQL - 
+2025-04-04 09:05:36.718 [restartedMain] DEBUG org.hibernate.SQL - 
+2025-04-04 09:05:36.825 [restartedMain] DEBUG org.hibernate.SQL - 
+2025-04-04 09:05:36.915 [restartedMain] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Initialized JPA EntityManagerFactory for persistence unit 'default'
+2025-04-04 09:05:37.149 [restartedMain] INFO  o.s.d.j.r.query.QueryEnhancerFactory - Hibernate is in classpath; If applicable, HQL parser will be used.
+2025-04-04 09:05:37.596 [restartedMain] WARN  o.s.b.a.o.j.JpaBaseConfiguration$JpaWebConfiguration - spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2025-04-04 09:05:37.911 [restartedMain] INFO  o.s.b.d.a.OptionalLiveReloadServer - LiveReload server is running on port 35729
+2025-04-04 09:05:37.926 [restartedMain] INFO  o.a.coyote.http11.Http11NioProtocol - Starting ProtocolHandler ["http-nio-228"]
+2025-04-04 09:05:37.939 [restartedMain] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat started on port 228 (http) with context path ''
+2025-04-04 09:05:37.944 [restartedMain] INFO  c.e.weblibrary.WebLibraryApplication - Started WebLibraryApplication in 5.256 seconds (process running for 5.803)
+2025-04-04 09:06:32.150 [http-nio-228-exec-1] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring DispatcherServlet 'dispatcherServlet'
+2025-04-04 09:06:32.150 [http-nio-228-exec-1] INFO  o.s.web.servlet.DispatcherServlet - Initializing Servlet 'dispatcherServlet'
+2025-04-04 09:06:32.150 [http-nio-228-exec-1] INFO  o.s.web.servlet.DispatcherServlet - Completed initialization in 0 ms
+2025-04-04 09:06:32.191 [http-nio-228-exec-1] ERROR c.e.w.e.GlobalExceptionHandler - Unexpected error occurred
+2025-04-04 09:06:32.265 [http-nio-228-exec-1] WARN  o.s.w.s.m.m.a.ExceptionHandlerExceptionResolver - Resolved [org.springframework.web.servlet.resource.NoResourceFoundException: No static resource api/authorss.]
+2025-04-04 09:07:13.768 [SpringApplicationShutdownHook] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Closing JPA EntityManagerFactory for persistence unit 'default'
+2025-04-04 09:07:13.769 [SpringApplicationShutdownHook] DEBUG org.hibernate.SQL - 
+2025-04-04 09:07:13.788 [SpringApplicationShutdownHook] DEBUG org.hibernate.SQL - 
+2025-04-04 09:07:13.801 [SpringApplicationShutdownHook] DEBUG org.hibernate.SQL - 
+2025-04-04 09:07:13.818 [SpringApplicationShutdownHook] DEBUG org.hibernate.SQL - 
+2025-04-04 09:07:13.832 [SpringApplicationShutdownHook] DEBUG org.hibernate.SQL - 
+2025-04-04 09:07:13.845 [SpringApplicationShutdownHook] DEBUG org.hibernate.SQL - 
+2025-04-04 09:07:13.872 [SpringApplicationShutdownHook] DEBUG org.hibernate.SQL - 
+2025-04-04 09:07:13.891 [SpringApplicationShutdownHook] DEBUG org.hibernate.SQL - 
+2025-04-04 09:07:13.909 [SpringApplicationShutdownHook] DEBUG org.hibernate.SQL - 
+2025-04-04 09:07:13.928 [SpringApplicationShutdownHook] DEBUG org.hibernate.SQL - 
+2025-04-04 09:07:13.946 [SpringApplicationShutdownHook] DEBUG org.hibernate.SQL - 
+2025-04-04 09:07:13.967 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown initiated...
+2025-04-04 09:07:13.973 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown completed.
+2025-04-04 09:07:17.057 [background-preinit] INFO  o.h.validator.internal.util.Version - HV000001: Hibernate Validator 8.0.1.Final
+2025-04-04 09:07:17.083 [restartedMain] INFO  c.e.weblibrary.WebLibraryApplication - Starting WebLibraryApplication using Java 17.0.14 with PID 11456 (C:\Users\Artem\IdeaProjects\web-library\target\classes started by Artem in C:\Users\Artem\IdeaProjects\web-library)
+2025-04-04 09:07:17.084 [restartedMain] DEBUG c.e.weblibrary.WebLibraryApplication - Running with Spring Boot v3.2.4, Spring v6.1.5
+2025-04-04 09:07:17.084 [restartedMain] INFO  c.e.weblibrary.WebLibraryApplication - The following 1 profile is active: "C:\Users\Artem\IdeaProjects\web-library"
+2025-04-04 09:07:17.116 [restartedMain] INFO  o.s.b.d.e.DevToolsPropertyDefaultsPostProcessor - Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable
+2025-04-04 09:07:17.116 [restartedMain] INFO  o.s.b.d.e.DevToolsPropertyDefaultsPostProcessor - For additional web related logging consider setting the 'logging.level.web' property to 'DEBUG'
+2025-04-04 09:07:17.655 [restartedMain] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2025-04-04 09:07:17.696 [restartedMain] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 36 ms. Found 5 JPA repository interfaces.
+2025-04-04 09:07:18.099 [restartedMain] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat initialized with port 228 (http)
+2025-04-04 09:07:18.105 [restartedMain] INFO  o.a.coyote.http11.Http11NioProtocol - Initializing ProtocolHandler ["http-nio-228"]
+2025-04-04 09:07:18.106 [restartedMain] INFO  o.a.catalina.core.StandardService - Starting service [Tomcat]
+2025-04-04 09:07:18.106 [restartedMain] INFO  o.a.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/10.1.19]
+2025-04-04 09:07:18.148 [restartedMain] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+2025-04-04 09:07:18.148 [restartedMain] INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 1032 ms
+2025-04-04 09:07:18.168 [restartedMain] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
+2025-04-04 09:07:18.349 [restartedMain] INFO  com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Added connection com.mysql.cj.jdbc.ConnectionImpl@c30b2ef
+2025-04-04 09:07:18.351 [restartedMain] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
+2025-04-04 09:07:18.357 [restartedMain] INFO  o.s.b.a.h.H2ConsoleAutoConfiguration - H2 console available at '/h2-console'. Database available at 'jdbc:mysql://localhost:3306/weblibrary'
+2025-04-04 09:07:18.458 [restartedMain] INFO  o.h.jpa.internal.util.LogHelper - HHH000204: Processing PersistenceUnitInfo [name: default]
+2025-04-04 09:07:18.494 [restartedMain] INFO  org.hibernate.Version - HHH000412: Hibernate ORM core version 6.4.4.Final
+2025-04-04 09:07:18.523 [restartedMain] INFO  o.h.c.i.RegionFactoryInitiator - HHH000026: Second-level cache disabled
+2025-04-04 09:07:18.701 [restartedMain] INFO  o.s.o.j.p.SpringPersistenceUnitInfo - No LoadTimeWeaver setup: ignoring JPA class transformer
+2025-04-04 09:07:18.741 [restartedMain] WARN  org.hibernate.orm.deprecation - HHH90000025: MySQL8Dialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+2025-04-04 09:07:18.742 [restartedMain] WARN  org.hibernate.orm.deprecation - HHH90000026: MySQL8Dialect has been deprecated; use org.hibernate.dialect.MySQLDialect instead
+2025-04-04 09:07:18.751 [restartedMain] DEBUG o.h.t.d.sql.spi.DdlTypeRegistry - addDescriptor(12, org.hibernate.type.descriptor.sql.internal.CapacityDependentDdlType@5e6e22af) replaced previous registration(org.hibernate.type.descriptor.sql.internal.CapacityDependentDdlType@c6f615f)
+2025-04-04 09:07:18.752 [restartedMain] DEBUG o.h.t.d.sql.spi.DdlTypeRegistry - addDescriptor(-9, org.hibernate.type.descriptor.sql.internal.CapacityDependentDdlType@52518131) replaced previous registration(org.hibernate.type.descriptor.sql.internal.CapacityDependentDdlType@9fb842d)
+2025-04-04 09:07:18.752 [restartedMain] DEBUG o.h.t.d.sql.spi.DdlTypeRegistry - addDescriptor(-3, org.hibernate.type.descriptor.sql.internal.CapacityDependentDdlType@26afa4e7) replaced previous registration(org.hibernate.type.descriptor.sql.internal.CapacityDependentDdlType@51bd5cf4)
+2025-04-04 09:07:18.752 [restartedMain] DEBUG o.h.t.d.sql.spi.DdlTypeRegistry - addDescriptor(4003, org.hibernate.type.descriptor.sql.internal.DdlTypeImpl@fbb07fb) replaced previous registration(org.hibernate.type.descriptor.sql.internal.DdlTypeImpl@5ab430cd)
+2025-04-04 09:07:18.752 [restartedMain] DEBUG o.h.t.d.sql.spi.DdlTypeRegistry - addDescriptor(4001, org.hibernate.type.descriptor.sql.internal.DdlTypeImpl@1673fe0) replaced previous registration(org.hibernate.type.descriptor.sql.internal.DdlTypeImpl@3a8689c4)
+2025-04-04 09:07:18.752 [restartedMain] DEBUG o.h.t.d.sql.spi.DdlTypeRegistry - addDescriptor(4002, org.hibernate.type.descriptor.sql.internal.DdlTypeImpl@6dd5d5b0) replaced previous registration(org.hibernate.type.descriptor.sql.internal.DdlTypeImpl@169ca29f)
+2025-04-04 09:07:18.752 [restartedMain] DEBUG o.h.t.d.sql.spi.DdlTypeRegistry - addDescriptor(2004, org.hibernate.type.descriptor.sql.internal.CapacityDependentDdlType@2ebc1793) replaced previous registration(org.hibernate.type.descriptor.sql.internal.DdlTypeImpl@207a7329)
+2025-04-04 09:07:18.752 [restartedMain] DEBUG o.h.t.d.sql.spi.DdlTypeRegistry - addDescriptor(2005, org.hibernate.type.descriptor.sql.internal.CapacityDependentDdlType@63415ac3) replaced previous registration(org.hibernate.type.descriptor.sql.internal.DdlTypeImpl@10ba846e)
+2025-04-04 09:07:18.753 [restartedMain] DEBUG o.h.t.d.sql.spi.DdlTypeRegistry - addDescriptor(2011, org.hibernate.type.descriptor.sql.internal.CapacityDependentDdlType@5e740965) replaced previous registration(org.hibernate.type.descriptor.sql.internal.DdlTypeImpl@2d64cab9)
+2025-04-04 09:07:19.385 [restartedMain] INFO  o.h.e.t.j.p.i.JtaPlatformInitiator - HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2025-04-04 09:07:19.393 [restartedMain] DEBUG org.hibernate.SQL - 
+2025-04-04 09:07:19.411 [restartedMain] WARN  o.h.t.s.i.ExceptionHandlerLoggedImpl - GenerationTarget encountered exception accepting command : Error executing DDL "
+2025-04-04 09:07:19.412 [restartedMain] DEBUG org.hibernate.SQL - 
+2025-04-04 09:07:19.414 [restartedMain] WARN  o.h.t.s.i.ExceptionHandlerLoggedImpl - GenerationTarget encountered exception accepting command : Error executing DDL "
+2025-04-04 09:07:19.414 [restartedMain] DEBUG org.hibernate.SQL - 
+2025-04-04 09:07:19.415 [restartedMain] WARN  o.h.t.s.i.ExceptionHandlerLoggedImpl - GenerationTarget encountered exception accepting command : Error executing DDL "
+2025-04-04 09:07:19.415 [restartedMain] DEBUG org.hibernate.SQL - 
+2025-04-04 09:07:19.416 [restartedMain] WARN  o.h.t.s.i.ExceptionHandlerLoggedImpl - GenerationTarget encountered exception accepting command : Error executing DDL "
+2025-04-04 09:07:19.417 [restartedMain] DEBUG org.hibernate.SQL - 
+2025-04-04 09:07:19.418 [restartedMain] WARN  o.h.t.s.i.ExceptionHandlerLoggedImpl - GenerationTarget encountered exception accepting command : Error executing DDL "
+2025-04-04 09:07:19.420 [restartedMain] DEBUG org.hibernate.SQL - 
+2025-04-04 09:07:19.427 [restartedMain] DEBUG org.hibernate.SQL - 
+2025-04-04 09:07:19.432 [restartedMain] DEBUG org.hibernate.SQL - 
+2025-04-04 09:07:19.436 [restartedMain] DEBUG org.hibernate.SQL - 
+2025-04-04 09:07:19.439 [restartedMain] DEBUG org.hibernate.SQL - 
+2025-04-04 09:07:19.444 [restartedMain] DEBUG org.hibernate.SQL - 
+2025-04-04 09:07:19.451 [restartedMain] DEBUG org.hibernate.SQL - 
+2025-04-04 09:07:19.483 [restartedMain] DEBUG org.hibernate.SQL - 
+2025-04-04 09:07:19.516 [restartedMain] DEBUG org.hibernate.SQL - 
+2025-04-04 09:07:19.549 [restartedMain] DEBUG org.hibernate.SQL - 
+2025-04-04 09:07:19.580 [restartedMain] DEBUG org.hibernate.SQL - 
+2025-04-04 09:07:19.619 [restartedMain] DEBUG org.hibernate.SQL - 
+2025-04-04 09:07:19.656 [restartedMain] DEBUG org.hibernate.SQL - 
+2025-04-04 09:07:19.684 [restartedMain] DEBUG org.hibernate.SQL - 
+2025-04-04 09:07:19.796 [restartedMain] DEBUG org.hibernate.SQL - 
+2025-04-04 09:07:19.893 [restartedMain] DEBUG org.hibernate.SQL - 
+2025-04-04 09:07:19.996 [restartedMain] DEBUG org.hibernate.SQL - 
+2025-04-04 09:07:20.084 [restartedMain] DEBUG org.hibernate.SQL - 
+2025-04-04 09:07:20.191 [restartedMain] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Initialized JPA EntityManagerFactory for persistence unit 'default'
+2025-04-04 09:07:20.373 [restartedMain] INFO  o.s.d.j.r.query.QueryEnhancerFactory - Hibernate is in classpath; If applicable, HQL parser will be used.
+2025-04-04 09:07:20.782 [restartedMain] WARN  o.s.b.a.o.j.JpaBaseConfiguration$JpaWebConfiguration - spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2025-04-04 09:07:21.095 [restartedMain] INFO  o.s.b.d.a.OptionalLiveReloadServer - LiveReload server is running on port 35729
+2025-04-04 09:07:21.108 [restartedMain] INFO  o.a.coyote.http11.Http11NioProtocol - Starting ProtocolHandler ["http-nio-228"]
+2025-04-04 09:07:21.120 [restartedMain] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat started on port 228 (http) with context path ''
+2025-04-04 09:07:21.127 [restartedMain] INFO  c.e.weblibrary.WebLibraryApplication - Started WebLibraryApplication in 4.384 seconds (process running for 4.825)
+2025-04-04 09:07:28.872 [http-nio-228-exec-8] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring DispatcherServlet 'dispatcherServlet'
+2025-04-04 09:07:28.873 [http-nio-228-exec-8] INFO  o.s.web.servlet.DispatcherServlet - Initializing Servlet 'dispatcherServlet'
+2025-04-04 09:07:28.874 [http-nio-228-exec-8] INFO  o.s.web.servlet.DispatcherServlet - Completed initialization in 0 ms
+2025-04-04 09:07:28.890 [http-nio-228-exec-8] ERROR c.e.w.e.GlobalExceptionHandler - Unexpected error occurred
+2025-04-04 09:07:28.928 [http-nio-228-exec-8] WARN  o.s.w.s.m.m.a.ExceptionHandlerExceptionResolver - Resolved [org.springframework.web.servlet.resource.NoResourceFoundException: No static resource api/authorss.]
+2025-04-04 09:07:31.723 [http-nio-228-exec-5] INFO  c.e.w.aspect.ControllerLoggingAspect - Controller method called: AuthorController.getAllAuthors() with arguments: []
+2025-04-04 09:07:31.723 [http-nio-228-exec-5] INFO  c.e.w.service.cache.SimpleCache - ⭕ LFU Cache: Item NOT found. Key: all_authors
+2025-04-04 09:07:31.723 [http-nio-228-exec-5] INFO  c.e.w.service.impl.AuthorServiceImpl - Data for the author is loaded from the database (getAll)
+2025-04-04 09:07:31.785 [http-nio-228-exec-5] DEBUG org.hibernate.SQL - 
+2025-04-04 09:07:31.834 [http-nio-228-exec-5] INFO  c.e.w.service.cache.SimpleCache - ❗ LFU Cache: New item added. Key: all_authors
+2025-04-04 09:07:31.834 [http-nio-228-exec-5] INFO  c.e.w.aspect.ControllerLoggingAspect - Controller method completed: AuthorController.getAllAuthors() with result: <200 OK OK,[],[]>
+2025-04-04 09:07:31.834 [http-nio-228-exec-5] INFO  c.e.w.aspect.ControllerLoggingAspect - Method AuthorController.getAllAuthors() executed in 111 ms
+2025-04-04 09:07:35.406 [http-nio-228-exec-6] ERROR c.e.w.e.GlobalExceptionHandler - Unexpected error occurred
+2025-04-04 09:07:35.414 [http-nio-228-exec-6] WARN  o.s.w.s.m.m.a.ExceptionHandlerExceptionResolver - Resolved [org.springframework.web.servlet.resource.NoResourceFoundException: No static resource api/authors%D1%8B%D0%B2.]
+2025-04-04 09:07:42.142 [http-nio-228-exec-4] INFO  c.e.w.aspect.ControllerLoggingAspect - Controller method called: AuthorController.getAuthorById() with arguments: [1]
+2025-04-04 09:07:42.168 [http-nio-228-exec-4] DEBUG org.hibernate.SQL - 
+2025-04-04 09:07:42.176 [http-nio-228-exec-4] ERROR c.e.w.aspect.ExceptionLoggingAspect - Exception in AuthorController.getAuthorById(): Автор с ID 1 не найден
+2025-04-04 09:07:42.176 [http-nio-228-exec-4] WARN  c.e.w.e.GlobalExceptionHandler - Entity not found: Автор с ID 1 не найден
+2025-04-04 09:07:42.176 [http-nio-228-exec-4] WARN  o.s.w.s.m.m.a.ExceptionHandlerExceptionResolver - Resolved [jakarta.persistence.EntityNotFoundException: Автор с ID 1 не найден]
+2025-04-04 09:07:44.989 [http-nio-228-exec-2] WARN  c.e.w.e.GlobalExceptionHandler - Invalid ID format: Failed to convert value of type 'java.lang.String' to required type 'java.lang.Long'; For input string: "1ds"
+2025-04-04 09:07:44.989 [http-nio-228-exec-2] WARN  o.s.w.s.m.m.a.ExceptionHandlerExceptionResolver - Resolved [org.springframework.web.method.annotation.MethodArgumentTypeMismatchException: Failed to convert value of type 'java.lang.String' to required type 'java.lang.Long'; For input string: "1ds"]
+2025-04-04 09:07:48.529 [http-nio-228-exec-10] ERROR c.e.w.e.GlobalExceptionHandler - Unexpected error occurred
+2025-04-04 09:07:48.529 [http-nio-228-exec-10] WARN  o.s.w.s.m.m.a.ExceptionHandlerExceptionResolver - Resolved [org.springframework.web.servlet.resource.NoResourceFoundException: No static resource api/ccauthors/1ds.]
+2025-04-04 09:08:05.097 [http-nio-228-exec-8] ERROR c.e.w.e.GlobalExceptionHandler - Unexpected error occurred
+2025-04-04 09:08:05.100 [http-nio-228-exec-8] WARN  o.s.w.s.m.m.a.ExceptionHandlerExceptionResolver - Resolved [org.springframework.web.servlet.resource.NoResourceFoundException: No static resource api/authorss.]
+2025-04-04 09:08:17.564 [http-nio-228-exec-5] ERROR c.e.w.e.GlobalExceptionHandler - Unexpected error occurred
+2025-04-04 09:08:17.564 [http-nio-228-exec-5] WARN  o.s.w.s.m.m.a.ExceptionHandlerExceptionResolver - Resolved [org.springframework.http.converter.HttpMessageNotReadableException: JSON parse error: Unexpected character ('1' (code 49)): was expecting comma to separate Object entries]
+2025-04-04 09:08:43.238 [http-nio-228-exec-2] INFO  o.s.api.AbstractOpenApiResource - Init duration for springdoc-openapi is: 475 ms
+2025-04-04 09:09:42.205 [SpringApplicationShutdownHook] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Closing JPA EntityManagerFactory for persistence unit 'default'
+2025-04-04 09:09:42.209 [SpringApplicationShutdownHook] DEBUG org.hibernate.SQL - 
+2025-04-04 09:09:42.229 [SpringApplicationShutdownHook] DEBUG org.hibernate.SQL - 
+2025-04-04 09:09:42.239 [SpringApplicationShutdownHook] DEBUG org.hibernate.SQL - 
+2025-04-04 09:09:42.261 [SpringApplicationShutdownHook] DEBUG org.hibernate.SQL - 
+2025-04-04 09:09:42.269 [SpringApplicationShutdownHook] DEBUG org.hibernate.SQL - 
+2025-04-04 09:09:42.286 [SpringApplicationShutdownHook] DEBUG org.hibernate.SQL - 
+2025-04-04 09:09:42.311 [SpringApplicationShutdownHook] DEBUG org.hibernate.SQL - 
+2025-04-04 09:09:42.368 [SpringApplicationShutdownHook] DEBUG org.hibernate.SQL - 
+2025-04-04 09:09:42.401 [SpringApplicationShutdownHook] DEBUG org.hibernate.SQL - 
+2025-04-04 09:09:42.437 [SpringApplicationShutdownHook] DEBUG org.hibernate.SQL - 
+2025-04-04 09:09:42.476 [SpringApplicationShutdownHook] DEBUG org.hibernate.SQL - 
+2025-04-04 09:09:42.506 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown initiated...
+2025-04-04 09:09:42.519 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown completed.
+2025-04-04 14:11:03.243 [background-preinit] INFO  o.h.validator.internal.util.Version - HV000001: Hibernate Validator 8.0.1.Final
+2025-04-04 14:11:03.284 [restartedMain] INFO  c.e.weblibrary.WebLibraryApplication - Starting WebLibraryApplication using Java 17.0.14 with PID 22772 (C:\Users\Artem\IdeaProjects\web-library\target\classes started by Artem in C:\Users\Artem\IdeaProjects\web-library)
+2025-04-04 14:11:03.284 [restartedMain] DEBUG c.e.weblibrary.WebLibraryApplication - Running with Spring Boot v3.2.4, Spring v6.1.5
+2025-04-04 14:11:03.285 [restartedMain] INFO  c.e.weblibrary.WebLibraryApplication - The following 1 profile is active: "C:\Users\Artem\IdeaProjects\web-library"
+2025-04-04 14:11:03.334 [restartedMain] INFO  o.s.b.d.e.DevToolsPropertyDefaultsPostProcessor - Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable
+2025-04-04 14:11:03.334 [restartedMain] INFO  o.s.b.d.e.DevToolsPropertyDefaultsPostProcessor - For additional web related logging consider setting the 'logging.level.web' property to 'DEBUG'
+2025-04-04 14:11:04.161 [restartedMain] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2025-04-04 14:11:04.217 [restartedMain] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 47 ms. Found 5 JPA repository interfaces.
+2025-04-04 14:11:04.728 [restartedMain] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat initialized with port 228 (http)
+2025-04-04 14:11:04.734 [restartedMain] INFO  o.a.coyote.http11.Http11NioProtocol - Initializing ProtocolHandler ["http-nio-228"]
+2025-04-04 14:11:04.735 [restartedMain] INFO  o.a.catalina.core.StandardService - Starting service [Tomcat]
+2025-04-04 14:11:04.736 [restartedMain] INFO  o.a.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/10.1.19]
+2025-04-04 14:11:04.784 [restartedMain] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+2025-04-04 14:11:04.784 [restartedMain] INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 1449 ms
+2025-04-04 14:11:04.808 [restartedMain] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
+2025-04-04 14:11:05.106 [restartedMain] INFO  com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Added connection com.mysql.cj.jdbc.ConnectionImpl@75643115
+2025-04-04 14:11:05.108 [restartedMain] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
+2025-04-04 14:11:05.115 [restartedMain] INFO  o.s.b.a.h.H2ConsoleAutoConfiguration - H2 console available at '/h2-console'. Database available at 'jdbc:mysql://localhost:3306/weblibrary'
+2025-04-04 14:11:05.226 [restartedMain] INFO  o.h.jpa.internal.util.LogHelper - HHH000204: Processing PersistenceUnitInfo [name: default]
+2025-04-04 14:11:05.303 [restartedMain] INFO  org.hibernate.Version - HHH000412: Hibernate ORM core version 6.4.4.Final
+2025-04-04 14:11:05.352 [restartedMain] INFO  o.h.c.i.RegionFactoryInitiator - HHH000026: Second-level cache disabled
+2025-04-04 14:11:05.547 [restartedMain] INFO  o.s.o.j.p.SpringPersistenceUnitInfo - No LoadTimeWeaver setup: ignoring JPA class transformer
+2025-04-04 14:11:05.608 [restartedMain] WARN  org.hibernate.orm.deprecation - HHH90000025: MySQL8Dialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+2025-04-04 14:11:05.609 [restartedMain] WARN  org.hibernate.orm.deprecation - HHH90000026: MySQL8Dialect has been deprecated; use org.hibernate.dialect.MySQLDialect instead
+2025-04-04 14:11:05.635 [restartedMain] DEBUG o.h.t.d.sql.spi.DdlTypeRegistry - addDescriptor(12, org.hibernate.type.descriptor.sql.internal.CapacityDependentDdlType@7ef11248) replaced previous registration(org.hibernate.type.descriptor.sql.internal.CapacityDependentDdlType@2a9b2ca6)
+2025-04-04 14:11:05.635 [restartedMain] DEBUG o.h.t.d.sql.spi.DdlTypeRegistry - addDescriptor(-9, org.hibernate.type.descriptor.sql.internal.CapacityDependentDdlType@4aa79431) replaced previous registration(org.hibernate.type.descriptor.sql.internal.CapacityDependentDdlType@868c659)
+2025-04-04 14:11:05.635 [restartedMain] DEBUG o.h.t.d.sql.spi.DdlTypeRegistry - addDescriptor(-3, org.hibernate.type.descriptor.sql.internal.CapacityDependentDdlType@7e7de64e) replaced previous registration(org.hibernate.type.descriptor.sql.internal.CapacityDependentDdlType@df01b3b)
+2025-04-04 14:11:05.635 [restartedMain] DEBUG o.h.t.d.sql.spi.DdlTypeRegistry - addDescriptor(4003, org.hibernate.type.descriptor.sql.internal.DdlTypeImpl@7b0010a8) replaced previous registration(org.hibernate.type.descriptor.sql.internal.DdlTypeImpl@35944b9f)
+2025-04-04 14:11:05.635 [restartedMain] DEBUG o.h.t.d.sql.spi.DdlTypeRegistry - addDescriptor(4001, org.hibernate.type.descriptor.sql.internal.DdlTypeImpl@24ca84f5) replaced previous registration(org.hibernate.type.descriptor.sql.internal.DdlTypeImpl@29ee7a94)
+2025-04-04 14:11:05.636 [restartedMain] DEBUG o.h.t.d.sql.spi.DdlTypeRegistry - addDescriptor(4002, org.hibernate.type.descriptor.sql.internal.DdlTypeImpl@5210ba51) replaced previous registration(org.hibernate.type.descriptor.sql.internal.DdlTypeImpl@45cfdb3f)
+2025-04-04 14:11:05.636 [restartedMain] DEBUG o.h.t.d.sql.spi.DdlTypeRegistry - addDescriptor(2004, org.hibernate.type.descriptor.sql.internal.CapacityDependentDdlType@35d2025f) replaced previous registration(org.hibernate.type.descriptor.sql.internal.DdlTypeImpl@6f32e4ab)
+2025-04-04 14:11:05.636 [restartedMain] DEBUG o.h.t.d.sql.spi.DdlTypeRegistry - addDescriptor(2005, org.hibernate.type.descriptor.sql.internal.CapacityDependentDdlType@38a7092e) replaced previous registration(org.hibernate.type.descriptor.sql.internal.DdlTypeImpl@30a2b26)
+2025-04-04 14:11:05.637 [restartedMain] DEBUG o.h.t.d.sql.spi.DdlTypeRegistry - addDescriptor(2011, org.hibernate.type.descriptor.sql.internal.CapacityDependentDdlType@266f11e2) replaced previous registration(org.hibernate.type.descriptor.sql.internal.DdlTypeImpl@5e00ae38)
+2025-04-04 14:11:06.833 [restartedMain] INFO  o.h.e.t.j.p.i.JtaPlatformInitiator - HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2025-04-04 14:11:06.851 [restartedMain] DEBUG org.hibernate.SQL - 
+2025-04-04 14:11:06.893 [restartedMain] WARN  o.h.t.s.i.ExceptionHandlerLoggedImpl - GenerationTarget encountered exception accepting command : Error executing DDL "
+2025-04-04 14:11:06.897 [restartedMain] DEBUG org.hibernate.SQL - 
+2025-04-04 14:11:06.900 [restartedMain] WARN  o.h.t.s.i.ExceptionHandlerLoggedImpl - GenerationTarget encountered exception accepting command : Error executing DDL "
+2025-04-04 14:11:06.901 [restartedMain] DEBUG org.hibernate.SQL - 
+2025-04-04 14:11:06.905 [restartedMain] WARN  o.h.t.s.i.ExceptionHandlerLoggedImpl - GenerationTarget encountered exception accepting command : Error executing DDL "
+2025-04-04 14:11:06.908 [restartedMain] DEBUG org.hibernate.SQL - 
+2025-04-04 14:11:06.912 [restartedMain] WARN  o.h.t.s.i.ExceptionHandlerLoggedImpl - GenerationTarget encountered exception accepting command : Error executing DDL "
+2025-04-04 14:11:06.912 [restartedMain] DEBUG org.hibernate.SQL - 
+2025-04-04 14:11:06.916 [restartedMain] WARN  o.h.t.s.i.ExceptionHandlerLoggedImpl - GenerationTarget encountered exception accepting command : Error executing DDL "
+2025-04-04 14:11:06.917 [restartedMain] DEBUG org.hibernate.SQL - 
+2025-04-04 14:11:06.924 [restartedMain] DEBUG org.hibernate.SQL - 
+2025-04-04 14:11:06.930 [restartedMain] DEBUG org.hibernate.SQL - 
+2025-04-04 14:11:06.935 [restartedMain] DEBUG org.hibernate.SQL - 
+2025-04-04 14:11:06.939 [restartedMain] DEBUG org.hibernate.SQL - 
+2025-04-04 14:11:06.944 [restartedMain] DEBUG org.hibernate.SQL - 
+2025-04-04 14:11:06.955 [restartedMain] DEBUG org.hibernate.SQL - 
+2025-04-04 14:11:07.013 [restartedMain] DEBUG org.hibernate.SQL - 
+2025-04-04 14:11:07.056 [restartedMain] DEBUG org.hibernate.SQL - 
+2025-04-04 14:11:07.096 [restartedMain] DEBUG org.hibernate.SQL - 
+2025-04-04 14:11:07.138 [restartedMain] DEBUG org.hibernate.SQL - 
+2025-04-04 14:11:07.178 [restartedMain] DEBUG org.hibernate.SQL - 
+2025-04-04 14:11:07.220 [restartedMain] DEBUG org.hibernate.SQL - 
+2025-04-04 14:11:07.253 [restartedMain] DEBUG org.hibernate.SQL - 
+2025-04-04 14:11:07.356 [restartedMain] DEBUG org.hibernate.SQL - 
+2025-04-04 14:11:07.434 [restartedMain] DEBUG org.hibernate.SQL - 
+2025-04-04 14:11:07.522 [restartedMain] DEBUG org.hibernate.SQL - 
+2025-04-04 14:11:07.630 [restartedMain] DEBUG org.hibernate.SQL - 
+2025-04-04 14:11:07.790 [restartedMain] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Initialized JPA EntityManagerFactory for persistence unit 'default'
+2025-04-04 14:11:08.105 [restartedMain] INFO  o.s.d.j.r.query.QueryEnhancerFactory - Hibernate is in classpath; If applicable, HQL parser will be used.
+2025-04-04 14:11:08.877 [restartedMain] WARN  o.s.b.a.o.j.JpaBaseConfiguration$JpaWebConfiguration - spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2025-04-04 14:11:09.366 [restartedMain] INFO  o.s.b.d.a.OptionalLiveReloadServer - LiveReload server is running on port 35729
+2025-04-04 14:11:09.393 [restartedMain] INFO  o.a.coyote.http11.Http11NioProtocol - Starting ProtocolHandler ["http-nio-228"]
+2025-04-04 14:11:09.411 [restartedMain] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat started on port 228 (http) with context path ''
+2025-04-04 14:11:09.424 [restartedMain] INFO  c.e.weblibrary.WebLibraryApplication - Started WebLibraryApplication in 6.682 seconds (process running for 7.404)
+2025-04-04 14:11:18.555 [http-nio-228-exec-1] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring DispatcherServlet 'dispatcherServlet'
+2025-04-04 14:11:18.555 [http-nio-228-exec-1] INFO  o.s.web.servlet.DispatcherServlet - Initializing Servlet 'dispatcherServlet'
+2025-04-04 14:11:18.559 [http-nio-228-exec-1] INFO  o.s.web.servlet.DispatcherServlet - Completed initialization in 3 ms
+2025-04-04 14:11:19.446 [http-nio-228-exec-2] INFO  o.s.api.AbstractOpenApiResource - Init duration for springdoc-openapi is: 685 ms
+2025-04-04 14:16:14.498 [http-nio-228-exec-5] INFO  c.e.w.aspect.ControllerLoggingAspect - Controller method called: AuthorController.createAuthor() with arguments: [AuthorDtoRequest[name=author1, surname=Fitzgerald, patronymic=asd, birthDate=1996-09-24, deathDate=2005-12-22, biography=An Americanт novelist and short story writer., genreSpecialization=Fiction, rating=4.6]]
+2025-04-04 14:16:14.558 [http-nio-228-exec-5] DEBUG org.hibernate.SQL - 
+2025-04-04 14:16:14.598 [http-nio-228-exec-5] INFO  c.e.w.service.cache.SimpleCache - ❗ LFU Cache: New item added. Key: 1
+2025-04-04 14:16:14.598 [http-nio-228-exec-5] INFO  c.e.w.service.cache.SimpleCache - 🗑 LFU Cache: Cache cleared.
+2025-04-04 14:16:14.598 [http-nio-228-exec-5] INFO  c.e.w.aspect.ControllerLoggingAspect - Controller method completed: AuthorController.createAuthor() with result: <201 CREATED Created,AuthorDtoResponse[id=1, name=author1, surname=Fitzgerald, patronymic=asd, birthDate=1996-09-24, deathDate=2005-12-22, biography=An Americanт novelist and short story writer., genreSpecialization=Fiction, rating=4.6, books=[]],[]>
+2025-04-04 14:16:14.603 [http-nio-228-exec-5] INFO  c.e.w.aspect.ControllerLoggingAspect - Method AuthorController.createAuthor() executed in 107 ms
+2025-04-04 14:16:19.970 [http-nio-228-exec-7] INFO  c.e.w.aspect.ControllerLoggingAspect - Controller method called: AuthorController.getAuthorById() with arguments: [2]
+2025-04-04 14:16:20.055 [http-nio-228-exec-7] DEBUG org.hibernate.SQL - 
+2025-04-04 14:16:20.064 [http-nio-228-exec-7] ERROR c.e.w.aspect.ExceptionLoggingAspect - Exception in AuthorController.getAuthorById(): Автор с ID 2 не найден
+2025-04-04 14:16:20.068 [http-nio-228-exec-7] WARN  c.e.w.e.GlobalExceptionHandler - Entity not found: Автор с ID 2 не найден
+2025-04-04 14:16:20.073 [http-nio-228-exec-7] WARN  o.s.w.s.m.m.a.ExceptionHandlerExceptionResolver - Resolved [jakarta.persistence.EntityNotFoundException: Автор с ID 2 не найден]
+2025-04-04 14:16:23.727 [http-nio-228-exec-8] WARN  c.e.w.e.GlobalExceptionHandler - Invalid ID format: Failed to convert value of type 'java.lang.String' to required type 'java.lang.Long'; For input string: "1asd"
+2025-04-04 14:16:23.728 [http-nio-228-exec-8] WARN  o.s.w.s.m.m.a.ExceptionHandlerExceptionResolver - Resolved [org.springframework.web.method.annotation.MethodArgumentTypeMismatchException: Failed to convert value of type 'java.lang.String' to required type 'java.lang.Long'; For input string: "1asd"]
+2025-04-04 14:16:36.623 [http-nio-228-exec-10] WARN  c.e.w.e.GlobalExceptionHandler - Validation errors: {rating=Rating must be at most 5.0}
+2025-04-04 14:16:36.625 [http-nio-228-exec-10] WARN  o.s.w.s.m.m.a.ExceptionHandlerExceptionResolver - Resolved [org.springframework.web.bind.MethodArgumentNotValidException: Validation failed for argument [0] in public org.springframework.http.ResponseEntity<com.example.weblibrary.model.dto.AuthorDtoResponse> com.example.weblibrary.controllers.AuthorController.createAuthor(com.example.weblibrary.model.dto.AuthorDtoRequest): [Field error in object 'authorDtoRequest' on field 'rating': rejected value [5.1]; codes [DecimalMax.authorDtoRequest.rating,DecimalMax.rating,DecimalMax.java.lang.Double,DecimalMax]; arguments [org.springframework.context.support.DefaultMessageSourceResolvable: codes [authorDtoRequest.rating,rating]; arguments []; default message [rating],true,5.0]; default message [Rating must be at most 5.0]] ]
+2025-04-04 14:17:07.008 [http-nio-228-exec-1] INFO  c.e.w.aspect.ControllerLoggingAspect - Controller method called: LogController.getLogsByDate() with arguments: [2025-04-04]

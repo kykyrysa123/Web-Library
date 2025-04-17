@@ -1,0 +1,28 @@
+version: '3.8'
+services:
+  backend:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "228:228"
+    depends_on:
+      - db
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:mysql://db:3306/weblibrary
+      - SPRING_DATASOURCE_USERNAME=root
+      - SPRING_DATASOURCE_PASSWORD=0098
+      - SPRING_DATASOURCE_DRIVER=com.mysql.cj.jdbc.Driver
+
+  db:
+    image: mysql:8.0
+    ports:
+      - "3306:3306"
+    environment:
+      - MYSQL_ROOT_PASSWORD=0098
+      - MYSQL_DATABASE=weblibrary
+    volumes:
+      - db-data:/var/lib/mysql
+
+volumes:
+  db-data:

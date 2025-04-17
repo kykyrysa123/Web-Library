@@ -17,7 +17,6 @@ import java.util.List;
  * @param biography          a brief biography of the author
  * @param genreSpecialization the genre(s) the author specializes in
  * @param rating             the rating of the author
- * @param books              the list of books written by the author
  */
 public record AuthorDtoResponse(
     Long id,
@@ -30,11 +29,12 @@ public record AuthorDtoResponse(
     String genreSpecialization,
     Double rating
 ) {
-/*  *
+  /**
    * Creates a simplified AuthorDtoResponse with only ID and name.
    *
    * @param id   the unique identifier of the author
    * @param name the first name of the author*/
+
 
   public AuthorDtoResponse(Long id, String name) {
     this(id, name, null, null, null, null, null, null, null);
