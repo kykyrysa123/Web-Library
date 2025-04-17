@@ -2,7 +2,7 @@ version: '3.8'
 services:
   backend:
     build:
-      context: .
+      context: ../src/main/java/com/example/weblibrary
       dockerfile: Dockerfile
     ports:
       - "228:228"
