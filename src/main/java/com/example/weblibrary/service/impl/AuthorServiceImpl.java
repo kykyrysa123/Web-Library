@@ -36,8 +36,8 @@ public class AuthorServiceImpl implements CrudService<AuthorDtoRequest, AuthorDt
   private final AuthorMapperImpl authorMapper;
   private static final Logger logger = LoggerFactory.getLogger(AuthorServiceImpl.class);
 
-  private final SimpleCache<Long, AuthorDtoResponse> authorCache = new SimpleCache<>(100);
-  private final SimpleCache<String, List<AuthorDtoResponse>> authorCache1 = new SimpleCache<>(100);
+  private final SimpleCache<Long, AuthorDtoResponse> authorCache = new SimpleCache<>(1000);
+  private final SimpleCache<String, List<AuthorDtoResponse>> authorCache1 = new SimpleCache<>(1000);
 
   @Override
   public List<AuthorDtoResponse> getAll() {

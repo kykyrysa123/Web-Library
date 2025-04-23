@@ -34,10 +34,10 @@ public class ReviewServiceImpl implements CrudService<ReviewDtoRequest,
 
   private final SimpleCache<Long, ReviewDtoResponse> reviewCache =
       new SimpleCache<>(
-      100);
+      1000);
   private final SimpleCache<String, List<ReviewDtoResponse>> reviewListCache
       = new SimpleCache<>(
-      100);
+      1000);
   private static final Logger log = LoggerFactory.getLogger(
       ReviewServiceImpl.class);
 

@@ -28,10 +28,10 @@ public class UserServiceImpl implements CrudService<UserDtoRequest,
 
   private final SimpleCache<Long, UserDtoResponse> userCache =
       new SimpleCache<>(
-      100);
+      1000);
   private final SimpleCache<String, List<UserDtoResponse>> userListCache =
       new SimpleCache<>(
-      100);
+      1000);
   private static final Logger log = LoggerFactory.getLogger(
       UserServiceImpl.class);
 
