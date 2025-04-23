@@ -28,9 +28,17 @@ import org.springframework.web.bind.annotation.RestController;
 @Tag(name = "Visits API", description = "API для отслеживания посещений и статистики")
 public class VisitController {
 
+  /**
+   * Service for handling visit counting operations.
+   */
   private final VisitCounterServiceImpl visitCounterService;
+
   private final RateLimiter rateLimiter = RateLimiter.create(10.0); // 10 requests per second
 
+  /**
+   * Rate limiter to control the number of requests per second.
+   * Allows 10 requests per second.
+   */
   @Autowired
   public VisitController(VisitCounterServiceImpl visitCounterService) {
     this.visitCounterService = visitCounterService;

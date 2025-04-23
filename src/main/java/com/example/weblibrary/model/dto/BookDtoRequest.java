@@ -4,54 +4,59 @@ import jakarta.validation.constraints.DecimalMax;
 import jakarta.validation.constraints.DecimalMin;
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.PastOrPresent;
 import jakarta.validation.constraints.Positive;
 import jakarta.validation.constraints.PositiveOrZero;
 import jakarta.validation.constraints.Size;
 import java.time.LocalDate;
+import java.util.List;
 import org.hibernate.validator.constraints.URL;
 
 /**
  * Represents a request data transfer object (DTO) for creating or updating a book.
  */
 public record BookDtoRequest(
-    @NotBlank(message = "Title cannot be blank")
-    @Size(max = 200, message = "Title must not exceed 200 characters")
+    @NotBlank(message = "Название не должно быть пустым")
+    @Size(max = 200, message = "Название не должно превышать 200 символов")
     String title,
 
-    @NotBlank(message = "Publisher cannot be blank")
-    @Size(max = 100, message = "Publisher must not exceed 100 characters")
+    @NotBlank(message = "Издатель не должен быть пустым")
+    @Size(max = 100, message = "Издатель не должен превышать 100 символов")
     String publisher,
 
+    @Size(max = 13, message = "ISBN не должен превышать 13 символов")
     String isbn,
 
-    @PositiveOrZero(message = "Page count cannot be negative")
-    @Max(value = 10000, message = "Page count cannot exceed 10,000")
+    @PositiveOrZero(message = "Количество страниц не должно быть отрицательным")
+    @Max(value = 10000, message = "Количество страниц не должно превышать 10,000")
     Integer pages,
 
-    @NotBlank(message = "Genre cannot be blank")
-    @Size(max = 50, message = "Genre must not exceed 50 characters")
+    @NotBlank(message = "Жанр не должен быть пустым")
+    @Size(max = 50, message = "Жанр не должен превышать 50 символов")
     String genre,
 
-    @PastOrPresent(message = "Publish date cannot be in the future")
+    @PastOrPresent(message = "Дата публикации не может быть в будущем")
     LocalDate publishDate,
 
-    @NotBlank(message = "Language cannot be blank")
-    @Size(min = 2, max = 30, message = "Language must be between 2 and 30 characters")
+    @NotBlank(message = "Язык не должен быть пустым")
+    @Size(min = 2, max = 30, message = "Язык должен быть от 2 до 30 символов")
     String language,
 
-    @Size(max = 2000, message = "Description must not exceed 2000 characters")
+    @Size(max = 2000, message = "Описание не должно превышать 2000 символов")
     String description,
 
-    @URL(message = "Image URL must be valid")
+    @URL(message = "URL изображения должен быть действительным")
     String imageUrl,
 
-    @DecimalMin(value = "0.0", message = "Rating cannot be less than 0")
-    @DecimalMax(value = "5.0", message = "Rating cannot be greater than 5")
+    @DecimalMin(value = "0.0", message = "Рейтинг не может быть меньше 0")
+    @DecimalMax(value = "5.0", message = "Рейтинг не может быть больше 5")
     Double rating,
 
-    @NotNull(message = "Author ID cannot be null")
-    @Positive(message = "Author ID must be positive")
-    Long authorId
-) {}
+    @URL(message = "URL для чтения должен быть действительным")
+    String readUrl,
+
+    @NotEmpty(message = "Необходимо указать хотя бы одного автора")
+    List<@Positive(message = "ID автора должен быть положительным") Long> authorIds
+) {
+}

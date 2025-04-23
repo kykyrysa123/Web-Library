@@ -19295,3 +19295,38 @@ Caused by: java.sql.SQLSyntaxErrorException: Table 'weblibrary.reviews' doesn't 
 2025-04-17 18:42:32.187 [http-nio-228-exec-10] INFO  c.e.w.service.impl.BookServiceImpl - Получены все книги из кэша.
 2025-04-17 18:42:32.187 [http-nio-228-exec-10] INFO  c.e.w.aspect.ControllerLoggingAspect - Controller method completed: BookController.getBooks() with result: <200 OK OK,[BookDtoResponse[id=1, title=попа, publisher=фывпы, isbn=null, pages=150, genre=фыв, publishDate=2025-04-03, language=русский, description=фывфыв, imageUrl=https://avatars.mds.yandex.net/i?id=a51c3d3a415cc5ebbe255b4d64d4576f1e0e699f-4745534-images-thumbs&n=13, author=AuthorDtoResponse[id=2, name=сергей, surname=есенин, patronymic=александрович, birthDate=2025-04-10, deathDate=2025-04-14, biography=хуйыпфыввфывфы, genreSpecialization=романтик, rating=3.0]]],[]>
 2025-04-17 18:42:32.187 [http-nio-228-exec-10] INFO  c.e.w.aspect.ControllerLoggingAspect - Method BookController.getBooks() executed in 0 ms
+2025-04-17 18:43:26.860 [SpringApplicationShutdownHook] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Closing JPA EntityManagerFactory for persistence unit 'default'
+2025-04-17 18:43:26.862 [SpringApplicationShutdownHook] DEBUG org.hibernate.SQL - 
+    alter table book 
+       drop 
+       foreign key FKklnrv3weler2ftkweewlky958
+2025-04-17 18:43:26.884 [SpringApplicationShutdownHook] DEBUG org.hibernate.SQL - 
+    alter table favourites 
+       drop 
+       foreign key FKfjwtcjnlme02uvw9b6v1645fr
+2025-04-17 18:43:26.898 [SpringApplicationShutdownHook] DEBUG org.hibernate.SQL - 
+    alter table favourites 
+       drop 
+       foreign key FK6ffqdnwmm3ks4fenx2ml1uap8
+2025-04-17 18:43:26.910 [SpringApplicationShutdownHook] DEBUG org.hibernate.SQL - 
+    alter table reviews 
+       drop 
+       foreign key FKgiq1y1159fhcjfigdijlsvdx2
+2025-04-17 18:43:26.925 [SpringApplicationShutdownHook] DEBUG org.hibernate.SQL - 
+    alter table reviews 
+       drop 
+       foreign key FK9khvd50i5lgylxx34852hixs7
+2025-04-17 18:43:26.938 [SpringApplicationShutdownHook] DEBUG org.hibernate.SQL - 
+    drop table if exists author
+2025-04-17 18:43:26.957 [SpringApplicationShutdownHook] DEBUG org.hibernate.SQL - 
+    drop table if exists book
+2025-04-17 18:43:26.978 [SpringApplicationShutdownHook] DEBUG org.hibernate.SQL - 
+    drop table if exists favourites
+2025-04-17 18:43:26.997 [SpringApplicationShutdownHook] DEBUG org.hibernate.SQL - 
+    drop table if exists log
+2025-04-17 18:43:27.018 [SpringApplicationShutdownHook] DEBUG org.hibernate.SQL - 
+    drop table if exists reviews
+2025-04-17 18:43:27.039 [SpringApplicationShutdownHook] DEBUG org.hibernate.SQL - 
+    drop table if exists users
+2025-04-17 18:43:27.061 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown initiated...
+2025-04-17 18:43:27.069 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown completed.

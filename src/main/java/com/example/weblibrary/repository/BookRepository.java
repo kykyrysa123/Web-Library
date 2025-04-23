@@ -16,22 +16,21 @@ public interface BookRepository extends JpaRepository<Book, Long> {
 
   /**
    * Находит книги по имени автора.
+   * Учитывает связь многие-ко-многим через таблицу book_authors.
    *
    * @param authorName имя автора, по которому осуществляется поиск
    * @return список книг, написанных указанным автором
    */
-  @Query("SELECT b FROM Book b JOIN b.author a WHERE a.name = :authorName")
+  @Query("SELECT b FROM Book b JOIN b.authors a WHERE a.name = :authorName")
   List<Book> findByAuthorName(@Param("authorName") String authorName);
 
   /**
-   * Находит книги, заголовок которых содержит указанную строку.
-   * Использует нативный SQL-запрос.
+   * Находит книги, заголовок которых содержит указанную строку (без учета регистра).
    *
    * @param title часть заголовка книги для поиска
    * @return список книг с заголовками, содержащими указанную строку
    */
-  @Query(value = "SELECT * FROM book WHERE title LIKE %:title%", nativeQuery = true)
-  List<Book> findByTitleLike(@Param("title") String title);
+  List<Book> findByTitleContainingIgnoreCase(@Param("title") String title);
 
   /**
    * Находит книги по жанру.
@@ -40,5 +39,4 @@ public interface BookRepository extends JpaRepository<Book, Long> {
    * @return список книг, относящихся к указанному жанру
    */
   List<Book> findByGenre(String genre);
-
 }

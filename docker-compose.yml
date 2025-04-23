@@ -9,15 +9,27 @@ services:
     depends_on:
       - db
     environment:
-      - SPRING_DATASOURCE_URL=jdbc:mysql://db:3306/weblibrary
+      - SPRING_DATASOURCE_URL=jdbc:mysql://db:3306/weblibrary?useSSL=false&serverTimezone=UTC&allowPublicKeyRetrieval=true
       - SPRING_DATASOURCE_USERNAME=root
       - SPRING_DATASOURCE_PASSWORD=0098
-      - SPRING_DATASOURCE_DRIVER=com.mysql.cj.jdbc.Driver
+      - SPRING_DATASOURCE_DRIVER_CLASS_NAME=com.mysql.cj.jdbc.Driver
+      - SPRING_PROFILES_ACTIVE=docker
+
+  frontend:
+    build:
+      context: ../../WebstormProjects/weblibrary  # Путь к фронтенду
+      dockerfile: Dockerfile
+    ports:
+      - "3000:3000"  # Фронтенд на порту 3000
+    depends_on:
+      - backend
+    environment:
+      - REACT_APP_API_URL=http://backend:228
 
   db:
     image: mysql:8.0
     ports:
-      - "3306:3306"
+      - "3307:3306"
     environment:
       - MYSQL_ROOT_PASSWORD=0098
       - MYSQL_DATABASE=weblibrary

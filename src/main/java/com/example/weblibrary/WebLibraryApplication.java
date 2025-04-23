@@ -12,7 +12,7 @@ import org.springframework.scheduling.annotation.EnableAsync;
  */
 @SpringBootApplication
 @EnableAsync
-@Profile("dev")
+//@Profile("dev")
 public class WebLibraryApplication {
 
   /**

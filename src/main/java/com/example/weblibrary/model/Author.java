@@ -7,14 +7,16 @@ import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.JoinTable;
+import jakarta.persistence.ManyToMany;
 import jakarta.persistence.Table;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Class representing an author of books in the library.
+ * Класс, представляющий автора книг в библиотеке.
  */
 @Entity
 @Table(name = "AUTHOR")
@@ -37,29 +39,17 @@ public class Author {
   private String genreSpecialization;
   private Double rating;
 
-  @OneToMany(mappedBy = "author", cascade = CascadeType.ALL, orphanRemoval = true,
-      fetch = FetchType.LAZY)
+  @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE}, fetch = FetchType.LAZY)
+  @JoinTable(
+      name = "book_authors",
+      joinColumns = @JoinColumn(name = "author_id"),
+      inverseJoinColumns = @JoinColumn(name = "book_id")
+  )
   private List<Book> books = new ArrayList<>();
 
-  /**
-  default constructor.
-  */
   public Author() {
   }
 
-  /**
-   * Constructs an Author with the specified details.
-   *
-   * @param id the unique identifier for the author
-   * @param name the first name of the author
-   * @param surname the last name of the author
-   * @param patronymic the middle name of the author (optional)
-   * @param birthDate the birth date of the author
-   * @param deathDate the death date of the author (optional)
-   * @param biography biographical information about the author
-   * @param genreSpecialization the genres the author specializes in
-   * @param rating the author's rating
-   */
   public Author(Long id, String name, String surname, String patronymic,
       LocalDate birthDate, LocalDate deathDate, String biography,
       String genreSpecialization, Double rating) {
@@ -154,21 +144,11 @@ public class Author {
     this.books = books;
   }
 
-  /**
-   * Returns the full name of the author in format "Surname Name Patronymic".
-   *
-   * @return the full name of the author
-   */
   public String getFullName() {
     return surname + " " + name
         + (patronymic != null && !patronymic.isEmpty() ? " " + patronymic : "");
   }
 
-  /**
-   * Checks if the author is deceased.
-   *
-   * @return true if the author has a death date, false otherwise
-   */
   public boolean isDeceased() {
     return deathDate != null;
   }

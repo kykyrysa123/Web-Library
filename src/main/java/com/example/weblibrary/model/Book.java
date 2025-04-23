@@ -8,19 +8,19 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToMany;
+import jakarta.persistence.JoinTable;
+import jakarta.persistence.ManyToMany;
 import jakarta.persistence.Table;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 import lombok.NonNull;
 
 /**
- * Represents a Book entity in the web library systemm.
+ * Класс, представляющий книгу в системе библиотеки.
  */
 @Entity
-@Table(name = "book")
-
+@Table(name = "BOOK")
 public class Book {
 
   @Id
@@ -57,28 +57,23 @@ public class Book {
 
   private Double rating;
 
-  @ManyToOne(fetch = FetchType.LAZY)
-  @JoinColumn(name = "author_id", nullable = false)
-  private Author author;
+  private String readUrl;
 
-  @OneToMany(mappedBy = "book", fetch = FetchType.LAZY,
-      cascade = CascadeType.ALL, orphanRemoval = true)
-  private List<Log.Review> review;
-  /**
-  constructor default.
-  */
+  @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE}, fetch = FetchType.LAZY)
+  @JoinTable(
+      name = "book_authors",
+      joinColumns = @JoinColumn(name = "book_id"),
+      inverseJoinColumns = @JoinColumn(name = "author_id")
+  )
+  private List<Author> authors = new ArrayList<>();
 
   public Book() {
   }
 
-  /**
-   constructor.
-   */
   public Book(Long id, @NonNull String title, @NonNull String publisher,
       String isbn, Integer pages, @NonNull String genre, LocalDate publishDate,
-      @NonNull String language, String description, String imageUrl,
-      Double rating
-  ) {
+      @NonNull String language, String description, String imageUrl, String readUrl,
+      Double rating) {
     this.id = id;
     this.title = title;
     this.publisher = publisher;
@@ -89,6 +84,7 @@ public class Book {
     this.language = language;
     this.description = description;
     this.imageUrl = imageUrl;
+    this.readUrl = readUrl;
     this.rating = rating;
   }
 
@@ -180,20 +176,19 @@ public class Book {
     this.rating = rating;
   }
 
-  public Author getAuthor() {
-    return author;
+  public String getReadUrl() {
+    return readUrl;
   }
 
-  public void setAuthor(Author author) {
-    this.author = author;
+  public void setReadUrl(String readUrl) {
+    this.readUrl = readUrl;
   }
 
-  public List<Log.Review> getReview() {
-    return review;
+  public List<Author> getAuthors() {
+    return authors;
   }
 
-  public void setReview(List<Log.Review> review) {
-    this.review = review;
+  public void setAuthors(List<Author> authors) {
+    this.authors = authors;
   }
-
 }
