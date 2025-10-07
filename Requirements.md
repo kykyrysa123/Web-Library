@@ -103,7 +103,7 @@
 ## Скриншоты приложения
 
 ### Главная страница
-![Главная страница](images/main-page.png)
+![Главная страница]("C:\Users\Artem\IdeaProjects\web-library\images\admin-panel.png")
 
 ### Страница книги
 ![Страница книги](images/book-details.png)
