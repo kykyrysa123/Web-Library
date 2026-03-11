@@ -1,6 +1,6 @@
 package com.example.weblibrary.service.impl;
 
-import com.example.weblibrary.mapper.UserMapperImpl;
+import com.example.weblibrary.mapper.UserMapper;
 import com.example.weblibrary.model.User;
 import com.example.weblibrary.model.dto.UserDtoRequest;
 import com.example.weblibrary.model.dto.UserDtoResponse;
@@ -24,7 +24,7 @@ public class UserServiceImpl implements CrudService<UserDtoRequest,
     UserDtoResponse> {
 
   private final UserRepository userRepository;
-  private final UserMapperImpl userMapper;
+  private final UserMapper userMapper;
 
   private final SimpleCache<Long, UserDtoResponse> userCache =
       new SimpleCache<>(
@@ -113,7 +113,6 @@ public class UserServiceImpl implements CrudService<UserDtoRequest,
   public UserDtoResponse update(Long id, UserDtoRequest userDtoRequest) {
 
     User updatedUser = userMapper.toUserEntity(userDtoRequest);
-    updatedUser.setId(id);
 
     UserDtoResponse response = userMapper.toUserDtoResponse(
         userRepository.save(updatedUser));

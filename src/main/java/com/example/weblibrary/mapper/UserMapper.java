@@ -3,37 +3,31 @@ package com.example.weblibrary.mapper;
 import com.example.weblibrary.model.User;
 import com.example.weblibrary.model.dto.UserDtoRequest;
 import com.example.weblibrary.model.dto.UserDtoResponse;
-import java.util.List;
 import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
+import org.mapstruct.factory.Mappers;
+import java.util.List;
 
-/**
- * Mapper interface for converting between User entities and DTOs. Provides
- * methods to map User DTO requests to entities and entities to DTO responses.
- */
 @Mapper(componentModel = "spring")
 public interface UserMapper {
 
-  /**
-   * Converts a UserDtoRequest to a User entity.
-   *
-   * @param userDtoRequest The DTO object to be converted.
-   * @return The corresponding User entity.
-   */
+  UserMapper INSTANCE = Mappers.getMapper(UserMapper.class);
+
+  @Mapping(target = "id", ignore = true) // ID генерируется БД
+  @Mapping(target = "username", source = "username")
+  @Mapping(target = "password", source = "password")
+  @Mapping(target = "email", source = "email")
+  @Mapping(target = "role", source = "role")
+  @Mapping(target = "enabled", constant = "true")
+  @Mapping(target = "registrationDate", expression = "java(java.time.LocalDate.now())")
   User toUserEntity(UserDtoRequest userDtoRequest);
 
-  /**
-   * Converts a User entity to a UserDtoResponse.
-   *
-   * @param user The User entity to be converted.
-   * @return The corresponding UserDtoResponse.
-   */
+  @Mapping(target = "id", source = "id")
+  @Mapping(target = "username", source = "username")
+  @Mapping(target = "email", source = "email")
+  @Mapping(target = "role", source = "role")
+  @Mapping(target = "registrationDate", source = "registrationDate")
   UserDtoResponse toUserDtoResponse(User user);
 
-  /**
-   * Converts a list of User entities to a list of UserDtoResponse objects.
-   *
-   * @param user The list of User entities to be converted.
-   * @return The corresponding list of UserDtoResponse objects.
-   */
-  List<UserDtoResponse> toUserDtoResponse(List<User> user);
+  List<UserDtoResponse> toUserDtoResponse(List<User> users);
 }

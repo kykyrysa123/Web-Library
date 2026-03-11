@@ -1,206 +1,64 @@
 package com.example.weblibrary.model;
 
-import jakarta.persistence.CascadeType;
-import jakarta.persistence.Entity;
-import jakarta.persistence.FetchType;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.JoinTable;
-import jakarta.persistence.ManyToMany;
-import jakarta.persistence.OneToMany;
-import jakarta.persistence.Table;
+import com.example.weblibrary.model.enums.Role;
+import jakarta.persistence.*;
+import lombok.*;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
+
 import java.time.LocalDate;
-import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
-/**
- * Represents a user in the system.
- * This class contains information about a user such as name, subscription, and reviews.
- */
-@Entity
+
 @Table(name = "users")
-public class User {
+@Getter
+@Entity
+@Setter
+@AllArgsConstructor
+@NoArgsConstructor
+public class User implements UserDetails {
 
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
 
-  private String name;
-  private String surname;
-  private String patronymic;
-  private Integer age;
-  private String subscription;
-  private String sex;
-  private String country;
+  @Column(unique = true, nullable = false)
+  private String username;
+
+  @Column(nullable = false)
+  private String password;
+
   private String email;
-  private String passwordHash;
+
+  @Enumerated(EnumType.STRING)
+  private Role role;
+
+  private boolean enabled = true;
   private LocalDate registrationDate = LocalDate.now();
-  private LocalDate lastLogin = LocalDate.now();
 
-  @OneToMany(mappedBy = "user", cascade = CascadeType.ALL,
-      orphanRemoval = true, fetch = FetchType.LAZY)
-  private List<Log.Review> reviews = new ArrayList<>();
-
-  @ManyToMany(fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.MERGE})
-  @JoinTable(
-      name = "favourites",
-      joinColumns = @JoinColumn(name = "user_id"),
-      inverseJoinColumns = @JoinColumn(name = "book_id")
-  )
-  private List<Book> favouriteBooks = new ArrayList<>();
-
-  /**
-   * Default constructor required by JPA.
-   */
-  public User() {
-  }
-
-  /**
-   * Constructs a User with all required fields.
-   *
-   * @param id the unique identifier for the user
-   * @param name the user's first name
-   * @param surname the user's last name
-   * @param patronymic the user's middle name
-   * @param age the user's age
-   * @param subscription the user's subscription type
-   * @param sex the user's gender
-   * @param country the user's country
-   * @param email the user's email address
-   * @param passwordHash the hashed user password
-   * @param registrationDate the date when user registered
-   * @param lastLogin the date of user's last login
-   */
-  public User(Long id, String name, String surname, String patronymic,
-      Integer age, String subscription, String sex, String country,
-      String email, String passwordHash, LocalDate registrationDate,
-      LocalDate lastLogin) {
-    this.id = id;
-    this.name = name;
-    this.surname = surname;
-    this.patronymic = patronymic;
-    this.age = age;
-    this.subscription = subscription;
-    this.sex = sex;
-    this.country = country;
-    this.email = email;
-    this.passwordHash = passwordHash;
-    this.registrationDate = registrationDate;
-    this.lastLogin = lastLogin;
-  }
-
-  // Getters and setters below...
-  public Long getId() {
-    return id;
-  }
-
-  public void setId(Long id) {
-    this.id = id;
-  }
-
-  public String getName() {
-    return name;
-  }
-
-  public void setName(String name) {
-    this.name = name;
-  }
-
-  public String getSurname() {
-    return surname;
-  }
-
-  public void setSurname(String surname) {
-    this.surname = surname;
-  }
-
-  public String getPatronymic() {
-    return patronymic;
-  }
-
-  public void setPatronymic(String patronymic) {
-    this.patronymic = patronymic;
-  }
-
-  public Integer getAge() {
-    return age;
-  }
-
-  public void setAge(Integer age) {
-    this.age = age;
-  }
-
-  public String getSubscription() {
-    return subscription;
-  }
-
-  public void setSubscription(String subscription) {
-    this.subscription = subscription;
-  }
-
-  public String getSex() {
-    return sex;
-  }
-
-  public void setSex(String sex) {
-    this.sex = sex;
-  }
-
-  public String getCountry() {
-    return country;
-  }
-
-  public void setCountry(String country) {
-    this.country = country;
-  }
-
-  public String getEmail() {
-    return email;
-  }
-
-  public void setEmail(String email) {
+  public User(String username, String password, Role role, String email) {
+    this.username = username;
+    this.password = password;
+    this.role = role;
     this.email = email;
   }
 
-  public String getPasswordHash() {
-    return passwordHash;
+  @Override
+  public Collection<? extends GrantedAuthority> getAuthorities() {
+    return List.of(new SimpleGrantedAuthority(role.name()));
   }
 
-  public void setPasswordHash(String passwordHash) {
-    this.passwordHash = passwordHash;
-  }
+  @Override
+  public boolean isAccountNonExpired() { return true; }
 
-  public LocalDate getRegistrationDate() {
-    return registrationDate;
-  }
+  @Override
+  public boolean isAccountNonLocked() { return true; }
 
-  public void setRegistrationDate(LocalDate registrationDate) {
-    this.registrationDate = registrationDate;
-  }
+  @Override
+  public boolean isCredentialsNonExpired() { return true; }
 
-  public LocalDate getLastLogin() {
-    return lastLogin;
-  }
-
-  public void setLastLogin(LocalDate lastLogin) {
-    this.lastLogin = lastLogin;
-  }
-
-  public List<Log.Review> getReviews() {
-    return reviews;
-  }
-
-  public void setReviews(List<Log.Review> reviews) {
-    this.reviews = reviews;
-  }
-
-  public List<Book> getFavouriteBooks() {
-    return favouriteBooks;
-  }
-
-  public void setFavouriteBooks(List<Book> favouriteBooks) {
-    this.favouriteBooks = favouriteBooks;
-  }
+  @Override
+  public boolean isEnabled() { return enabled; }
 }
