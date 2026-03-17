@@ -44,6 +44,9 @@ public class User implements UserDetails {
     this.role = role;
     this.email = email;
   }
+    public void setEnabled(boolean enabled) {
+        this.enabled = enabled;
+    }
 
   @Override
   public Collection<? extends GrantedAuthority> getAuthorities() {
@@ -61,4 +64,5 @@ public class User implements UserDetails {
 
   @Override
   public boolean isEnabled() { return enabled; }
+
 }

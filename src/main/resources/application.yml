@@ -1,8 +1,8 @@
 spring:
   datasource:
-    url: jdbc:postgresql://localhost:5050/weblibrary
+    url: jdbc:postgresql://localhost:5432/weblibrary
     username: postgres
-    password: safer
+    password: postgres
     driver-class-name: org.postgresql.Driver
   jpa:
     database-platform: org.hibernate.dialect.PostgreSQLDialect
@@ -15,12 +15,7 @@ spring:
         jdbc:
           lob:
             non_contextual_creation: true
-    # Уберите defer-datasource-initialization или поставьте false
     defer-datasource-initialization: false
-  # Уберите или закомментируйте sql.init если не используете data.sql
-  # sql:
-  #   init:
-  #     mode: always
   web:
     resources:
       static-locations: classpath:/static/
@@ -29,5 +24,3 @@ jwt:
   secret: ${JWT_SECRET:aLut6aqXn5dHrk71nU8YJURu5zXosVTXGSgc3xDiLHS}
   expiration: 86400000
   refresh-expiration: 604800000
-server:
-  port: 228

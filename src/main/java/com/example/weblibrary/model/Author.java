@@ -1,5 +1,6 @@
 package com.example.weblibrary.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -45,6 +46,7 @@ public class Author {
       joinColumns = @JoinColumn(name = "author_id"),
       inverseJoinColumns = @JoinColumn(name = "book_id")
   )
+  @JsonIgnore
   private List<Book> books = new ArrayList<>();
 
   public Author() {
